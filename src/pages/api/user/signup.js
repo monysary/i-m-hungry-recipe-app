@@ -1,4 +1,5 @@
 const { User } = require('../../../db/model');
+const { signToken } = require('../../../auth/auth');
 
 User.sync({ force: false });
 
@@ -22,7 +23,9 @@ export default async function handler(req, res) {
                 password: req.body.password,
             });
 
-            res.status(200).json(newUser);
+            const token = signToken(newUser)
+
+            res.status(200).json({ token, newUser });
 
         } catch (err) {
             console.log(err);
