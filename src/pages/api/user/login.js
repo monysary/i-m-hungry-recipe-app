@@ -7,30 +7,30 @@ export default async function handler(req, res) {
         try {
             const user = await User.findOne({
                 where: {
-                    email: req.body.email
+                    username: req.body.username
                 }
             });
 
-            if (user) {
-                res.status(400).json({ message: 'User already exists' })
+            if (!user) {
+                res.status(400).json({ message: 'Incorrect login credentials' })
                 return
             }
 
-            const newUser = await User.create({
-                username: req.body.username,
-                email: req.body.email,
-                password: req.body.password,
-            });
+            const password = await user.checkPassword(req.body.password)
 
-            res.status(200).json(newUser);
+            if (!password) {
+                res.status(400).json({ message: 'Incorrect login credentials' })
+                return
+            }
+
+            res.status(200).json(user)
 
         } catch (err) {
             console.log(err);
             res.status(400).json(err)
-        };
+        }
 
     } else {
         res.status(400).json({ message: 'Invalid request' })
     }
-
-};
+}
