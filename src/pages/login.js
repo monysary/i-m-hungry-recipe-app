@@ -25,7 +25,7 @@ function Login() {
                                 name="username"
                                 type="email"
                                 required
-                                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                                 value={loginForm.username}
                                 onChange={handleInputChange}
                             />
@@ -39,7 +39,7 @@ function Login() {
                                 name="password"
                                 type="password"
                                 required
-                                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                                 value={loginForm.password}
                                 onChange={handleInputChange}
                             />
@@ -47,13 +47,13 @@ function Login() {
                     </div>
 
                     <div>
-                        <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+                        <button type="submit" className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Sign in</button>
                     </div>
                 </form>
 
                 <p className="mt-10 text-center text-sm text-gray-500">
                     Don't have an account?
-                    <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"> Click to sign up</a>
+                    <a href="/signup" className="font-semibold leading-6 text-orange-600 hover:text-orange-500"> Click to sign up</a>
                 </p>
             </div>
         </div>
