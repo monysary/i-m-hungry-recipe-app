@@ -23,7 +23,7 @@ function Login() {
     const handleFormSubmit = (event) => {
         event.preventDefault()
 
-        console.log('Form submitted');
+        console.log('User logged in!');
     }
 
     const [showPassword, setShowPassword] = useState(false)
