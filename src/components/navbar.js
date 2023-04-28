@@ -29,7 +29,7 @@ function Navbar() {
                         </button>
                     </div>
                     <div className="md:flex flex-1 items-center justify-center md:items-stretch md:justify-start hidden">
-                        <Link href='/' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Homes</Link>
+                        <Link href='/' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Home</Link>
                         <Link href='/pantry' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Pantry</Link>
                         <Link href='/kitchen' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Kitchen</Link>
                         <Link href='/savedRecipes' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Saved Recipes</Link>
