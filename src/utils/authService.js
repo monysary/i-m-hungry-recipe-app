@@ -16,7 +16,7 @@ class AuthService {
 
     login(token) {
         localStorage.setItem("auth_token", token);
-        window.location.assign("/feed");
+        window.location.assign("/kitchen");
     }
 
     logout() {
@@ -34,7 +34,7 @@ class AuthService {
         const { exp } = decode(this.getToken());
         const currentTime = new Date().getTime() / 1000
 
-        return exp < currentTime;
+        return exp < currentTime;   
     }
 }
 
