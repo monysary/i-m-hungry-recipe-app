@@ -5,13 +5,11 @@ import authService from "@/utils/authService";
 
 function Navbar() {
     const [hideMenu, setHideMenu] = useState(true)
-
     const handleHideMenu = () => {
         setHideMenu((prev) => !prev)
     }
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-
     useEffect(() => {
         if (authService.loggedIn() && !authService.tokenExpired()) {
             setIsLoggedIn(true)
