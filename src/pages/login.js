@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 
 import axios from "axios";
-import auth from "@/auth/auth";
 import authService from "@/utils/authService";
 
 function Login() {
@@ -27,12 +26,12 @@ function Login() {
     const handleFormSubmit = (event) => {
         event.preventDefault()
 
-        login()
+        userLogin()
     }
 
     const [showPassword, setShowPassword] = useState(false)
 
-    const login = async () => {
+    const userLogin = async () => {
         try {
             const { data } = await axios.post('/api/user/login', loginForm,
                 {

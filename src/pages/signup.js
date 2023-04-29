@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 
+import axios from "axios";
+import authService from "@/utils/authService";
+
 function SignUp() {
     const [signUpForm, setSignUpForm] = useState({
         username: '',
@@ -31,11 +34,34 @@ function SignUp() {
     const handleFormSubmit = (event) => {
         event.preventDefault()
 
-        console.log('User signed up!');
+        userSignup()
     }
 
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPass, setShowConfirmPass] = useState(false)
+
+    const userSignup = async () => {
+        try {
+            const { data } = await axios.post('/api/user/signup',
+                {
+                    username: signUpForm.username,
+                    email: signUpForm.email,
+                    password: signUpForm.password
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+
+            authService.login(data.token)
+
+        } catch (err) {
+            console.log(err.response.data.message);
+            alert(err.response.data.message);
+        }
+    }
 
     return (
         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
