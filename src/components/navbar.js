@@ -1,11 +1,27 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import authService from "@/utils/authService";
 
 function Navbar() {
     const [hideMenu, setHideMenu] = useState(true)
 
     const handleHideMenu = () => {
         setHideMenu((prev) => !prev)
+    }
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+    useEffect(() => {
+        if (authService.loggedIn() && !authService.tokenExpired()) {
+            setIsLoggedIn(true)
+        } else {
+            setIsLoggedIn(false)
+        }
+    })
+
+    const userLogout = () => {
+        authService.logout()
     }
 
     return (
@@ -35,8 +51,22 @@ function Navbar() {
                         <Link href='/savedRecipes' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Saved Recipes</Link>
                     </div>
                     <div className="inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                        <Link href='/login' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium">Login</Link>
-                        <Link href='/signup' className="text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium ml-2">Sign Up</Link>
+                        <Link href='/login' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium"
+                            style={{
+                                display: isLoggedIn ? 'none' : 'block'
+                            }}
+                            >Login</Link>
+                        <Link href='/signup' className="text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium ml-2"
+                            style={{
+                                display: isLoggedIn ? 'none' : 'block'
+                            }}
+                            >Sign Up</Link>
+                        <button href='/' className="text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium ml-2"
+                            style={{
+                                display: isLoggedIn ? 'block' : 'none'
+                            }}
+                            onClick={userLogout}
+                        >Logout</button>
                     </div>
                 </div>
             </div>
