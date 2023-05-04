@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useEffect } from "react";
 
 import authService from "@/utils/authService";
+import axios from "axios";
 
 function Kitchen() {
     useEffect(() => {
@@ -11,6 +12,18 @@ function Kitchen() {
             window.location.assign('/login')
         }
     })
+
+    const generateRecipe = async () => {
+        try {
+            const response = await axios.get('/api/gpt/completions')
+
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    generateRecipe()
 
     return (
         <>
