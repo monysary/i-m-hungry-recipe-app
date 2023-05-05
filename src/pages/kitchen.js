@@ -60,7 +60,7 @@ function Kitchen() {
                         <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
                     </div>
                 </form> */}
-                <div className="md:text-[30px] text-[16px] mb-[10px]">Select Ingredients</div>
+                <div className="md:text-[30px] text-[16px] mb-[10px]">Selected Ingredients</div>
                 <div className="mb-[10px]">!----- List of available ingredients goes here -----!</div>
                 <button type="button" className="text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Generate Recipe</button>
                 <RecipeCard />
