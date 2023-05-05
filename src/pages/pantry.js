@@ -1,7 +1,9 @@
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import authService from "@/utils/authService";
+
+import { AiFillCloseCircle } from 'react-icons/ai'
 
 function Pantry() {
     useEffect(() => {
@@ -23,6 +25,11 @@ function Pantry() {
         'Seasoning',
         'Other'
     ]
+
+    const [updateState, setUpdateState] = useState(false)
+    const handleUpdateButton = () => {
+        setUpdateState((prev) => !prev)
+    }
 
     return (
         <>
@@ -69,7 +76,10 @@ function Pantry() {
                         <button type="submit" className="ml-[20px] text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2">Add</button>
                     </form>
 
-                    <button className="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2">Update</button>
+                    <button
+                        className="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2"
+                        onClick={handleUpdateButton}
+                    >Update</button>
                 </div>
                 <div>
                     <div className="mt-6 border-t border-gray-100">
@@ -79,7 +89,16 @@ function Pantry() {
                                     <div key={category} className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt className="text-sm font-medium leading-6 text-gray-900">{category}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                            <div class="absolute text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">Random</div>
+                                            <div class="absolute text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                                                Random
+                                                <button
+                                                    className={
+                                                        updateState
+                                                            ? "absolute right-[-10px] top-[-10px]"
+                                                            : "hidden absolute right-[-10px] top-[-10px]"
+                                                    }
+                                                ><AiFillCloseCircle fontSize='20px' /></button>
+                                            </div>
                                         </dd>
                                     </div>
                                 )
