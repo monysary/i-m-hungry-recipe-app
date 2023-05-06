@@ -28,10 +28,10 @@ Pantry.init({
 		),
 	},
 },
-{
-  sequelize,
-  modelName: "Pantry",
-}
+  {
+    sequelize,
+    modelName: "Pantry",
+  }
 );
 
 async function init() {

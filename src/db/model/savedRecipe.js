@@ -5,8 +5,7 @@ const Pantry = require('./pantry.js')
 
 class SavedRecipe extends Model {}
 
-SavedRecipe.init(
-  {
+SavedRecipe.init({
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -33,7 +32,7 @@ SavedRecipe.init(
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
-  },
+},
   {
     sequelize,
     modelName: "SavedRecipe",
@@ -43,17 +42,28 @@ SavedRecipe.init(
 
 SavedRecipe.belongsTo(User, {
 	foreignKey: "user_id",
-});
+  }
+);
 
 SavedRecipe.hasMany(Pantry, {
 	foreignKey: "recipe_id",
-});
+  }
+);
 
 async function init() {
   await sequelize.sync();
-    console.log("SavedRecipe table created successfully.");
+    console.log("SavedRecipe table created successfully.")
 }
 
 init();
+
+// sequelize
+// 	.sync({ force: true })
+// 	.then(() => {
+// 		console.log("SavedRecipe table created successfully");
+// 	})
+// 	.catch((err) => {
+// 		console.error("Unable to create SavedRecipe table:", err);
+// 	});
 
 module.exports = SavedRecipe;
