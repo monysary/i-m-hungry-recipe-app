@@ -36,6 +36,7 @@ Pantry.init({
 
 async function init() {
   await sequelize.sync();
+    console.log("pantry table created successfully.");
 }
 
 init();
