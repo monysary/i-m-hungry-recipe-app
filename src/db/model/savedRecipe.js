@@ -3,10 +3,10 @@ const sequelize = require("../config/connections.js");
 const User  = require("./user.js");
 const Pantry = require('./pantry.js')
 
-const SavedRecipe = sequelize.define('SavedRecipe'), {
+const SavedRecipe = sequelize.define('SavedRecipe', {
   id: {
     type: DataTypes.INTEGER,
-    allowNull: false;
+    allowNull: false,
     autoIncrement: true,
     primaryKey: true
   },
