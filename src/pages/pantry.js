@@ -89,7 +89,7 @@ function Pantry() {
                                     <div key={category} className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt className="text-sm font-medium leading-6 text-gray-900">{category}</dt>
                                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                            <div class="absolute text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                                            <div className="absolute text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">
                                                 Random
                                                 <button
                                                     className={
