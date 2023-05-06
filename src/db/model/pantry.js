@@ -1,7 +1,9 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/connections.js");
 
-const Pantry = sequelize.define("Pantry", {
+class Pantry extends Model {}
+
+Pantry.init({
 	id: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
@@ -25,6 +27,17 @@ const Pantry = sequelize.define("Pantry", {
 			"Other"
 		),
 	},
-});
+},
+{
+  sequelize,
+  modelName: "Pantry",
+}
+);
+
+async function init() {
+  await sequelize.sync();
+}
+
+init();
 
 module.exports = Pantry;
