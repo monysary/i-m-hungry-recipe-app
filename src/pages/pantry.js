@@ -82,8 +82,8 @@ function Pantry() {
                     >Update</button>
                 </div>
                 <div>
-                    <div className="mt-6 border-t border-gray-100">
-                        <dl className="divide-y divide-gray-100">
+                    <div className="mt-6 border-t border-gray-200">
+                        <dl className="divide-y divide-gray-200">
                             {categories.map((category) => {
                                 return (
                                     <div key={category} className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -92,6 +92,17 @@ function Pantry() {
                                             <div className="flex gap-[10px]">
                                                 <div className="relative text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">
                                                     Random
+                                                    <button
+                                                        className={
+                                                            updateState
+                                                                ? "absolute right-[-10px] top-[-10px]"
+                                                                : "hidden absolute right-[-10px] top-[-10px]"
+                                                        }
+                                                        onClick={() => console.log('Deletes entry')}
+                                                    ><AiFillCloseCircle fontSize='20px' /></button>
+                                                </div>
+                                                <div className="relative text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                                                    Chicken
                                                     <button
                                                         className={
                                                             updateState
