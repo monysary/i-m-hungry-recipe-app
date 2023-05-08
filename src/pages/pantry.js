@@ -31,6 +31,12 @@ function Pantry() {
         setUpdateState((prev) => !prev)
     }
 
+    const addToPantry = (event) => {
+        event.preventDefault();
+
+        console.log('Pantry Form Submitted')
+    }
+
     return (
         <>
             <Head>
@@ -38,14 +44,14 @@ function Pantry() {
             </Head>
             <div className="min-h-full md:px-[200px] px-6 py-12">
                 <div className="md:text-[30px] text-[16px] mb-[10px]">Add To Pantry</div>
-                <div className="flex justify-between items-end">
+                <div className="sm:flex justify-between items-end">
 
-                    <form className="flex items-end">
+                    <form className="sm:flex items-end" id="pantry-form" onSubmit={addToPantry}>
                         <div>
-                            <label className="block text-sm font-medium leading-6 text-gray-900">
+                            <label className="block text-sm font-medium leading-6 text-gray-900 mt-2 sm:mt-0">
                                 Ingredient
                             </label>
-                            <div className="mt-2">
+                            <div className="sm:mt-2">
                                 <input
                                     name="ingredient"
                                     placeholder="Ingredient..."
@@ -55,11 +61,11 @@ function Pantry() {
                             </div>
                         </div>
 
-                        <div className="ml-[20px]">
-                            <label className="block text-sm font-medium leading-6 text-gray-900">
+                        <div className="sm:ml-[20px]">
+                            <label className="block text-sm font-medium leading-6 text-gray-900 mt-2 sm:mt-0">
                                 Category
                             </label>
-                            <div className="mt-2">
+                            <div className="sm:mt-2">
                                 <select
                                     name="category"
                                     placeholder="Select category"
@@ -73,13 +79,20 @@ function Pantry() {
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" className="ml-[20px] text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2">Add</button>
+                        <button type="submit" className="hidden sm:block mt-2 sm:mt-0 sm:ml-[20px] text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2">Add</button>
                     </form>
 
-                    <button
-                        className="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2"
-                        onClick={handleUpdateButton}
-                    >Update</button>
+                    <div className="mt-4 sm:mt-0 flex justify-center">
+                        <button
+                            className="sm:hidden text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2"
+                            type="submit"
+                            form="pantry-form"
+                        >Add</button>
+                        <button
+                            className="ml-[10px] sm:ml-0 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2"
+                            onClick={handleUpdateButton}
+                        >Update</button>
+                    </div>
                 </div>
                 <div>
                     <div className="mt-6 border-t border-gray-200">
@@ -89,7 +102,7 @@ function Pantry() {
                                     <div key={category} className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt className="text-sm font-medium leading-6 text-gray-900">{category}</dt>
                                         <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                            <div className="flex gap-[10px]">
+                                            <div className="flex flex-wrap gap-[10px]">
                                                 <div className="relative text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">
                                                     Random
                                                     <button
