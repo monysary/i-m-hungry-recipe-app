@@ -20,14 +20,6 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-            validate: {
-                notNull: {
-                    msg: "Please enter a username",
-                },
-                notEmpty: {
-                    msg: "Please enter a username",
-                },
-            },
         },
         email: {
             type: DataTypes.STRING,
@@ -36,12 +28,6 @@ User.init(
                 msg: "Email already in use!",
             },
             validate: {
-                notNull: {
-                    msg: "Please enter an email",
-                },
-                notEmpty: {
-                    msg: "Please enter an email",
-                },
                 isEmail: {
                     msg: "Please enter a valid email address",
                 },
@@ -51,12 +37,6 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notNull: {
-                    msg: "Please enter a password",
-                },
-                notEmpty: {
-                    msg: "Please enter a password",
-                },
                 len: {
                     args: [8, 30],
                     msg: "Password must be between 8 and 30 characters",
