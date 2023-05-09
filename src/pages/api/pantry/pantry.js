@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   // find all items in pantry
   if (req.method === 'GET') {
     try {
-      const pantry = await Pantry.find()
+      const pantry = await Pantry.find().select('category')
       res.status(200).json(pantry)
     } catch (error) {
       console.error(error)
