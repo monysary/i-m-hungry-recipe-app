@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connections.js');
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../config/connections.js");
 
 class Pantry extends Model { }
 
@@ -48,5 +48,30 @@ Pantry.init(
 //     type:DataTypes.ENUM('Protein', 'Vegetables', 'Fruits', 'Grain', 'Dairy', 'Butter/Oil', 'Spice', 'Seasoning',  'Other'),
 //   },
 // });
+
+Pantry.init({
+	ingredient: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
+	category: {
+		type: DataTypes.ENUM(
+			"Protein",
+			"Vegetables",
+			"Fruits",
+			"Grain",
+			"Dairy",
+			"Butter/Oil",
+			"Spice",
+			"Seasoning",
+			"Other"
+		),
+	},
+},
+  {
+    sequelize,
+    modelName: "Pantry",
+  }
+);
 
 module.exports = Pantry;
