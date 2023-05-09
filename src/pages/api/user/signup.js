@@ -1,6 +1,7 @@
 const { User, SavedRecipe } = require("../../../db/model");
 const { signToken } = require("../../../auth/auth");
-User.sync({ force: false });
+const sequelize = require("../../../db/config/connections");
+sequelize.sync({ force: false });
 
 export default async function handler(req, res) {
 	if (req.method === "POST") {
