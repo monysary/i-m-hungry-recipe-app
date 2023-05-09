@@ -2,6 +2,7 @@ const { Sequelize, Model, DataTypes } = require("sequelize");
 
 const sequelize = require("../config/connections.js");
 
+<<<<<<< HEAD
 class SavedRecipe extends Model {}
 
 SavedRecipe.init({
@@ -60,5 +61,35 @@ SavedRecipe.init({
   });
 
 // SavedRecipe.sync();
+=======
+const SavedRecipe = sequelize.define('SavedRecipe', {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  servings: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  yield: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  ingredients: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: false,
+  },
+  instructions: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: false,
+  },
+});
+>>>>>>> b9dfa381fbf5a0e78c03aceee60843bd8e04b830
 
 module.exports = SavedRecipe;
