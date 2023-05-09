@@ -1,39 +1,36 @@
-const { User } = require('../../../db/model');
-const { signToken } = require('../../../auth/auth');
-
-User.sync({ force: false });
+const { User, SavedRecipe } = require("../../../db/model");
+const { signToken } = require("../../../auth/auth");
+const sequelize = require("../../../db/config/connections");
+sequelize.sync({ force: false });
 
 export default async function handler(req, res) {
-    if (req.method === 'POST') {
-        try {
-            const user = await User.findOne({
-                where: {
-                    email: req.body.email
-                }
-            });
+	if (req.method === "POST") {
+		try {
+			const user = await User.findOne({
+				where: {
+					email: req.body.email,
+				},
+			});
 
-            if (user) {
-                res.status(400).json({ message: 'User already exists' })
-                return
-            }
+			if (user) {
+				res.status(400).json({ message: "User already exists" });
+				return;
+			}
 
-            const newUser = await User.create({
-                username: req.body.username,
-                email: req.body.email,
-                password: req.body.password,
-            });
+			const newUser = await User.create({
+				username: req.body.username,
+				email: req.body.email,
+				password: req.body.password,
+			});
 
-            const token = signToken(newUser)
+			const token = signToken(newUser);
 
-            res.status(200).json({ token, newUser });
-
-        } catch (err) {
-            console.log(err);
-            res.status(400).json(err)
-        };
-
-    } else {
-        res.status(400).json({ message: 'Invalid request' })
-    }
-
-};
+			res.status(200).json({ token, newUser });
+		} catch (err) {
+			console.log(err);
+			res.status(400).json(err);
+		}
+	} else {
+		res.status(400).json({ message: "Invalid request" });
+	}
+}
