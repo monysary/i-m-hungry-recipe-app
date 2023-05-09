@@ -2,7 +2,7 @@ import { HiArrowRight } from 'react-icons/hi'
 
 function SavedRecipeCard() {
     return (
-        <article className="bg-orange-100 rounded-lg m-2 p-6 shadow-md flex max-w-xl flex-col items-start justify-between">
+        <article className="bg-green-100 rounded-lg m-2 p-6 shadow-md flex max-w-xl flex-col items-start justify-between">
             <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900">
                 Garlic Chicken with Apple and Potato Mash
             </h3>
