@@ -31,4 +31,22 @@ export default async function handler(req, res) {
   } else {
     res.status(400).json({ message: 'Invalid request' })
   }
+
+  if (req.method === 'DELETE') {
+    const { id } = req.body
+    try {
+      const deletedIngredient = await Pantry.findByIdAndDelete(id)
+      if (!deletedIngredient) {
+        return res.status(404).json({ message: 'Ingredient not found' })
+      }
+      res.status(200).json(deletedIngredient)
+    } catch (error) {
+      console.error(error)
+      res
+        .status(500)
+        .json({ message: 'Failed to delete ingredient from pantry' })
+    }
+  } else {
+    res.status(400).json({ message: 'Invalid request' })
+  }
 }
