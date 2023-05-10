@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 
 import authService from "@/utils/authService";
+import axios from "axios";
 
 import { AiFillCloseCircle } from 'react-icons/ai'
 
@@ -15,26 +16,59 @@ function Pantry() {
     })
 
     const categories = [
-        'Protein',
-        'Vegetables',
-        'Fruits',
-        'Grain',
-        'Dairy',
-        'Butter/Oil',
-        'Spice',
-        'Seasoning',
-        'Other'
+        "Protein",
+        "Vegetables",
+        "Fruits",
+        "Grain",
+        "Dairy",
+        "Butter/Oil",
+        "Spice",
+        "Seasoning",
+        "Other"
     ]
 
+    const [toggle, setToggle] = useState(true)
     const [updateState, setUpdateState] = useState(false)
     const handleUpdateButton = () => {
         setUpdateState((prev) => !prev)
     }
 
-    const addToPantry = (event) => {
-        event.preventDefault();
+    // Get items from pantry
+    const [pantryItems, setPantryItems] = useState([])
+    useEffect(() => {
+        const getItems = async () => {
+            try {
+                const items = await axios.get('/api/pantry/pantry')
+                setPantryItems(items?.data)
+            } catch (err) {
+                console.log(err);
+            }
+        }
 
-        console.log('Pantry Form Submitted')
+        getItems()
+    }, [toggle])
+
+    // Delete items from pantry
+    const handleDelete = async (event) => {
+        const ingredient = event.target.parentElement.id
+
+        await axios.delete(`/api/pantry/pantry?ingredient=${ingredient}`)
+
+        setToggle((prev) => !prev)
+    }
+
+    // Add items to pantry
+    const addToPantry = async (event) => {
+        event.preventDefault();
+        const ingredient = event.target[0].value
+        const category = event.target[1].value
+
+        const response = await axios.post('/api/pantry/pantry', {
+            ingredient: ingredient,
+            category: category
+        })
+
+        setToggle((prev) => !prev)
     }
 
     return (
@@ -103,28 +137,26 @@ function Pantry() {
                                         <dt className="text-sm font-medium leading-6 text-gray-900">{category}</dt>
                                         <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                                             <div className="flex flex-wrap gap-[10px]">
-                                                <div className="relative text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                                                    Random
-                                                    <button
-                                                        className={
-                                                            updateState
-                                                                ? "absolute right-[-10px] top-[-10px]"
-                                                                : "hidden absolute right-[-10px] top-[-10px]"
-                                                        }
-                                                        onClick={() => console.log('Deletes entry')}
-                                                    ><AiFillCloseCircle fontSize='20px' /></button>
-                                                </div>
-                                                <div className="relative text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                                                    Chicken
-                                                    <button
-                                                        className={
-                                                            updateState
-                                                                ? "absolute right-[-10px] top-[-10px]"
-                                                                : "hidden absolute right-[-10px] top-[-10px]"
-                                                        }
-                                                        onClick={() => console.log('Deletes entry')}
-                                                    ><AiFillCloseCircle fontSize='20px' /></button>
-                                                </div>
+                                                {pantryItems.filter((item) => item.category === category).map((item) => {
+                                                    return (
+                                                        <div
+                                                            className="relative text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                                                            key={item.ingredient}
+                                                            id={item.ingredient}
+                                                        >
+                                                            {item.ingredient}
+                                                            <AiFillCloseCircle
+                                                                id={item.ingredient}
+                                                                className={
+                                                                    updateState
+                                                                        ? "absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]"
+                                                                        : "hidden absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]"
+                                                                }
+                                                                onClick={handleDelete}
+                                                            />
+                                                        </div>
+                                                    )
+                                                })}
                                             </div>
                                         </div>
                                     </div>
