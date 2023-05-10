@@ -27,30 +27,41 @@ function Pantry() {
         "Other"
     ]
 
+    const [togglePOST, setTogglePOST] = useState(true)
+
+    // Get items from pantry
     const [pantryItems, setPantryItems] = useState([])
     useEffect(() => {
         const getItems = async () => {
             try {
                 const items = await axios.get('/api/pantry/pantry')
                 setPantryItems(items?.data)
-                console.log(items.data);
             } catch (err) {
                 console.log(err);
             }
         }
 
         getItems()
-    }, [])
+    }, [togglePOST])
 
+    // Delete items from pantry
     const [updateState, setUpdateState] = useState(false)
     const handleUpdateButton = () => {
         setUpdateState((prev) => !prev)
     }
 
-    const addToPantry = (event) => {
+    // Add items to pantry
+    const addToPantry = async (event) => {
         event.preventDefault();
+        const ingredient = event.target[0].value
+        const category = event.target[1].value
 
-        console.log('Pantry Form Submitted')
+        const response = await axios.post('/api/pantry/pantry', {
+            ingredient: ingredient,
+            category: category
+        })
+
+        setTogglePOST((prev) => !prev)
     }
 
     return (
