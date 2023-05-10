@@ -10,7 +10,7 @@ export default function Home() {
       </Head>
       <div className='flex min-h-full flex-col justify-left items-center px-6 py-12 md:px-[200px] mt-[100px]'>
         <div className='font-bold'>
-          <div className='text-[50px]'>
+          <div className='text-[50px] text-black'>
             Cook <span className='text-orange-600'>smarter,</span> not harder.{' '}
             <br />
           </div>
