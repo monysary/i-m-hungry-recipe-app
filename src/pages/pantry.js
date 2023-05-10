@@ -27,7 +27,11 @@ function Pantry() {
         "Other"
     ]
 
-    const [togglePOST, setTogglePOST] = useState(true)
+    const [toggle, setToggle] = useState(true)
+    const [updateState, setUpdateState] = useState(false)
+    const handleUpdateButton = () => {
+        setUpdateState((prev) => !prev)
+    }
 
     // Get items from pantry
     const [pantryItems, setPantryItems] = useState([])
@@ -42,12 +46,15 @@ function Pantry() {
         }
 
         getItems()
-    }, [togglePOST])
+    }, [toggle])
 
     // Delete items from pantry
-    const [updateState, setUpdateState] = useState(false)
-    const handleUpdateButton = () => {
-        setUpdateState((prev) => !prev)
+    const handleDelete = async (event) => {
+        const ingredient = event.target.parentElement.id
+
+        await axios.delete(`/api/pantry/pantry?ingredient=${ingredient}`)
+
+        setToggle((prev) => !prev)
     }
 
     // Add items to pantry
@@ -61,7 +68,7 @@ function Pantry() {
             category: category
         })
 
-        setTogglePOST((prev) => !prev)
+        setToggle((prev) => !prev)
     }
 
     return (
@@ -132,15 +139,20 @@ function Pantry() {
                                             <div className="flex flex-wrap gap-[10px]">
                                                 {pantryItems.filter((item) => item.category === category).map((item) => {
                                                     return (
-                                                        <div key={item.ingredient} className="relative text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                                                        <div
+                                                            className="relative text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                                                            key={item.ingredient}
+                                                            id={item.ingredient}
+                                                        >
                                                             {item.ingredient}
                                                             <AiFillCloseCircle
+                                                                id={item.ingredient}
                                                                 className={
                                                                     updateState
                                                                         ? "absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]"
                                                                         : "hidden absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]"
                                                                 }
-                                                                onClick={() => console.log('Deletes entry')}
+                                                                onClick={handleDelete}
                                                             />
                                                         </div>
                                                     )
