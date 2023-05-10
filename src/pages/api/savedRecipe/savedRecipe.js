@@ -9,8 +9,9 @@ export default async function handler(req, res) {
       console.error(error)
       res.status(400).json({ message: 'Failed to fetch saved recipes' })
     }
+    // title, servings, ingredients, instructions
   } else if (req.method === 'POST') {
-    const { name, ingredients, instructions } = req.body
+    const { title, servings, ingredients, instructions } = req.body
     try {
       const newSavedRecipe = await SavedRecipe.create({ name, ingredients, instructions })
       res.status(200).json(newSavedRecipe)
@@ -20,12 +21,12 @@ export default async function handler(req, res) {
     }
   } else if (req.method === 'PUT') {
     const { id } = req.query
-    const { name, ingredients, instructions } = req.body
+    const { title, servings, ingredients, instructions } = req.body;
     try {
       const updatedRecipe = await SavedRecipe.update(
-        { name, ingredients, instructions },
-        { where: { id: id } }
-      );
+				{ title, servings, ingredients, instructions },
+				{ where: { id: id } }
+			);
       if (!updatedRecipe) {
         return res.status(404).json({ message: 'Recipe not found' })
       }
