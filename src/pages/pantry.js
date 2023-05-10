@@ -38,7 +38,12 @@ function Pantry() {
     useEffect(() => {
         const getItems = async () => {
             try {
-                const items = await axios.get('/api/pantry/pantry')
+                const items = await axios.get('/api/pantry/pantry', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authService.getToken}`
+                    }
+                })
                 setPantryItems(items?.data)
             } catch (err) {
                 console.log(err);
