@@ -82,14 +82,16 @@ function Kitchen() {
 
     // Generating recipe
     const [recipe, setRecipe] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
     const generateRecipe = async () => {
         try {
-            setRecipe(null)
+            setIsLoading(true)
             const response = await axios.post('/api/gpt/completions', ingredientsArr)
-            console.log(response?.data);
             setRecipe(JSON.parse(response?.data))
         } catch (err) {
             console.log(err);
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -155,12 +157,15 @@ function Kitchen() {
                         )
                     })}
                 </div>
-                <button
-                    className="text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-6"
-                    type="button"
-                    onClick={generateRecipe}
-                >Generate Recipe</button>
-                <RecipeCard recipe={recipe} />
+                {isLoading
+                    ? <CircleSpinner />
+                    : <button
+                        className="text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-6"
+                        type="button"
+                        onClick={generateRecipe}
+                    >Generate Recipe</button>
+                }
+                {recipe !== null && <RecipeCard recipe={recipe} />}
             </div >
         </>
     )
