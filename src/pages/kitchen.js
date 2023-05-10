@@ -39,7 +39,12 @@ function Kitchen() {
     useEffect(() => {
         const getItems = async () => {
             try {
-                const items = await axios.get('/api/pantry/pantry')
+                const items = await axios.get('/api/pantry', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `${authService.getToken()}`
+                    }
+                })
                 setPantryItems(items?.data)
             } catch (err) {
                 console.log(err);
@@ -79,6 +84,7 @@ function Kitchen() {
     const [recipe, setRecipe] = useState(null)
     const generateRecipe = async () => {
         try {
+            setRecipe(null)
             const response = await axios.post('/api/gpt/completions', ingredientsArr)
             console.log(response?.data);
             setRecipe(JSON.parse(response?.data))

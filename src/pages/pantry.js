@@ -38,10 +38,10 @@ function Pantry() {
     useEffect(() => {
         const getItems = async () => {
             try {
-                const items = await axios.get('/api/pantry/pantry', {
+                const items = await axios.get('/api/pantry', {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authService.getToken}`
+                        'Authorization': `${authService.getToken()}`
                     }
                 })
                 setPantryItems(items?.data)
@@ -57,7 +57,12 @@ function Pantry() {
     const handleDelete = async (event) => {
         const ingredient = event.target.parentElement.id
 
-        await axios.delete(`/api/pantry/pantry?ingredient=${ingredient}`)
+        await axios.delete(`/api/pantry?ingredient=${ingredient}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${authService.getToken()}`
+            }
+        })
 
         setToggle((prev) => !prev)
     }
@@ -68,10 +73,17 @@ function Pantry() {
         const ingredient = event.target[0].value
         const category = event.target[1].value
 
-        const response = await axios.post('/api/pantry/pantry', {
-            ingredient: ingredient,
-            category: category
-        })
+        const response = await axios.post('/api/pantry',
+            {
+                ingredient: ingredient,
+                category: category
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${authService.getToken()}`
+                }
+            })
 
         setToggle((prev) => !prev)
     }
