@@ -174,14 +174,20 @@ function Kitchen() {
                 </div>
                 {
                     isLoading
-                        ? <CircleSpinner />
+                        ? <></>
                         : <button
                             className="text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-6"
                             type="button"
                             onClick={generateRecipe}
                         >Generate Recipe</button>
                 }
-                {recipe !== null && <RecipeCard recipe={recipe} />}
+                <div className='flex justify-center'>
+                    {
+                        isLoading
+                            ? <CircleSpinner />
+                            : recipe !== null && <RecipeCard recipe={recipe} />
+                    }
+                </div>
             </div >
         </>
     )
