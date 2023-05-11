@@ -93,7 +93,7 @@ function Kitchen() {
         try {
             setIsLoading(true)
             const response = await axios.post('/api/gpt/completions', justTheIngredients)
-            setRecipe(JSON.parse(response?.data))   
+            setRecipe(JSON.parse(response?.data))
         } catch (err) {
             console.log(err);
         } finally {
@@ -108,7 +108,7 @@ function Kitchen() {
             </Head>
             <div className='min-h-full md:px-[200px] px-6 py-12'>
                 <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
-                    Select Ingredients
+                    Add ingredients to get started!
                 </div>
                 <form className='sm:flex items-end mb-[20px]' onSubmit={addIngredient}>
                     <div>
@@ -164,6 +164,9 @@ function Kitchen() {
                         Add
                     </button>
                 </form >
+                <label className='block text-sm font-medium leading-6 text-gray-900'>
+                    Selected Ingredients:
+                </label>
                 <div className="flex flex-wrap gap-[10px] mb-[20px] py-6 border-t border-b border-gray-200">
                     {ingredientsArr.map((item) => {
                         return (

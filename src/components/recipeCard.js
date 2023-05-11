@@ -13,7 +13,7 @@ function RecipeCard({ recipe }) {
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                             {
                                 recipe?.ingredients.map((item) => {
-                                    return <div key={item.name}>{`${item.name} (${item.amount} ${item.unit})`}<br /></div>
+                                    return <div key={item.name}>- {`${item.name} (${item.amount} ${item.unit})`}<br /></div>
                                 })
                             }
                         </dd>
