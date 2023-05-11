@@ -178,7 +178,17 @@ function Pantry() {
                           .map((item) => {
                             return (
                               <div
-                                className='relative text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                                className={
+                                  category === categories[0] ? 'relative text-gray-900 bg-rose-100 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                                    : category === categories[1] ? 'relative text-gray-900 bg-green-100 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                                      : category === categories[2] ? 'relative text-gray-900 bg-orange-100 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                                        : category === categories[3] ? 'relative text-gray-900 bg-slate-100 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                                          : category === categories[4] ? 'relative text-gray-900 bg-yellow-100 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                                            : category === categories[5] ? 'relative text-gray-900 bg-lime-50 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                                              : category === categories[6] ? 'relative text-gray-900 bg-blue-100 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                                                : category === categories[7] ? 'relative text-gray-900 bg-gray-200 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                                                  : 'relative text-gray-900 bg-white border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                                }
                                 key={item.ingredient}
                                 id={item.ingredient}
                               >
@@ -202,8 +212,8 @@ function Pantry() {
               })}
             </dl>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
     </>
   )
 }
