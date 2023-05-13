@@ -1,9 +1,6 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-
 import authService from '@/utils/authService'
-import axios from 'axios'
-
 import { AiFillCloseCircle } from 'react-icons/ai'
 
 function Pantry() {
@@ -14,18 +11,6 @@ function Pantry() {
       window.location.assign('/login')
     }
   })
-
-  const categories = [
-    'Protein',
-    'Vegetables',
-    'Fruits',
-    'Grain',
-    'Dairy',
-    'Butter/Oil',
-    'Spice',
-    'Seasoning',
-    'Other',
-  ]
 
   const [toggle, setToggle] = useState(true)
   const [updateState, setUpdateState] = useState(false)
@@ -38,57 +23,65 @@ function Pantry() {
   useEffect(() => {
     const getItems = async () => {
       try {
-        const items = await axios.get('/api/pantry', {
+        const response = await fetch('/api/pantry', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `${authService.getToken()}`,
           },
-        })
-        setPantryItems(items?.data)
+        });
+  
+        const data = await response.json();
+        setPantryItems(data);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     }
 
     getItems()
   }, [toggle])
 
+    // Add items to pantry
+    const addToPantry = async (event) => {
+      event.preventDefault()
+      const ingredient = event.target[0].value
+      const category = event.target[1].value
+      try {
+         await fetch('/api/pantry', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${authService.getToken()}`,
+          },
+          body: JSON.stringify({
+            ingredient: ingredient,
+            category: category,
+          }),
+        });
+        // You can optionally handle the response data here if needed  
+        setToggle((prev) => !prev);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
   // Delete items from pantry
   const handleDelete = async (event) => {
     const ingredient = event.target.parentElement.id
-
-    await axios.delete(`/api/pantry?ingredient=${ingredient}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${authService.getToken()}`,
-      },
-    })
-
-    setToggle((prev) => !prev)
-  }
-
-  // Add items to pantry
-  const addToPantry = async (event) => {
-    event.preventDefault()
-    const ingredient = event.target[0].value
-    const category = event.target[1].value
-
-    const response = await axios.post(
-      '/api/pantry',
-      {
-        ingredient: ingredient,
-        category: category,
-      },
-      {
+    try {
+      await fetch(`/api/pantry?ingredient=${ingredient}`, {
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `${authService.getToken()}`,
         },
-      }
-    )
-
-    setToggle((prev) => !prev)
+      });
+  
+      setToggle((prev) => !prev);
+    } catch (err) {
+      console.log(err);
+    }
   }
+
 
   return (
     <>
@@ -219,3 +212,15 @@ function Pantry() {
 }
 
 export default Pantry
+
+const categories = [
+  'Protein',
+  'Vegetables',
+  'Fruits',
+  'Grain',
+  'Dairy',
+  'Butter/Oil',
+  'Spice',
+  'Seasoning',
+  'Other',
+]
