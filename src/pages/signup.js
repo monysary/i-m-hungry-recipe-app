@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
-
-import axios from 'axios'
 import authService from '@/utils/authService'
 
 function SignUp() {
@@ -17,6 +15,7 @@ function SignUp() {
   }
 
   const [buttonActive, setButtonActive] = useState(false)
+
   // if user is logged in already, redirect to pantry page
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -49,24 +48,29 @@ function SignUp() {
 
   const userSignup = async () => {
     try {
-      const { data } = await axios.post(
-        '/api/user/signup',
-        {
+      const response = await fetch('/api/user/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           username: signUpForm.username,
           email: signUpForm.email,
           password: signUpForm.password,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-
-      authService.login(data.token)
+        }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        authService.login(data.token);
+      } else {
+        const errorData = await response.json();
+        console.log(errorData.message);
+        alert(errorData.message);
+      }
     } catch (err) {
-      console.log(err.response.data.message)
-      alert(err.response.data.message)
+      console.log(err);
+      alert('An error occurred during signup.');
     }
   }
 

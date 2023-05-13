@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
-
-import axios from 'axios'
 import authService from '@/utils/authService'
 
 function Login() {
@@ -41,16 +39,25 @@ function Login() {
 
   const userLogin = async () => {
     try {
-      const { data } = await axios.post('/api/user/login', loginForm, {
+      const response = await fetch('/api/user/login', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-      })
-
-      authService.login(data.token)
+        body: JSON.stringify(loginForm),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        authService.login(data.token);
+      } else {
+        const errorData = await response.json();
+        console.log(errorData.message);
+        alert(errorData.message);
+      }
     } catch (err) {
-      console.log(err.response.data.message)
-      alert(err.response.data.message)
+      console.log(err);
+      alert('An error occurred during login.');
     }
   }
 
