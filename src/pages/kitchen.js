@@ -14,18 +14,6 @@ function Kitchen() {
     }
   }, [])
 
-  const categories = [
-    'Protein',
-    'Vegetables',
-    'Fruits',
-    'Grain',
-    'Dairy',
-    'Butter/Oil',
-    'Spice',
-    'Seasoning',
-    'Other',
-  ]
-
   // Setting ingredient choices
   const [pantryItems, setPantryItems] = useState([]) // Data stored from GET request
   const [recipeForm, setRecipeForm] = useState({
@@ -64,7 +52,6 @@ function Kitchen() {
   const [ingredientsArr, setIngredientsArr] = useState([])
   const addIngredient = (event) => {
     event.preventDefault()
-
     if (
       recipeForm.ingredient !== '' &&
       ingredientsArr.indexOf(recipeForm.ingredient) === -1
@@ -86,11 +73,8 @@ function Kitchen() {
   const [recipe, setRecipe] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   
-
- 
   const generateRecipe = async () => {
     try {
-      
       if (!ingredientsArr) return null
       setIsLoading(true)
       const response = await fetch('/api/gpt/completions', {
@@ -214,5 +198,17 @@ function Kitchen() {
   )
 }
 
-
 export default Kitchen
+
+
+const categories = [
+  'Protein',
+  'Vegetables',
+  'Fruits',
+  'Grain',
+  'Dairy',
+  'Butter/Oil',
+  'Spice',
+  'Seasoning',
+  'Other',
+]
