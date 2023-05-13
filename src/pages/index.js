@@ -67,7 +67,7 @@ export default function LandingPage() {
           <div className='mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40'>
             <div className='mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8'>
               <div className='mt-24 sm:mt-32 lg:mt-16'>
-                <a href='#' className='inline-flex space-x-6'>
+                <div href='#' className='inline-flex space-x-6'>
                   <span className='rounded-full bg-orange-500/10 px-3 py-1 text-sm font-semibold leading-6 text-orange-400 ring-1 ring-inset ring-orange-500/20'>
                     Free of charge
                   </span>
@@ -78,7 +78,7 @@ export default function LandingPage() {
                       aria-hidden='true'
                     />
                   </span> */}
-                </a>
+                </div>
               </div>
               <h1 className='mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl'>
                 Cook <span className='text-orange-600'> smarter</span>, not
@@ -358,7 +358,7 @@ const primaryFeatures = [
   {
     name: 'No more waste',
     description:
-      "No more wasting food or wondering what to cook – I'm Hungry has got you covered. Whether you have a handful of basics or a diverse range of items, I'm hungry makes the most of what you already have.",
+      "No more wasting food or wondering what to cook – I'm Hungry has got you covered. Whether you have a handful of basics or a diverse range of items, I'm Hungry makes the most of what you already have.",
     href: '/signup',
     icon: CalendarDaysIcon,
   },
@@ -411,7 +411,7 @@ const footerNavigation = {
   social: [
     {
       name: 'GitHub',
-      href: '/https://github.com/monysary/i-m-hungry-recipe-app',
+      href: 'https://github.com/monysary/i-m-hungry-recipe-app',
       icon: (props) => (
         <svg fill='currentColor' viewBox='0 0 24 24' {...props}>
           <path
