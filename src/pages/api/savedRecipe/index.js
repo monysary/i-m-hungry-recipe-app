@@ -1,11 +1,15 @@
-const { SavedRecipe } = require("../../../db/model/index.js");
+const { User, SavedRecipe } = require("../../../db/model/index.js");
 import { isAuthenticated } from "../../../utils/authMiddleware";
 
 export default async function handler(req, res) {
 	if (req.method === "GET") {
 		isAuthenticated(req, res, async () => {
 			try {
-				const savedRecipes = await SavedRecipe.findAll();
+        const username = req.session ? req.session.username : null;
+        if (!username) {
+          return res.status(401).json({ message: "Unauthorized" });
+        }
+				const savedRecipes = await SavedRecipe.findAll({ where: { username } });
 				res.status(200).json(savedRecipes);
 			} catch (error) {
 				console.error(error);
