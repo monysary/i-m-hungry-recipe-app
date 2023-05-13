@@ -1,5 +1,5 @@
 const { User, SavedRecipe } = require("../../../db/model");
-const { signToken } = require("../../../auth/auth");
+const { signToken } = require("../../../utils/signToken");
 const sequelize = require("../../../db/config/connections");
 sequelize.sync({ force: false });
 
