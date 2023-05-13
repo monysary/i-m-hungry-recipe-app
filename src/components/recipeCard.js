@@ -10,16 +10,22 @@ function RecipeCard({ recipe }) {
                 <dl className="divide-y divide-gray-200">
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6 text-gray-900">Ingredients</dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{
-                            recipe?.ingredients.map((item) => {
-                                return <div key={item.name}>{`${item.name} (${item.amount} ${item.unit})`}<br/></div>
-                            })
-                        }</dd>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                            {
+                                recipe?.ingredients.map((item) => {
+                                    return <div key={item.name}>{`${item.name} (${item.amount} ${item.unit})`}<br /></div>
+                                })
+                            }
+                        </dd>
                     </div>
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6 text-gray-900">Instructions</dt>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            {recipe?.instructions}
+                            {
+                                recipe?.instructions.map((item) => {
+                                    return <div key={item}>{recipe?.instructions.indexOf(item) + 1}. {item}<br /></div>
+                                })
+                            }
                         </dd>
                     </div>
                 </dl>
