@@ -86,7 +86,6 @@ function Kitchen() {
         },
         body: JSON.stringify(ingredientsArr)
       });
-      console.log(ingredientsArr);
       const data = await response?.json();
       setRecipe(JSON.parse(data))
     } catch (err) {
@@ -101,7 +100,7 @@ function Kitchen() {
       <Head>
         <title>Chefing it up!</title>
       </Head>
-      <div className='min-h-full md:px-[200px] px-6 py-12'>
+      <div className='min-h-full lg:px-[200px] px-6 py-12'>
         <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
           Select Ingredients
         </div>
