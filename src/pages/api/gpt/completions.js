@@ -3,7 +3,8 @@ import axios from "axios";
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         const prompt = 'Generate, and only respond with just the json object, a recipe in the form of a json object containing only: title, servings, ingredients (which should be an array of objects containing only name, amount, and unit key with the first letter capitalized), and instructions (which should be an array of string instructions) key, using the following ingredients: '
-        const ingredients = req.body.join(', ')
+        let ingredientsArr = []
+        await req.body.map((object) => ingredientsArr.push(object.ingredient))
         try {
             const apiResponse = await axios.post(process.env.API_ENDPOINT,
                 {
@@ -11,7 +12,7 @@ export default async function handler(req, res) {
                     messages: [
                         {
                             role: 'user',
-                            content: prompt + ingredients
+                            content: prompt + ingredientsArr.join(', ')
                         }
                     ]
                 },

@@ -86,7 +86,7 @@ function Kitchen() {
         },
         body: JSON.stringify(ingredientsArr)
       });
-
+      console.log(ingredientsArr);
       const data = await response?.json();
       setRecipe(JSON.parse(data))
     } catch (err) {
