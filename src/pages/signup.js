@@ -34,6 +34,8 @@ function SignUp() {
       signUpForm.password === signUpForm.confirmPassword
     ) {
       setButtonActive(true)
+    } else {
+      setButtonActive(false)
     }
   }, [signUpForm])
 
@@ -59,7 +61,7 @@ function SignUp() {
           password: signUpForm.password,
         }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         authService.login(data.token);
@@ -188,11 +190,11 @@ function SignUp() {
             <button
               disabled={!buttonActive}
               type='submit'
-              className={
-                buttonActive
-                  ? 'flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
-                  : 'flex w-full justify-center rounded-md bg-gray-300 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-500 shadow-sm'
-              }
+              className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm 
+                ${buttonActive
+                  ? 'bg-orange-600 text-white hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
+                  : 'bg-gray-300 text-gray-500  '
+                }`}
             >
               Sign Up
             </button>
