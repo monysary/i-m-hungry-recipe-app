@@ -67,29 +67,42 @@ function Kitchen() {
   // Removing a selected ingredient
   const removeIngredient = (event) => {
     setIngredientsArr((prev) =>
-      prev.filter((item) => item !== event.target.parentElement.id)
+      prev.filter((item) => item.ingredient !== event.target.parentElement.id)
     )
   }
 
   // Generating recipe
   const [recipe, setRecipe] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-
   const generateRecipe = async () => {
+    const justIngredients = []
     try {
       if (!ingredientsArr) return null
       setIsLoading(true)
-      const response = await fetch('/api/gpt/completions', {
+      ingredientsArr.map((object) => justIngredients.push(object.ingredient))
+
+      await fetch(process.env.API_ENDPOINT, {
         method: 'POST',
+        cache: 'no-store',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.API_KEY}`
         },
-        body: JSON.stringify(ingredientsArr)
-      });
-      const data = await response?.json();
-      setRecipe(JSON.parse(data))
+        body: JSON.stringify({
+          model: process.env.API_MODEL,
+          messages: [{
+            role: process.env.API_ROLE,
+            content: process.env.API_PROMPT + justIngredients.join(', ')
+          }]
+        })
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const finalResponse = data.choices[0].message.content
+          setRecipe(JSON.parse(finalResponse))
+        })
     } catch (err) {
-      console.log(err)
+      console.log(err);
     } finally {
       setIsLoading(false)
     }

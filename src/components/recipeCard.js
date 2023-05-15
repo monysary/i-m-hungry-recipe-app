@@ -1,6 +1,6 @@
 function RecipeCard({ recipe }) {
     const saveRecipe = async () => {
-        console.log(recipe);
+        console.log(JSON.stringify(recipe));
     }
 
     return (
