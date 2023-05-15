@@ -26,6 +26,8 @@ function Login() {
   useEffect(() => {
     if (loginForm.username !== '' && loginForm.password !== '') {
       setButtonActive(true)
+    } else {
+      setButtonActive(false)
     }
   }, [loginForm])
 
@@ -46,7 +48,7 @@ function Login() {
         },
         body: JSON.stringify(loginForm),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         authService.login(data.token);
@@ -80,7 +82,7 @@ function Login() {
                 name='username'
                 type='text'
                 required
-                className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+                className='block w-full rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
                 value={loginForm.username}
                 onChange={handleInputChange}
               />
@@ -96,7 +98,7 @@ function Login() {
                 name='password'
                 type={showPassword ? 'text' : 'password'}
                 required
-                className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+                className='block w-full rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
                 value={loginForm.password}
                 onChange={handleInputChange}
               />
@@ -117,13 +119,13 @@ function Login() {
 
           <div>
             <button
-              disabled={!buttonActive}
               type='submit'
-              className={
-                buttonActive
-                  ? 'flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
-                  : 'flex w-full justify-center rounded-md bg-gray-300 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-500 shadow-sm'
-              }
+              className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm 
+                ${buttonActive
+                  ? 'bg-orange-600 text-white hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
+                  : 'bg-gray-300 text-gray-500  '
+                }`}
+
             >
               Log in
             </button>

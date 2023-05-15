@@ -1,4 +1,7 @@
 function RecipeCard({ recipe }) {
+    const saveRecipe = async () => {
+        console.log(JSON.stringify(recipe));
+    }
 
     return (
         <div>
@@ -13,7 +16,7 @@ function RecipeCard({ recipe }) {
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                             {
                                 recipe?.ingredients.map((item) => {
-                                    return <div key={item.name}>{`${item.name} (${item.amount} ${item.unit})`}<br /></div>
+                                    return <div key={item.name}>- {`${item.name} (${item.amount} ${item.unit})`}<br /></div>
                                 })
                             }
                         </dd>
@@ -31,7 +34,11 @@ function RecipeCard({ recipe }) {
                 </dl>
             </div>
             <div className="relative mb-12">
-                <button type="button" className="absolute right-0 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Save Recipe</button>
+                <button
+                    type="button"
+                    className="absolute right-0 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                    onClick={saveRecipe}
+                >Save Recipe</button>
             </div>
         </div>
     )
