@@ -2,59 +2,81 @@ const { Model, DataTypes } = require("sequelize");
 
 const sequelize = require("../config/connections.js");
 
+const User = require("./user.js");
+
 class SavedRecipe extends Model {}
 
-SavedRecipe.init({
-    username: {
+SavedRecipe.init(
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			autoIncrement: true,
+		},
+		username: {
 			type: DataTypes.STRING,
 			allowNull: false,
-    },
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    servings: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    ingredients: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    instructions :{
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-},
-  {
-    sequelize,
-    modelName: "SavedRecipe",
-    // beforeCreate will be called before SavedRecipe instance is created. Ingredients and instruction arrays are joined into strings using join method with new line seperator. Then we save those strings in the database.
-    hooks: {
-      beforeCreate: (recipe) => {
-        recipe.ingredients = recipe.ingredients.join("\n");
-        recipe.instructions = recipe.instructions.join("\n");
-      },
-      beforeUpdate: (recipe) => {
-        if (Array.isArray(recipe.ingredients)) {
-          recipe.ingredients = recipe.ingredients.join("\n");
-        }
-        if (Array.isArray(recipe.instructions)) {
-          recipe.instructions = recipe.instructions.join("\n");
-        }
-      },
-      // after finding recipe, split ingredients and instructions strings into arrays w/ split method and a new line separator
-      afterFind: (recipe) => {
-        if (typeof recipe.ingredients === "string") {
-          recipe.ingredients = recipe.ingredients.split("\n");
-        }
-        if (typeof recipe.instructions === "string") {
-          recipe.instructions = recipe.instructions.split("\n");
-        }
-      },
-    }
-  });
+		},
+		title: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		servings: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
+		ingredients: {
+			type: DataTypes.TEXT,
+			allowNull: false,
+			get: function () {
+				return JSON.parse(this.getDataValue("ingredients"));
+			},
+			set: function (value) {
+				return this.setDataValue("ingredients", JSON.stringify(value));
+			},
+		},
+		instructions: {
+			type: DataTypes.TEXT,
+			allowNull: false,
+			get: function () {
+				return JSON.parse(this.getDataValue("instructions"));
+			},
+			set: function (value) {
+				return this.setDataValue("instructions", JSON.stringify(value));
+			},
+		},
+	},
+	{
+		sequelize,
+		modelName: "SavedRecipe",
+		hooks: {
+			beforeCreate: (recipe) => {
+				recipe.ingredients = JSON.stringify(recipe.ingredients);
+				recipe.instructions = JSON.stringify(recipe.instructions);
+			},
+			beforeUpdate: (recipe) => {
+				if (Array.isArray(recipe.ingredients)) {
+					recipe.ingredients = JSON.stringify(recipe.ingredients);
+				}
+				if (Array.isArray(recipe.instructions)) {
+					recipe.instructions = JSON.stringify(recipe.instructions);
+				}
+			},
+			afterFind: (recipe) => {
+				if (typeof recipe.ingredients === "string") {
+					const parsedIngredients = JSON.parse(recipe.ingredients);
+					recipe.ingredients = parsedIngredients.map((ingredient) =>
+						JSON.parse(ingredient)
+					);
+				}
+				if (typeof recipe.instructions === "string") {
+					recipe.instructions = JSON.parse(recipe.instructions);
+				}
+			},
+		},
+	}
+);
 
-// SavedRecipe.sync();
+SavedRecipe.sync();
 
 module.exports = SavedRecipe;
