@@ -8,11 +8,11 @@ class SavedRecipe extends Model {}
 
 SavedRecipe.init(
 	{
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			autoIncrement: true,
+		},
 		username: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -64,7 +64,10 @@ SavedRecipe.init(
 			},
 			afterFind: (recipe) => {
 				if (typeof recipe.ingredients === "string") {
-					recipe.ingredients = JSON.parse(recipe.ingredients);
+					const parsedIngredients = JSON.parse(recipe.ingredients);
+					recipe.ingredients = parsedIngredients.map((ingredient) =>
+						JSON.parse(ingredient)
+					);
 				}
 				if (typeof recipe.instructions === "string") {
 					recipe.instructions = JSON.parse(recipe.instructions);
