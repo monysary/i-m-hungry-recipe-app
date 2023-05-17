@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import authService from '@/utils/authService'
 
@@ -15,6 +15,7 @@ function SavedRecipes() {
   })
 
   // Fetch user recipes from db
+  const [myRecipes, setMyRecipes] = useState()
   const fetchRecipes = async () => {
     const response = await fetch('/api/savedRecipe', {
       headers: {
@@ -24,6 +25,7 @@ function SavedRecipes() {
     })
 
     const data = await response.json()
+    setMyRecipes(data)
     console.log(data);
   }
 
@@ -42,7 +44,7 @@ function SavedRecipes() {
           My Recipes
         </div>
         <div className='mx-auto max-w-7xl py-4 border-t border-gray-200'>
-          <SavedRecipeCard />
+          <SavedRecipeCard myRecipes={myRecipes}/>
         </div>
       </div>
     </>
