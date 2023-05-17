@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import authService from '@/utils/authService'
 
@@ -14,17 +14,37 @@ function SavedRecipes() {
     }
   })
 
+  // Fetch user recipes from db
+  const [myRecipes, setMyRecipes] = useState()
+  const fetchRecipes = async () => {
+    const response = await fetch('/api/savedRecipe', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': authService.getToken()
+      }
+    })
+
+    const data = await response.json()
+    setMyRecipes(data)
+    console.log(data);
+  }
+
+  useEffect(() => {
+    fetchRecipes()
+
+  }, [])
+
   return (
     <>
       <Head>
         <title>What am I craving?</title>
       </Head>
-      <div className='min-h-full lg:px-[200px] px-6 py-12'>
+      <div className='min-h-full lg:px-[100px] px-6 py-12'>
         <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
           My Recipes
         </div>
-        <div className='mx-auto max-w-7xl sm:px-6 py-4 lg:px-8 border-t border-gray-200'>
-          <SavedRecipeCard />
+        <div className='mx-auto max-w-7xl py-4 border-t border-gray-200'>
+          <SavedRecipeCard myRecipes={myRecipes}/>
         </div>
       </div>
     </>
