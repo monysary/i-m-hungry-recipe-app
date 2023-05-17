@@ -39,6 +39,35 @@ export default async function handler(req, res) {
 				res.status(400).json({ message: "Failed to save recipe" });
 			}
 		});
+	} else if (req.method === "PUT") {
+		isAuthenticated(req, res, async () => {
+			const { servings, ingredients, instructions } = req.body;
+			const recipeId = req.query.id;
+			try {
+				if (!recipeId) {
+					return res.status(400).json({ message: "Recipe ID is required" });
+				}
+
+				const updatedRecipe = await SavedRecipe.update(
+					{
+						servings,
+						ingredients,
+						instructions,
+					},
+					{ where: { id: recipeId } }
+				);
+
+				if (updatedRecipe[0]) {
+					const updatedRecipeData = await SavedRecipe.findByPk(recipeId);
+					res.status(200).json(updatedRecipeData);
+				} else {
+					res.status(404).json({ message: "Recipe not found" });
+				}
+			} catch (error) {
+				console.error(error);
+				res.status(400).json({ message: "Failed to edit recipe" });
+			}
+		});
 	} else if (req.method === "DELETE") {
 		isAuthenticated(req, res, async () => {
 			const { id } = req.query;
