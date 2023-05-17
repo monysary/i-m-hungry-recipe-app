@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 		});
 	} else if (req.method === "POST") {
 		isAuthenticated(req, res, async () => {
-			const { username, title, servings, ingredients, instructions } = req.body;
+			const { username, title, servings, ingredients, instructions, notes } = req.body;
 			try {
 				const newSavedRecipe = await SavedRecipe.create({
 					username,
@@ -32,6 +32,7 @@ export default async function handler(req, res) {
 					servings,
 					ingredients,
 					instructions,
+          notes,
 				});
 				res.status(200).json(newSavedRecipe);
 			} catch (error) {
@@ -52,6 +53,7 @@ export default async function handler(req, res) {
 						servings,
 						ingredients,
 						instructions,
+            notes,
 					},
 					{ where: { id: recipeId } }
 				);
