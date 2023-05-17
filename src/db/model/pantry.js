@@ -36,4 +36,6 @@ Pantry.init(
 );
 Pantry.removeAttribute('id');
 
+Pantry.sync();
+
 module.exports = Pantry;

@@ -14,6 +14,24 @@ function SavedRecipes() {
     }
   })
 
+  // Fetch user recipes from db
+  const fetchRecipes = async () => {
+    const response = await fetch('/api/savedRecipe', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': authService.getToken()
+      }
+    })
+
+    const data = await response.json()
+    console.log(data);
+  }
+
+  useEffect(() => {
+    fetchRecipes()
+
+  }, [])
+
   return (
     <>
       <Head>
@@ -23,7 +41,7 @@ function SavedRecipes() {
         <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
           My Recipes
         </div>
-        <div className='mx-auto max-w-7xl sm:px-6 py-4 lg:px-8 border-t border-gray-200'>
+        <div className='mx-auto max-w-7xl py-4 border-t border-gray-200'>
           <SavedRecipeCard />
         </div>
       </div>

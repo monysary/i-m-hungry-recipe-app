@@ -1,6 +1,22 @@
+import authService from "@/utils/authService";
+
 function RecipeCard({ recipe }) {
     const saveRecipe = async () => {
-        console.log(JSON.stringify(recipe));
+        const { username } = authService.getProfile();
+        const recipeData = { username, ...recipe }
+        try {
+            const newRecipe = await fetch('/api/savedRecipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authService.getToken()
+                },
+                body: JSON.stringify(recipeData)
+            })
+
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     return (
