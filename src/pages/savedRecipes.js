@@ -26,7 +26,6 @@ function SavedRecipes() {
 
     const data = await response.json()
     setMyRecipes(data)
-    console.log(data);
   }
 
   useEffect(() => {
