@@ -42,7 +42,6 @@ export default async function handler(req, res) {
 				if (!recipeId) {
 					return res.status(400).json({ message: "Recipe ID is required" });
 				}
-
 				const updatedRecipe = await SavedRecipe.update(
 					{
 						servings,
@@ -51,7 +50,6 @@ export default async function handler(req, res) {
 					},
 					{ where: { id: recipeId } }
 				);
-
 				if (updatedRecipe[0]) {
 					const updatedRecipeData = await SavedRecipe.findByPk(recipeId);
 					res.status(200).json(updatedRecipeData);
