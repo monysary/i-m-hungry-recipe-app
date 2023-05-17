@@ -44,8 +44,12 @@ SavedRecipe.init(
 			set: function (value) {
 				return this.setDataValue("instructions", JSON.stringify(value));
 			},
+    },
+    notes: {
+      type: DataTypes.TEXT,
+      allowNull: true,
 		},
-	},
+  },
 	{
 		sequelize,
 		modelName: "SavedRecipe",

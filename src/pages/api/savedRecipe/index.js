@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 		});
 	} else if (req.method === "POST") {
 		isAuthenticated(req, res, async () => {
-			const { username, title, servings, ingredients, instructions } = req.body;
+			const { username, title, servings, ingredients, instructions, notes } = req.body;
 			try {
 				const newSavedRecipe = await SavedRecipe.create({
 					username,
@@ -32,6 +32,7 @@ export default async function handler(req, res) {
 					servings,
 					ingredients,
 					instructions,
+          notes,
 				});
 				res.status(200).json(newSavedRecipe);
 			} catch (error) {
@@ -47,16 +48,15 @@ export default async function handler(req, res) {
 				if (!recipeId) {
 					return res.status(400).json({ message: "Recipe ID is required" });
 				}
-
 				const updatedRecipe = await SavedRecipe.update(
 					{
 						servings,
 						ingredients,
 						instructions,
+            notes,
 					},
 					{ where: { id: recipeId } }
 				);
-
 				if (updatedRecipe[0]) {
 					const updatedRecipeData = await SavedRecipe.findByPk(recipeId);
 					res.status(200).json(updatedRecipeData);
