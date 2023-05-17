@@ -99,6 +99,7 @@ function Kitchen() {
         .then((res) => res.json())
         .then((data) => {
           const finalResponse = data.choices[0].message.content
+          console.log(finalResponse);
           setRecipe(JSON.parse(finalResponse))
         })
     } catch (err) {

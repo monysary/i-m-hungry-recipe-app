@@ -77,6 +77,4 @@ SavedRecipe.init(
 	}
 );
 
-// SavedRecipe.sync();
-
 module.exports = SavedRecipe;
