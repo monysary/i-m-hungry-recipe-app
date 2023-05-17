@@ -12,9 +12,9 @@ const SavedRecipe = require("./savedRecipe");
 // 	foreignKey: "id",
 // });
 
-SavedRecipe.belongsTo(User, { foreignKey: "id" });
+SavedRecipe.belongsTo(User);
 
-User.hasMany(SavedRecipe, { foreignKey: "id" });
+User.hasMany(SavedRecipe);
 
 module.exports = {
 	User,

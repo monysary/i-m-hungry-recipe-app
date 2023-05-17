@@ -1,9 +1,10 @@
 const { User, SavedRecipe } = require("../../../db/model");
 const { signToken } = require("../../../utils/signToken");
 const sequelize = require("../../../db/config/connections");
-sequelize.sync({ force: false });
 
 export default async function handler(req, res) {
+	await sequelize.sync({ force: false });
+	
 	if (req.method === "POST") {
 		try {
 			const user = await User.findOne({

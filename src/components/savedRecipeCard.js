@@ -1,129 +1,136 @@
-import { useState } from 'react'
-
-import {
-  AcademicCapIcon,
-  BanknotesIcon,
-  CheckBadgeIcon,
-  ClockIcon,
-  ReceiptRefundIcon,
-  UsersIcon,
-} from '@heroicons/react/24/outline'
-
-const actions = [
-  {
-    title: 'Request time off',
-    href: '#',
-    icon: ClockIcon,
-    iconForeground: 'text-teal-700',
-    iconBackground: 'bg-teal-50',
-  },
-  {
-    title: 'Benefits',
-    href: '#',
-    icon: CheckBadgeIcon,
-    iconForeground: 'text-purple-700',
-    iconBackground: 'bg-purple-50',
-  },
-  {
-    title: 'Schedule a one-on-one',
-    href: '#',
-    icon: UsersIcon,
-    iconForeground: 'text-sky-700',
-    iconBackground: 'bg-sky-50',
-  },
-  {
-    title: 'Payroll',
-    href: '#',
-    icon: BanknotesIcon,
-    iconForeground: 'text-yellow-700',
-    iconBackground: 'bg-yellow-50',
-  },
-  {
-    title: 'Submit an expense',
-    href: '#',
-    icon: ReceiptRefundIcon,
-    iconForeground: 'text-rose-700',
-    iconBackground: 'bg-rose-50',
-  },
-  {
-    title: 'Training',
-    href: '#',
-    icon: AcademicCapIcon,
-    iconForeground: 'text-indigo-700',
-    iconBackground: 'bg-indigo-50',
-  },
-]
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { TrashIcon } from '@heroicons/react/24/outline'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function SavedRecipeCard() {
-  const [myRecipes, setMyRecipes] = useState([
+export default function Example({ myRecipes }) {
+  const [people, setPeople] = useState([
     {
-      title: 'Garlic Chicken with Apple and Potato Mash',
-      servings: '4 servings',
-      ingredients: ['chicken', 'apple', 'garlic', 'potatoes'],
-      instructions: [
-        'Preheat the oven to 400°F.',
-        'Place the diced potatoes in a pot with enough water to cover them. Bring to a boil and cook until tender, about 15 minutes.',
-        'Drain the potatoes and mash them with butter, salt and pepper to taste. Fold in the diced apples and set aside.',
-        'Season the chicken with salt and pepper on both sides.',
-        'In a large oven-safe skillet, heat the olive oil over medium-high heat. Add the minced garlic and sauté until fragrant, about 30 seconds.',
-        'Add the chicken to the skillet, and cook until golden brown, about 5 minutes per side.',
-        'Move the skillet to the preheated oven and bake for 10-15 minutes or until the chicken is cooked through.',
-        'Serve the chicken with the apple and potato mash.'
-      ]
-    }
+      name: 'Lindsay Walton',
+      title: 'Front-end Developer',
+      email: 'lindsay.walton@example.com',
+      role: 'Member',
+    },
   ])
 
+  const checkbox = useRef()
+  const [checked, setChecked] = useState(false)
+  const [indeterminate, setIndeterminate] = useState(false)
+  const [selectedRecipe, setSelectedRecipe] = useState([])
+
+  useLayoutEffect(() => {
+    const isIndeterminate = selectedRecipe.length > 0 && selectedRecipe.length < myRecipes?.length
+    setChecked(selectedRecipe.length === myRecipes?.length)
+    setIndeterminate(isIndeterminate)
+    checkbox.current.indeterminate = isIndeterminate
+  }, [selectedRecipe])
+
+  function toggleAll() {
+    setSelectedRecipe(checked || indeterminate ? [] : myRecipes)
+    setChecked(!checked && !indeterminate)
+    setIndeterminate(false)
+  }
+
   return (
-    <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
-      {actions.map((action, actionIdx) => (
-        <div
-          key={action.title}
-          className={classNames(
-            actionIdx === 0 ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none' : '',
-            actionIdx === 1 ? 'sm:rounded-tr-lg' : '',
-            actionIdx === actions.length - 2 ? 'sm:rounded-bl-lg' : '',
-            actionIdx === actions.length - 1 ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none' : '',
-            'group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
-          )}
-        >
-          <div>
-            <span
-              className={classNames(
-                action.iconBackground,
-                action.iconForeground,
-                'inline-flex rounded-lg p-3 ring-4 ring-white'
+    <div className="px-4 sm:px-6 lg:px-8">
+      <div className="mt-8 flow-root">
+        <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <div className="relative">
+              {selectedRecipe.length > 0 && (
+                <div className="absolute left-14 top-0 flex h-12 items-center space-x-3 bg-white sm:left-12">
+                  <button
+                    type="button"
+                    className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
+                  >
+                    <TrashIcon className='h-6 w-6' />
+                  </button>
+                </div>
               )}
-            >
-              <action.icon className="h-6 w-6" aria-hidden="true" />
-            </span>
+              <table className="w-full table-fixed divide-y divide-gray-300">
+                <thead className='w-full'>
+                  <tr>
+                    <th scope="col" className="relative px-7 w-12 sm:px-6">
+                      <input
+                        type="checkbox"
+                        className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                        ref={checkbox}
+                        checked={checked}
+                        onChange={toggleAll}
+                      />
+                    </th>
+                    <th scope="col" className={`w-auto py-3.5 pr-3 text-left text-sm font-semibold text-gray-900 
+                      ${selectedRecipe.length > 0 && 'invisible'}
+                    `}>
+                      Name
+                    </th>
+                    <th scope="col" className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:w-[10%]">
+                      Servings
+                    </th>
+                    <th scope="col" className="hidden md:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:w-[25%]">
+                      Ingredients
+                    </th>
+                    <th scope="col" className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:w-[25%]">
+                      Instructions
+                    </th>
+                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3 md:w-[10%]">
+                      <span className="sr-only">Edit</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {myRecipes?.map((recipe) => (
+                    <tr key={recipe.title} className={selectedRecipe.includes(recipe) ? 'bg-gray-50' : undefined}>
+                      <td className="relative px-7 w-12 sm:px-6">
+                        {selectedRecipe.includes(recipe) && (
+                          <div className="absolute inset-y-0 left-0 w-0.5 bg-indigo-600" />
+                        )}
+                        <input
+                          type="checkbox"
+                          className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                          value={recipe.title}
+                          checked={selectedRecipe.includes(recipe)}
+                          onChange={(e) =>
+                            setSelectedRecipe(
+                              e.target.checked
+                                ? [...selectedRecipe, recipe]
+                                : selectedRecipe.filter((p) => p !== recipe)
+                            )
+                          }
+                        />
+                      </td>
+                      <td
+                        className={classNames(
+                          'whitespace-nowrap w-auto py-4 pr-3 text-sm font-medium truncate',
+                          selectedRecipe.includes(recipe) ? 'text-indigo-600' : 'text-gray-900'
+                        )}
+                      >
+                        {recipe.title}
+                      </td>
+                      <td className="hidden lg:table-cell whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        {recipe.servings}
+                      </td>
+                      <td className="hidden md:table-cell whitespace-nowrap px-3 py-4 text-sm text-gray-500 truncate">
+                        {JSON.parse(recipe.ingredients).map((ingredient) => ingredient.name).join(', ')}
+                      </td>
+                      <td className="hidden lg:table-cell whitespace-nowrap px-3 py-4 text-sm text-gray-500 truncate">
+                        {JSON.parse(recipe.instructions).map((instruction) => instruction).join(', ')}
+                      </td>
+                      <td className="whitespace-nowrap py-4 sm:pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
+                        <a href="#" className="ml-[10px] sm:ml-0 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2">
+                          Edit<span className="sr-only">, {recipe.title}</span>
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div className="mt-8">
-            <h3 className="text-base font-semibold leading-6 text-gray-900">
-              <a href={action.href} className="focus:outline-none">
-                {/* Extend touch target to entire panel */}
-                <span className="absolute inset-0" aria-hidden="true" />
-                {action.title}
-              </a>
-            </h3>
-            <p className="mt-2 text-sm text-gray-500">
-              Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et
-              quo et molestiae.
-            </p>
-          </div>
-          <span
-            className="pointer-events-none absolute right-6 top-6 text-gray-300 group-hover:text-gray-400"
-            aria-hidden="true"
-          >
-            <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
-            </svg>
-          </span>
         </div>
-      ))}
+      </div>
     </div>
   )
 }

@@ -1,7 +1,26 @@
+import authService from "@/utils/authService";
+import { useState } from "react";
+
 function RecipeCard({ recipe }) {
     const saveRecipe = async () => {
-        console.log(JSON.stringify(recipe));
+        const { username } = authService.getProfile();
+        const recipeData = { username, ...recipe }
+        try {
+            const newRecipe = await fetch('/api/savedRecipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authService.getToken()
+                },
+                body: JSON.stringify(recipeData)
+            })
+            setIsSaved(true)
+        } catch (err) {
+            console.log(err);
+        }
     }
+
+    const [isSaved, setIsSaved] = useState(false)
 
     return (
         <div>
@@ -34,11 +53,17 @@ function RecipeCard({ recipe }) {
                 </dl>
             </div>
             <div className="relative mb-12">
-                <button
-                    type="button"
-                    className="absolute right-0 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-                    onClick={saveRecipe}
-                >Save Recipe</button>
+                {
+                    isSaved
+                        ? <div
+                            className="absolute right-0 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                        >Saved!</div>
+                        : <button
+                            type="button"
+                            className="absolute right-0 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                            onClick={saveRecipe}
+                        >Save Recipe</button>
+                }
             </div>
         </div>
     )
