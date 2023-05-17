@@ -1,19 +1,20 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-
-const people = [
-  {
-    name: 'Lindsay Walton',
-    title: 'Front-end Developer',
-    email: 'lindsay.walton@example.com',
-    role: 'Member',
-  },
-]
+import { TrashIcon } from '@heroicons/react/24/outline'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Example() {
+  const [people, setPeople] = useState([
+    {
+      name: 'Lindsay Walton',
+      title: 'Front-end Developer',
+      email: 'lindsay.walton@example.com',
+      role: 'Member',
+    },
+  ])
+
   const checkbox = useRef()
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
@@ -42,15 +43,9 @@ export default function Example() {
                 <div className="absolute left-14 top-0 flex h-12 items-center space-x-3 bg-white sm:left-12">
                   <button
                     type="button"
-                    className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
+                    className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
                   >
-                    Bulk edit
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
-                  >
-                    Delete all
+                    <TrashIcon className='h-6 w-6' />
                   </button>
                 </div>
               )}
@@ -66,17 +61,19 @@ export default function Example() {
                         onChange={toggleAll}
                       />
                     </th>
-                    <th scope="col" className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">
+                    <th scope="col" className={`min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900 
+                      ${selectedPeople.length > 0 && 'invisible'}
+                    `}>
                       Name
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                      Title
+                    <th scope="col" className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      Servings
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                      Email
+                    <th scope="col" className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      Ingredients
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                      Role
+                    <th scope="col" className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      Instructions
                     </th>
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3">
                       <span className="sr-only">Edit</span>
@@ -112,11 +109,11 @@ export default function Example() {
                       >
                         {person.name}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.title}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.email}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.role}</td>
+                      <td className="hidden lg:table-cell whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.title}</td>
+                      <td className="hidden lg:table-cell whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.email}</td>
+                      <td className="hidden lg:table-cell whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.role}</td>
                       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                        <a href="#" className="ml-[10px] sm:ml-0 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2">
                           Edit<span className="sr-only">, {person.name}</span>
                         </a>
                       </td>

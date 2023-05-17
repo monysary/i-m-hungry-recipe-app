@@ -37,7 +37,7 @@ function SavedRecipes() {
       <Head>
         <title>What am I craving?</title>
       </Head>
-      <div className='min-h-full lg:px-[200px] px-6 py-12'>
+      <div className='min-h-full lg:px-[100px] px-6 py-12'>
         <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
           My Recipes
         </div>
