@@ -66,9 +66,9 @@ function Pantry() {
 
   // Delete items from pantry
   const handleDelete = async (event) => {
-    const ingredient = event.target.parentElement.id
+    const ingredient = event.target.parentElement.id.split(' ')
     try {
-      await fetch(`/api/pantry?ingredient=${ingredient}`, {
+      await fetch(`/api/pantry?ingredient=${ingredient[0]}&category=${ingredient[1]}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +81,6 @@ function Pantry() {
       console.log(err);
     }
   }
-
 
   return (
     <>
@@ -171,31 +170,64 @@ function Pantry() {
                           .map((item) => {
                             return (
                               <div
-                                className={`relative text-gray-900 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5
-                                  ${category === categories[0]
-                                    ? 'bg-rose-100'
-                                    : category === categories[1]
-                                      ? 'bg-green-100'
-                                      : category === categories[2]
-                                        ? 'bg-orange-100'
-                                        : category === categories[3]
-                                          ? 'bg-slate-100'
-                                          : category === categories[4]
-                                            ? 'bg-yellow-100'
-                                            : category === categories[5]
-                                              ? 'bg-lime-100'
-                                              : category === categories[6]
-                                                ? 'bg-blue-100'
-                                                : category === categories[7]
-                                                  ? 'bg-gray-100'
-                                                  : 'bg-white'
+                                className={`relative text-gray-900 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 ${category === categories[0]
+                                  ? 'bg-rose-100'
+                                  : category === categories[1]
+                                    ? 'bg-green-100'
+                                    : category === categories[2]
+                                      ? 'bg-orange-100'
+                                      : category === categories[3]
+                                        ? 'bg-slate-100'
+                                        : category === categories[4]
+                                          ? 'bg-yellow-100'
+                                          : category === categories[5]
+                                            ? 'bg-lime-100'
+                                            : category === categories[6]
+                                              ? 'bg-blue-100'
+                                              : category === categories[7]
+                                                ? 'bg-gray-100'
+                                                : 'bg-white'
                                   }`}
                                 key={item.ingredient}
-                                id={item.ingredient}
+                                id={`${item.ingredient} ${category === categories[0]
+                                  ? categories[0]
+                                  : category === categories[1]
+                                    ? categories[1]
+                                    : category === categories[2]
+                                      ? categories[2]
+                                      : category === categories[3]
+                                        ? categories[3]
+                                        : category === categories[4]
+                                          ? categories[4]
+                                          : category === categories[5]
+                                            ? categories[5]
+                                            : category === categories[6]
+                                              ? categories[6]
+                                              : category === categories[7]
+                                                ? categories[7]
+                                                : undefined
+                                  }`}
                               >
                                 {item.ingredient}
                                 <AiFillCloseCircle
-                                  id={item.ingredient}
+                                  id={`${item.ingredient} ${category === categories[0]
+                                    ? categories[0]
+                                    : category === categories[1]
+                                      ? categories[1]
+                                      : category === categories[2]
+                                        ? categories[2]
+                                        : category === categories[3]
+                                          ? categories[3]
+                                          : category === categories[4]
+                                            ? categories[4]
+                                            : category === categories[5]
+                                              ? categories[5]
+                                              : category === categories[6]
+                                                ? categories[6]
+                                                : category === categories[7]
+                                                  ? categories[7]
+                                                  : undefined
+                                    }`}
                                   className={`absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]
                                     ${!updateState && 'hidden absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]'}
                                     `}

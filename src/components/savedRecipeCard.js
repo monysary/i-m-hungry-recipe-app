@@ -19,6 +19,7 @@ export default function Example({ myRecipes, setToggle }) {
     setChecked(selectedRecipe.length === myRecipes?.length)
     setIndeterminate(isIndeterminate)
     checkbox.current.indeterminate = isIndeterminate
+    console.log(selectedRecipe);
   }, [selectedRecipe])
 
   function toggleAll() {
