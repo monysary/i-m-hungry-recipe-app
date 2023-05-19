@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, Fragment } from 'react'
-import { TrashIcon, CheckIcon } from '@heroicons/react/24/outline'
+import { TrashIcon } from '@heroicons/react/24/outline'
 import { Dialog, Transition } from '@headlessui/react'
 
 function classNames(...classes) {
@@ -26,7 +26,7 @@ export default function Example({ myRecipes }) {
   }
 
   // Handle delete button
-  const handleTrashButton = () => {
+  const handleDeleteButton = () => {
     console.log(selectedRecipe);
   }
 
@@ -82,7 +82,7 @@ export default function Example({ myRecipes }) {
                 <div className="absolute left-14 top-0 flex h-12 items-center space-x-3 bg-white sm:left-12">
                   <button
                     type="button"
-                    onClick={handleTrashButton}
+                    onClick={handleDeleteButton}
                     className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
                   >
                     <TrashIcon className='h-6 w-6' />
@@ -214,7 +214,7 @@ export default function Example({ myRecipes }) {
                           name='title'
                           onChange={handleRecipeChange}
                           value={recipeModal && recipeModal.title}
-                          className='text-[25px] rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
+                          className='w-full sm:w-1/2 text-[25px] rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
                         />
                         : <h3 className="text-[25px] font-semibold leading-7 text-gray-900">{recipeModal?.title}</h3>
                       }
@@ -227,7 +227,7 @@ export default function Example({ myRecipes }) {
                             name='servings'
                             onChange={handleRecipeChange}
                             value={recipeModal && recipeModal.servings}
-                            className='block mt-1 text-sm rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
+                            className='w-1/2 sm:w-1/4 block mt-1 text-sm rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
                           />
                         </div>
                         : <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Servings: {recipeModal?.servings}</p>
@@ -318,22 +318,40 @@ export default function Example({ myRecipes }) {
                         </div>
                       </dl>
                     </div>
-                    <div className="flex justify-end items-center">
-                      <button
-                        type="button"
-                        className="font-medium text-gray-900 rounded-lg hover:bg-gray-100 text-sm px-5 py-2.5 mr-2 mb-2"
-                        onClick={handleEditButton}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        className="text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-                        onClick={() => console.log('Delete button')}
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    {editMode
+                      ? <div className="flex justify-end items-center gap-1">
+                        <button
+                          type="button"
+                          className="font-medium rounded-lg text-sm px-5 py-2.5"
+                          onClick={() => setEditMode(false)}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          className='text-white bg-teal-400 hover:bg-teal-500 font-medium rounded-lg text-sm px-5 py-2.5'
+                          onClick={() => console.log('Save button')}
+                        >
+                          Save
+                        </button>
+                      </div>
+                      : <div className="flex justify-end items-center gap-1">
+                        <button
+                          type="button"
+                          className="font-medium rounded-lg text-sm px-5 py-2.5"
+                          onClick={() => setOpen(false)}
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="button"
+                          className='ml-[10px] sm:ml-0 text-white bg-yellow-400 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5'
+                          onClick={handleEditButton}
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    }
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
