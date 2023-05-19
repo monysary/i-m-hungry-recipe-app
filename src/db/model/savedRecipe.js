@@ -59,12 +59,14 @@ SavedRecipe.init(
 				recipe.instructions = JSON.stringify(recipe.instructions);
 			},
 			beforeUpdate: (recipe) => {
-				if (Array.isArray(recipe.ingredients)) {
-					recipe.ingredients = JSON.stringify(recipe.ingredients);
-				}
-				if (Array.isArray(recipe.instructions)) {
-					recipe.instructions = JSON.stringify(recipe.instructions);
-				}
+				recipe.ingredients = JSON.stringify(recipe.ingredients);
+				recipe.instructions = JSON.stringify(recipe.instructions);
+				// if (Array.isArray(recipe.ingredients)) {
+				// 	recipe.ingredients = JSON.stringify(recipe.ingredients);
+				// }
+				// if (Array.isArray(recipe.instructions)) {
+				// 	recipe.instructions = JSON.stringify(recipe.instructions);
+				// }
 			},
 			afterFind: (recipe) => {
 				if (typeof recipe.ingredients === "string") {

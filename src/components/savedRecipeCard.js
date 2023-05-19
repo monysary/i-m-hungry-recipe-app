@@ -2,6 +2,8 @@ import { useEffect, useLayoutEffect, useRef, useState, Fragment } from 'react'
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { Dialog, Transition } from '@headlessui/react'
 
+import authService from '@/utils/authService'
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -47,7 +49,6 @@ export default function Example({ myRecipes }) {
     if (!open) {
       setEditMode(false)
     }
-    console.log(recipeModal);
   }, [open])
   const handleRecipeChange = ({ target: { name, value } }, item) => {
     switch (name.split(' ')[0]) {
@@ -69,6 +70,32 @@ export default function Example({ myRecipes }) {
       default:
         setRecipeModal({ ...recipeModal, [name]: value })
         break;
+    }
+  }
+
+  // Handle save button
+  const handleSaveButton = async () => {
+    console.log(recipeModal);
+    try {
+      const response = await fetch(`/api/savedRecipe?id=${recipeModal.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authService.getToken(),
+        },
+        body: JSON.stringify({
+          ...recipeModal,
+          ingredients: JSON.stringify(recipeModal.ingredients),
+          instructions: JSON.stringify(recipeModal.instructions),
+        })
+      })
+      const data = await response.json()
+      console.log(data);
+
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setEditMode(false)
     }
   }
 
@@ -330,7 +357,7 @@ export default function Example({ myRecipes }) {
                         <button
                           type="button"
                           className='text-white bg-teal-400 hover:bg-teal-500 font-medium rounded-lg text-sm px-5 py-2.5'
-                          onClick={() => console.log('Save button')}
+                          onClick={handleSaveButton}
                         >
                           Save
                         </button>
