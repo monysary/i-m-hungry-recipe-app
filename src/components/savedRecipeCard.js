@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, Fragment } from 'react'
+import { useEffect, useRef, useState, Fragment } from 'react'
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { Dialog, Transition } from '@headlessui/react'
 
@@ -14,7 +14,7 @@ export default function Example({ myRecipes, setToggle }) {
   const [indeterminate, setIndeterminate] = useState(false)
   const [selectedRecipe, setSelectedRecipe] = useState([])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const isIndeterminate = selectedRecipe.length > 0 && selectedRecipe.length < myRecipes?.length
     setChecked(selectedRecipe.length === myRecipes?.length)
     setIndeterminate(isIndeterminate)
