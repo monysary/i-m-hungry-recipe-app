@@ -8,7 +8,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example({ myRecipes }) {
+export default function Example({ myRecipes, setToggle }) {
   const checkbox = useRef()
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
@@ -96,6 +96,7 @@ export default function Example({ myRecipes }) {
       console.log(err);
     } finally {
       setEditMode(false)
+      setToggle((prev) => !prev)
     }
   }
 

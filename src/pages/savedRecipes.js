@@ -15,6 +15,7 @@ function SavedRecipes() {
   })
 
   // Fetch user recipes from db
+  const [toggle, setToggle] = useState(true)
   const [myRecipes, setMyRecipes] = useState()
   const fetchRecipes = async () => {
     const response = await fetch('/api/savedRecipe', {
@@ -39,7 +40,7 @@ function SavedRecipes() {
   useEffect(() => {
     fetchRecipes()
 
-  }, [])
+  }, [toggle])
 
   return (
     <>
@@ -51,7 +52,7 @@ function SavedRecipes() {
           My Recipes
         </div>
         <div className='mx-auto max-w-7xl py-4'>
-          <SavedRecipeCard myRecipes={myRecipes}/>
+          <SavedRecipeCard myRecipes={myRecipes} setToggle={setToggle}/>
         </div>
       </div>
     </>
