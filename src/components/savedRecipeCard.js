@@ -28,27 +28,52 @@ export default function Example({ myRecipes, setToggle }) {
     setIndeterminate(false)
   }
 
-  // Handle delete button
+  // const handleDeleteButton = async () => {
+	// 	try {
+	// 		const idsToDelete = selectedRecipe.map((recipe) => recipe.id);
+	// 		const url =
+	// 			idsToDelete.length === 1
+	// 				? `/api/savedRecipe?id=${idsToDelete[0]}`
+	// 				: `/api/savedRecipe?ids=${idsToDelete.join(",")}`;
+
+	// 		const response = await fetch(url, {
+	// 			method: "DELETE",
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 				Authorization: authService.getToken(),
+	// 			},
+	// 		});
+	// 		const data = await response.json();
+	// 		console.log(data.message);
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	} finally {
+	// 		setToggle((prev) => !prev);
+	// 	}
+	// };
+
   const handleDeleteButton = async () => {
-    try {
-      const response = await fetch(`/api/savedRecipe?id=${selectedRecipe[0].id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': authService.getToken()
-        },
-      })
-      const data = await response.json()
-      console.log(data.message);
-
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setToggle((prev) => !prev)
-    }
-
-  }
-
+		try {
+			const response = await fetch(
+				`/api/savedRecipe?ids=${selectedRecipe
+					.map((recipe) => recipe.id)
+					.join(",")}`,
+				{
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: authService.getToken(),
+					},
+				}
+			);
+			const data = await response.json();
+			console.log(data.message);
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setToggle((prev) => !prev);
+		}
+	};
   // Open recipe modal
   const [open, setOpen] = useState(false)
   const [recipeModal, setRecipeModal] = useState(undefined)

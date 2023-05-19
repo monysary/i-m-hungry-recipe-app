@@ -24,7 +24,8 @@ export default async function handler(req, res) {
 		});
 	} else if (req.method === "POST") {
 		isAuthenticated(req, res, async () => {
-			const { username, title, servings, ingredients, instructions, notes } = req.body;
+			const { username, title, servings, ingredients, instructions, notes } =
+				req.body;
 			try {
 				const newSavedRecipe = await SavedRecipe.create({
 					username,
@@ -43,14 +44,16 @@ export default async function handler(req, res) {
 	} else if (req.method === "PUT") {
 		isAuthenticated(req, res, async () => {
 			try {
-				const updatedRecipe = await SavedRecipe.update(req.body, { where: { id: req.body.id } })
+				const updatedRecipe = await SavedRecipe.update(req.body, {
+					where: { id: req.body.id },
+				});
 
 				if (!updatedRecipe) {
-					res.status(404).json({ message: 'Recipe not found' })
-					return
+					res.status(404).json({ message: "Recipe not found" });
+					return;
 				}
 
-				res.status(200).json(updatedRecipe)
+				res.status(200).json(updatedRecipe);
 
 				// const { id, servings, ingredients, instructions, notes } = req.body;
 				// // const recipeId = req.query.id;
@@ -80,18 +83,22 @@ export default async function handler(req, res) {
 		});
 	} else if (req.method === "DELETE") {
 		isAuthenticated(req, res, async () => {
-			const { id } = req.query;
+			const { ids } = req.query;
+			if (!ids) {
+				return res.status(400).json({ message: "IDs parameter is missing" });
+			}
+			const idArray = ids.split(",").map((id) => Number(id));
 			try {
-				const deletedRecipe = await SavedRecipe.destroy({ where: { id: id } });
-				if (!deletedRecipe) {
-					return res.status(404).json({ message: "Recipe not found" });
+				const deletedRecipes = await SavedRecipe.destroy({
+					where: { id: idArray },
+				});
+				if (!deletedRecipes) {
+					return res.status(404).json({ message: "Recipes not found" });
 				}
-				res
-					.status(200)
-					.json({ message: `Recipe with id ${id} has been deleted` });
+				res.status(200).json({ message: "Recipes deleted successfully" });
 			} catch (error) {
 				console.error(error);
-				res.status(400).json({ message: "Failed to delete recipe" });
+				res.status(400).json({ message: "Failed to delete recipes" });
 			}
 		});
 	}
