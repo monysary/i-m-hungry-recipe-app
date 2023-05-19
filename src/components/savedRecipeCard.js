@@ -29,8 +29,24 @@ export default function Example({ myRecipes, setToggle }) {
   }
 
   // Handle delete button
-  const handleDeleteButton = () => {
-    console.log(selectedRecipe);
+  const handleDeleteButton = async () => {
+    try {
+      const response = await fetch(`/api/savedRecipe?id=${selectedRecipe[0].id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authService.getToken()
+        },
+      })
+      const data = await response.json()
+      console.log(data.message);
+
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setToggle((prev) => !prev)
+    }
+
   }
 
   // Open recipe modal
@@ -112,7 +128,7 @@ export default function Example({ myRecipes, setToggle }) {
                   <button
                     type="button"
                     onClick={handleDeleteButton}
-                    className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
+                    className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
                   >
                     <TrashIcon className='h-6 w-6' />
                   </button>
