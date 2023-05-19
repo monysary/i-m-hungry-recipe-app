@@ -55,7 +55,7 @@ export default function Example({ myRecipes }) {
         const inputName = name.split(' ')[1]
         const ingredientIndex = recipeModal.ingredients.findIndex((object) => object[inputName] === item[inputName])
         const ingredientsArr = [...recipeModal.ingredients]
-        ingredientsArr[ingredientIndex][inputName] = value
+        ingredientsArr[ingredientIndex] = { ...ingredientsArr[ingredientIndex], [inputName]: value }
         setRecipeModal({ ...recipeModal, ingredients: ingredientsArr })
         break;
 
