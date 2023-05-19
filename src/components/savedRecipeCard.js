@@ -28,30 +28,6 @@ export default function Example({ myRecipes, setToggle }) {
     setIndeterminate(false)
   }
 
-  // const handleDeleteButton = async () => {
-	// 	try {
-	// 		const idsToDelete = selectedRecipe.map((recipe) => recipe.id);
-	// 		const url =
-	// 			idsToDelete.length === 1
-	// 				? `/api/savedRecipe?id=${idsToDelete[0]}`
-	// 				: `/api/savedRecipe?ids=${idsToDelete.join(",")}`;
-
-	// 		const response = await fetch(url, {
-	// 			method: "DELETE",
-	// 			headers: {
-	// 				"Content-Type": "application/json",
-	// 				Authorization: authService.getToken(),
-	// 			},
-	// 		});
-	// 		const data = await response.json();
-	// 		console.log(data.message);
-	// 	} catch (err) {
-	// 		console.log(err);
-	// 	} finally {
-	// 		setToggle((prev) => !prev);
-	// 	}
-	// };
-
   const handleDeleteButton = async () => {
 		try {
 			const response = await fetch(
