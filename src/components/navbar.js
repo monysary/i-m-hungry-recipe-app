@@ -47,6 +47,8 @@ function Navbar() {
                         <Link href='/pantry' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Pantry</Link>
                         <Link href='/kitchen' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Kitchen</Link>
                         <Link href='/savedRecipes' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Saved Recipes</Link>
+                        <Link href='/faq'
+                        className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">FAQ</Link>
                     </div>
                     <div className="inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         <Link href='/login' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium"
