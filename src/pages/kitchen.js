@@ -99,7 +99,11 @@ function Kitchen() {
         .then((res) => res.json())
         .then((data) => {
           const finalResponse = data.choices[0].message.content
-          // console.log(finalResponse);
+          console.log(JSON.parse(finalResponse));
+          localStorage.setItem('kitchen', JSON.stringify({
+            recipe: finalResponse,
+            expire: Date.now() + (1000 * 60 * 60)
+          }))
           setRecipe(JSON.parse(finalResponse))
         })
     } catch (err) {
@@ -108,6 +112,18 @@ function Kitchen() {
       setIsLoading(false)
     }
   }
+
+  // Check local storage if a recipe was recently generated
+  useEffect(() => {
+    let prevRecipe;
+    if (localStorage.getItem('kitchen')) {
+      prevRecipe = JSON.parse(localStorage.getItem('kitchen'))
+      if (Date.now() < prevRecipe.expire) {
+        setRecipe(JSON.parse(prevRecipe.recipe))
+      }
+    }
+
+  }, [])
 
   return (
     <>
