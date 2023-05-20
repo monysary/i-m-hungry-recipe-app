@@ -15,6 +15,7 @@ function SavedRecipes() {
   })
 
   // Fetch user recipes from db
+  const [toggle, setToggle] = useState(true)
   const [myRecipes, setMyRecipes] = useState()
   const fetchRecipes = async () => {
     const response = await fetch('/api/savedRecipe', {
@@ -25,13 +26,21 @@ function SavedRecipes() {
     })
 
     const data = await response.json()
-    setMyRecipes(data)
+    const convertedData = data.map((object) => {
+      return ({
+        ...object,
+        ingredients: JSON.parse(object.ingredients),
+        instructions: JSON.parse(object.instructions)
+      })
+    })
+
+    setMyRecipes(convertedData)
   }
 
   useEffect(() => {
     fetchRecipes()
 
-  }, [])
+  }, [toggle])
 
   return (
     <>
@@ -42,8 +51,8 @@ function SavedRecipes() {
         <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
           My Recipes
         </div>
-        <div className='mx-auto max-w-7xl py-4 border-t border-gray-200'>
-          <SavedRecipeCard myRecipes={myRecipes}/>
+        <div className='mx-auto max-w-7xl py-4'>
+          <SavedRecipeCard myRecipes={myRecipes} setToggle={setToggle}/>
         </div>
       </div>
     </>

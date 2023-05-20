@@ -4,6 +4,12 @@
 const { Pantry } = require('../../../db/model/index.js')
 import { isAuthenticated } from '../../../utils/authMiddleware'
 
+export const config = {
+	api: {
+		externalResolver: true,
+	},
+};
+
 // Create add item
 export default async function handler(req, res) {
   //   find all items in pantry
@@ -35,7 +41,7 @@ export default async function handler(req, res) {
       const { ingredient } = req.query
       try {
         const deletedIngredient = await Pantry.destroy({
-          where: { ingredient: ingredient },
+          where: req.query,
         })
         if (!deletedIngredient) {
           return res.status(404).json({ message: 'Ingredient not found' })

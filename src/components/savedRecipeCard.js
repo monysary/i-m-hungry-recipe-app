@@ -1,24 +1,25 @@
-import { useEffect, useLayoutEffect, useRef, useState, Fragment } from 'react'
-import { TrashIcon, CheckIcon } from '@heroicons/react/24/outline'
+import { useEffect, useRef, useState, Fragment } from 'react'
+import { TrashIcon } from '@heroicons/react/24/outline'
 import { Dialog, Transition } from '@headlessui/react'
 
-import RecipeCard from './recipeCard'
+import authService from '@/utils/authService'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example({ myRecipes }) {
+export default function Example({ myRecipes, setToggle }) {
   const checkbox = useRef()
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
   const [selectedRecipe, setSelectedRecipe] = useState([])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const isIndeterminate = selectedRecipe.length > 0 && selectedRecipe.length < myRecipes?.length
     setChecked(selectedRecipe.length === myRecipes?.length)
     setIndeterminate(isIndeterminate)
     checkbox.current.indeterminate = isIndeterminate
+    console.log(selectedRecipe);
   }, [selectedRecipe])
 
   function toggleAll() {
@@ -27,18 +28,94 @@ export default function Example({ myRecipes }) {
     setIndeterminate(false)
   }
 
-  // Handle delete button
-  const handleDeleteButton = () => {
-    console.log(selectedRecipe);
-  }
-
+  const handleDeleteButton = async () => {
+		try {
+			const response = await fetch(
+				`/api/savedRecipe?ids=${selectedRecipe
+					.map((recipe) => recipe.id)
+					.join(",")}`,
+				{
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: authService.getToken(),
+					},
+				}
+			);
+			const data = await response.json();
+			console.log(data.message);
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setToggle((prev) => !prev);
+		}
+	};
   // Open recipe modal
   const [open, setOpen] = useState(false)
   const [recipeModal, setRecipeModal] = useState(undefined)
   const handleOpenModal = (recipe) => {
-    console.log(recipe);
     setRecipeModal(recipe)
     setOpen(true)
+  }
+
+  // Modal edit mode
+  const [editMode, setEditMode] = useState(false)
+  const handleEditButton = () => {
+    setEditMode((prev) => !prev)
+  }
+  useEffect(() => {
+    if (!open) {
+      setEditMode(false)
+    }
+  }, [open])
+  const handleRecipeChange = ({ target: { name, value } }, item) => {
+    switch (name.split(' ')[0]) {
+      case 'ingredients':
+        const inputName = name.split(' ')[1]
+        const ingredientIndex = recipeModal.ingredients.findIndex((object) => object[inputName] === item[inputName])
+        const ingredientsArr = [...recipeModal.ingredients]
+        ingredientsArr[ingredientIndex] = { ...ingredientsArr[ingredientIndex], [inputName]: value }
+        setRecipeModal({ ...recipeModal, ingredients: ingredientsArr })
+        break;
+
+      case 'instructions':
+        const instructionIndex = recipeModal.instructions.indexOf(item)
+        const instructionsArr = [...recipeModal.instructions]
+        instructionsArr[instructionIndex] = value
+        setRecipeModal({ ...recipeModal, instructions: instructionsArr })
+        break;
+
+      default:
+        setRecipeModal({ ...recipeModal, [name]: value })
+        break;
+    }
+  }
+
+  // Handle save button
+  const handleSaveButton = async () => {
+    console.log(recipeModal);
+    try {
+      const response = await fetch(`/api/savedRecipe?id=${recipeModal.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authService.getToken(),
+        },
+        body: JSON.stringify({
+          ...recipeModal,
+          ingredients: JSON.stringify(recipeModal.ingredients),
+          instructions: JSON.stringify(recipeModal.instructions),
+        })
+      })
+      const data = await response.json()
+      console.log(data);
+
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setEditMode(false)
+      setToggle((prev) => !prev)
+    }
   }
 
   return (
@@ -52,7 +129,7 @@ export default function Example({ myRecipes }) {
                   <button
                     type="button"
                     onClick={handleDeleteButton}
-                    className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
+                    className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
                   >
                     <TrashIcon className='h-6 w-6' />
                   </button>
@@ -78,13 +155,13 @@ export default function Example({ myRecipes }) {
                     <th scope="col" className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:w-[10%]">
                       Servings
                     </th>
-                    <th scope="col" className="hidden md:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:w-[25%]">
+                    <th scope="col" className="hidden sm:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:w-[25%]">
                       Ingredients
                     </th>
                     <th scope="col" className="hidden lg:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:w-[25%]">
                       Instructions
                     </th>
-                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3 md:w-[10%]">
+                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3 sm:w-[18%] md:w-[10%]">
                       <span className="sr-only">Edit</span>
                     </th>
                   </tr>
@@ -126,17 +203,17 @@ export default function Example({ myRecipes }) {
                       <td className="hidden lg:table-cell px-3 py-4 text-sm text-gray-500">
                         {recipe.servings}
                       </td>
-                      <td className="hidden md:table-cell px-3 py-4 text-sm text-gray-500 truncate">
-                        {JSON.parse(recipe.ingredients).map((ingredient) => ingredient.name).join(', ')}
+                      <td className="hidden sm:table-cell px-3 py-4 text-sm text-gray-500 truncate">
+                        {recipe.ingredients.map((ingredient) => ingredient.name).join(', ')}
                       </td>
                       <td className="hidden lg:table-cell px-3 py-4 text-sm text-gray-500 truncate">
-                        {JSON.parse(recipe.instructions).map((instruction) => instruction).join(', ')}
+                        {recipe.instructions.map((instruction) => instruction).join(', ')}
                       </td>
                       <td className="py-4 sm:pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
                         <button
                           type='button'
                           onClick={() => handleOpenModal(recipe)}
-                          className="ml-[10px] rounded-md sm:ml-0 text-gray-900 bg-white shadow-sm hover:bg-gray-50 ring-1 ring-inset ring-gray-300 font-semibold rounded-lg text-sm px-2.5 py-1.5"
+                          className="rounded-md sm:ml-0 text-gray-900 bg-white shadow-sm hover:bg-gray-50 ring-1 ring-inset ring-gray-300 font-semibold rounded-lg text-sm px-2.5 py-1.5"
                         >
                           View<span className="sr-only">{recipe.title}</span>
                         </button>
@@ -177,17 +254,68 @@ export default function Example({ myRecipes }) {
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-screen-md sm:p-6">
                   <div>
                     <div className="px-4 sm:px-0">
-                      <h3 className="text-[25px] font-semibold leading-7 text-gray-900">{recipeModal?.title}</h3>
-                      <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Servings: {recipeModal?.servings}</p>
+                      {editMode
+                        ? <input
+                          placeholder='Recipe Name'
+                          name='title'
+                          onChange={handleRecipeChange}
+                          value={recipeModal && recipeModal.title}
+                          className='w-full sm:w-1/2 text-[25px] rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
+                        />
+                        : <h3 className="text-[25px] font-semibold leading-7 text-gray-900">{recipeModal?.title}</h3>
+                      }
+                      {editMode
+                        ? <div className='flex items-center mt-1 max-w-2xl text-sm leading-6 text-gray-500'>
+                          <div className='mr-1'>Servings:</div>
+                          <input
+                            placeholder='Serving Size'
+                            type='number'
+                            name='servings'
+                            onChange={handleRecipeChange}
+                            value={recipeModal && recipeModal.servings}
+                            className='w-1/2 sm:w-1/4 block mt-1 text-sm rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
+                          />
+                        </div>
+                        : <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Servings: {recipeModal?.servings}</p>
+                      }
                     </div>
                     <div className="mt-6 border-t border-gray-200">
                       <dl className="divide-y divide-gray-200">
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                           <dt className="text-sm font-medium leading-6 text-gray-900">Ingredients</dt>
                           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            {recipeModal &&
-                              JSON.parse(recipeModal?.ingredients).map((item) => {
-                                return <div key={item.name}>- {`${item.name} (${item.amount} ${item.unit})`}<br /></div>
+                            {editMode
+                              ? recipeModal && recipeModal.ingredients.map((item) => {
+                                const index = recipeModal.ingredients.findIndex((x) => x === item)
+                                return (
+                                  <div key={index} className='flex justify-between items-center w-full'>
+                                    <input
+                                      placeholder='Ingredient'
+                                      name='ingredients name'
+                                      onChange={() => handleRecipeChange(event, item)}
+                                      value={recipeModal && item.name}
+                                      className='mt-1 w-[33%] text-sm rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
+                                    />
+                                    <input
+                                      placeholder='Amount'
+                                      type='number'
+                                      name='ingredients amount'
+                                      onChange={() => handleRecipeChange(event, item)}
+                                      value={recipeModal && item.amount}
+                                      className='mt-1 w-[33%] text-sm rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
+                                    />
+                                    <input
+                                      placeholder='Unit'
+                                      name='ingredients unit'
+                                      onChange={() => handleRecipeChange(event, item)}
+                                      value={recipeModal && item.unit}
+                                      className='mt-1 w-[33%] text-sm rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
+                                    />
+                                  </div>
+                                )
+                              })
+                              : recipeModal && recipeModal.ingredients.map((item) => {
+                                return <p key={item.name}>- {`${item.name} (${item.amount} ${item.unit})`}<br /></p>
                               })
                             }
                           </dd>
@@ -195,9 +323,26 @@ export default function Example({ myRecipes }) {
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                           <dt className="text-sm font-medium leading-6 text-gray-900">Instructions</dt>
                           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            {recipeModal &&
-                              JSON.parse(recipeModal?.instructions).map((item) => {
-                                return <div key={item}>{JSON.parse(recipeModal?.instructions).indexOf(item) + 1}. {item}<br /></div>
+                            {editMode
+                              ? recipeModal &&
+                              recipeModal.instructions.map((item) => {
+                                const index = recipeModal.instructions.findIndex((x) => x === item)
+                                return (
+                                  <div key={index} className='flex justify-center items-center gap-1'>
+                                    <p>{recipeModal.instructions.indexOf(item) + 1}. </p>
+                                    <input
+                                      placeholder='Instruction'
+                                      name='instructions'
+                                      onChange={() => handleRecipeChange(event, item)}
+                                      value={recipeModal && item}
+                                      className='mt-1 w-full text-sm rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
+                                    />
+                                  </div>
+                                )
+                              })
+                              : recipeModal &&
+                              recipeModal.instructions.map((item) => {
+                                return <p key={item}>{recipeModal.instructions.indexOf(item) + 1}. {item}<br /></p>
                               })
                             }
                           </dd>
@@ -205,27 +350,54 @@ export default function Example({ myRecipes }) {
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                           <dt className="text-sm font-medium leading-6 text-gray-900">Notes</dt>
                           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            Click Edit to add Notes
+                            {editMode
+                              ? <textarea
+                                placeholder='Click edit to add notes'
+                                name='notes'
+                                onChange={handleRecipeChange}
+                                value={recipeModal?.notes ? recipeModal.notes : undefined}
+                                className='mt-1 w-full text-sm rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
+                              />
+                              : <p>{recipeModal?.notes ? recipeModal.notes : 'Click edit to add notes'}</p>
+                            }
                           </dd>
                         </div>
                       </dl>
                     </div>
-                    <div className="flex justify-end items-center">
-                      <button
-                        type="button"
-                        className="font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-                        onClick={() => console.log('Edit button')}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        className="text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-                        onClick={() => console.log('Delete button')}
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    {editMode
+                      ? <div className="flex justify-end items-center gap-1">
+                        <button
+                          type="button"
+                          className="font-medium rounded-lg text-sm px-5 py-2.5"
+                          onClick={() => setEditMode(false)}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          className='text-white bg-teal-400 hover:bg-teal-500 font-medium rounded-lg text-sm px-5 py-2.5'
+                          onClick={handleSaveButton}
+                        >
+                          Save
+                        </button>
+                      </div>
+                      : <div className="flex justify-end items-center gap-1">
+                        <button
+                          type="button"
+                          className="font-medium rounded-lg text-sm px-5 py-2.5"
+                          onClick={() => setOpen(false)}
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="button"
+                          className='ml-[10px] sm:ml-0 text-white bg-yellow-400 hover:bg-yellow-500 font-medium rounded-lg text-sm px-5 py-2.5'
+                          onClick={handleEditButton}
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    }
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
