@@ -19,7 +19,6 @@ export default function Example({ myRecipes, setToggle }) {
     setChecked(selectedRecipe.length === myRecipes?.length)
     setIndeterminate(isIndeterminate)
     checkbox.current.indeterminate = isIndeterminate
-    console.log(selectedRecipe);
   }, [selectedRecipe])
 
   function toggleAll() {
@@ -29,27 +28,28 @@ export default function Example({ myRecipes, setToggle }) {
   }
 
   const handleDeleteButton = async () => {
-		try {
-			const response = await fetch(
-				`/api/savedRecipe?ids=${selectedRecipe
-					.map((recipe) => recipe.id)
-					.join(",")}`,
-				{
-					method: "DELETE",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: authService.getToken(),
-					},
-				}
-			);
-			const data = await response.json();
-			console.log(data.message);
-		} catch (err) {
-			console.log(err);
-		} finally {
-			setToggle((prev) => !prev);
-		}
-	};
+    try {
+      const response = await fetch(
+        `/api/savedRecipe?ids=${selectedRecipe
+          .map((recipe) => recipe.id)
+          .join(",")}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authService.getToken(),
+          },
+        }
+      );
+      const data = await response.json();
+      console.log(data.message);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setToggle((prev) => !prev);
+      toggleAll()
+    }
+  };
   // Open recipe modal
   const [open, setOpen] = useState(false)
   const [recipeModal, setRecipeModal] = useState(undefined)
@@ -93,7 +93,6 @@ export default function Example({ myRecipes, setToggle }) {
 
   // Handle save button
   const handleSaveButton = async () => {
-    console.log(recipeModal);
     try {
       const response = await fetch(`/api/savedRecipe?id=${recipeModal.id}`, {
         method: 'PUT',
@@ -108,7 +107,6 @@ export default function Example({ myRecipes, setToggle }) {
         })
       })
       const data = await response.json()
-      console.log(data);
 
     } catch (err) {
       console.log(err);
