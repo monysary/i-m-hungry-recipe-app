@@ -40,3 +40,4 @@ next-env.d.ts
 .firebase
 .github
 .firebaserc
+/functions
