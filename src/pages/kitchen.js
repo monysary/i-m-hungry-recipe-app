@@ -81,7 +81,7 @@ function Kitchen() {
       setIsLoading(true)
       ingredientsArr.map((object) => justIngredients.push(object.ingredient))
 
-      await fetch(process.env.API_ENDPOINT, {
+      await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         cache: 'no-store',
         headers: {
