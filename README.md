@@ -27,6 +27,13 @@ npm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to access the application.
 
+You can also check out the gif below to see how we start up our server!
+
+`
+! [GIF showing user how to install dependencies and starting up the server](./public/images/readme.gif)
+`
+
+
 # Usage
 The "I'm Hungry" app allows users to perform the following actions:
 
@@ -51,6 +58,12 @@ The "I'm Hungry" app allows users to perform the following actions:
     src/components: Contains reusable UI components.
     src/db: Contains database configuration and model schemas.
     src/pages: Contains endpoint files for different pages.
+
+You can check out our application demo following the youtube link!
+
+`
+! [Youtube video link for demo usage of the web application](https://youtu.be/WdB640nxd3M)
+`
 
 # Key Features
 Pantry Management: Users can add the food items they have into their pantry.
