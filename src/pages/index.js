@@ -3,22 +3,21 @@ import Image from 'next/image'
 import pantry from '../../public/images/pantry.png'
 import kitchen from '../../public/images/kitchen.png'
 import {
-  ArrowPathIcon,
-  ChevronRightIcon,
-  CloudArrowUpIcon,
-  Cog6ToothIcon,
-  FingerPrintIcon,
-  LockClosedIcon,
-  ServerIcon,
+	ArrowPathIcon,
+	BanknotesIcon,
+	CpuChipIcon,
+	CursorArrowRaysIcon,
+	GlobeAmericasIcon,
+	CloudArrowUpIcon,
 } from '@heroicons/react/20/solid'
 import {
-  BoltIcon,
-  CalendarDaysIcon,
-  UsersIcon,
+	BoltIcon,
+	CalendarDaysIcon,
+	UsersIcon,
 } from '@heroicons/react/24/outline'
 
 export default function LandingPage() {
-  return (
+	return (
 		<div className='bg-gray-800'>
 			<main>
 				{/* Hero section */}
@@ -67,20 +66,13 @@ export default function LandingPage() {
 					<div className='mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40'>
 						<div className='mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8'>
 							<div className='mt-24 sm:mt-32 lg:mt-16'>
-								<div href='#' className='inline-flex space-x-6'>
+								<div className='inline-flex space-x-6'>
 									<span className='rounded-full bg-orange-500/10 px-3 py-1 text-sm font-semibold leading-6 text-orange-400 ring-1 ring-inset ring-orange-500/20'>
 										Free of Charge
 									</span>
-									<span className='rounded-full bg-orange-500/10 px-3 py-1 text-sm font-semibold leading-6 text-orange-400 ring-1 ring-inset ring-orange-500/20'>
+									{/* <span className='rounded-full bg-orange-500/10 px-3 py-1 text-sm font-semibold leading-6 text-orange-400 ring-1 ring-inset ring-orange-500/20'>
 										Optional Premium Plans
-									</span>
-									{/* <span className='inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-300'>
-                    <span>Create an account now</span>
-                    <ChevronRightIcon
-                      className='h-5 w-5 text-gray-500'
-                      aria-hidden='true'
-                    />
-                  </span> */}
+									</span> */}
 								</div>
 							</div>
 							<h1 className='mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl'>
@@ -175,9 +167,8 @@ export default function LandingPage() {
 								No food ideas? No problem.
 							</p>
 							<p className='mt-6 text-lg leading-8 text-gray-300'>
-								Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-								Maiores impedit perferendis suscipit eaque, iste dolor
-								cupiditate blanditiis.
+								Let us take the lead on meal planning by helping you
+								decide what to cook based on ingredients you already have.
 							</p>
 						</div>
 					</div>
@@ -223,9 +214,9 @@ export default function LandingPage() {
 							Trusted by thousands of developers&nbsp;worldwide
 						</p>
 						<p className='mt-6 text-lg leading-8 text-gray-300'>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores
-							impedit perferendis suscipit eaque, iste dolor cupiditate
-							blanditiis ratione.
+							Your next dinner party is in good hands with the most
+							powerful and popular AI tool in the world
+							at your fingertips.
 						</p>
 					</div>
 					<dl className='mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 text-white sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-4'>
@@ -293,18 +284,17 @@ export default function LandingPage() {
 							Start using our app today.
 						</h2>
 						<p className='mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300'>
-							Incididunt sint fugiat pariatur cupidatat consectetur sit cillum
-							anim id veniam aliqua proident excepteur commodo do ea.
+							No costs, no drawbacks, no problems. Get started by signing up today.
 						</p>
 						<div className='mt-10 flex items-center justify-center gap-x-6'>
 							<a
-								href='#'
+								href='/signup'
 								className='rounded-md bg-orange-600  px-3.5 py-2.5 text-sm font-semibold text-white-900 shadow-sm hover:bg-orange-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
 							>
 								Get started
 							</a>
 							<a
-								href='#'
+								href='/signup'
 								className='text-sm font-semibold leading-6 text-white'
 							>
 								Learn more <span aria-hidden='true'>→</span>
@@ -312,10 +302,10 @@ export default function LandingPage() {
 						</div>
 					</div>
 				</div>
-			</main>
+			</main >
 
 			{/* Footer */}
-			<footer aria-labelledby='footer-heading' className='relative'>
+			<footer aria-labelledby='footer-heading' className='relative' >
 				<h2 id='footer-heading' className='sr-only'>
 					Footer
 				</h2>
@@ -338,92 +328,92 @@ export default function LandingPage() {
 						</p>
 					</div>
 				</div>
-			</footer>
-		</div>
+			</footer >
+		</div >
 	);
 }
 
 const primaryFeatures = [
-  {
-    name: 'Instant meal planning',
-    description:
-      "Unlock the magic of your pantry with I'm Hungry, a revolutionary web app designed to transform your cooking experience. Say goodbye to meal planning struggles and unleash your culinary creativity effortlessly.",
-    href: '/signup',
-    icon: BoltIcon,
-  },
-  {
-    name: 'Powerful Algorithm',
-    description:
-      "How does I'm Hungry work? It's simple! All you need to do is input the recipes you have in your pantry, and our powerful ChatGPT algorithm will generate unique, delicious recipes tailored to your ingredients.",
-    href: '/signup',
-    icon: UsersIcon,
-  },
-  {
-    name: 'No more waste',
-    description:
-      "No more wasting food or wondering what to cook – I'm Hungry has got you covered. Whether you have a handful of basics or a diverse range of items, I'm Hungry makes the most of what you already have.",
-    href: '/signup',
-    icon: CalendarDaysIcon,
-  },
+	{
+		name: 'Instant meal planning',
+		description:
+			"Unlock the magic of your pantry with I'm Hungry, a revolutionary web app designed to transform your cooking experience. Say goodbye to meal planning struggles and unleash your culinary creativity effortlessly.",
+		href: '/signup',
+		icon: BoltIcon,
+	},
+	{
+		name: 'Powerful Algorithm',
+		description:
+			"How does I'm Hungry work? It's simple! All you need to do is input the recipes you have in your pantry, and our powerful ChatGPT algorithm will generate unique, delicious recipes tailored to your ingredients.",
+		href: '/signup',
+		icon: UsersIcon,
+	},
+	{
+		name: 'No more waste',
+		description:
+			"No more wasting food or wondering what to cook – I'm Hungry has got you covered. Whether you have a handful of basics or a diverse range of items, I'm Hungry makes the most of what you already have.",
+		href: '/signup',
+		icon: CalendarDaysIcon,
+	},
 ]
 const secondaryFeatures = [
-  {
-    name: 'Simple to use',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit aute id magna.',
-    icon: CloudArrowUpIcon,
-  },
-  {
-    name: 'Secure accounts',
-    description:
-      'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.',
-    icon: LockClosedIcon,
-  },
-  {
-    name: 'Fast results',
-    description:
-      'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.',
-    icon: ArrowPathIcon,
-  },
-  {
-    name: 'Delicious recipes',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit aute id magna.',
-    icon: FingerPrintIcon,
-  },
-  {
-    name: 'Powerful API.',
-    description:
-      'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.',
-    icon: Cog6ToothIcon,
-  },
-  {
-    name: 'Save your favorites',
-    description:
-      'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. ',
-    icon: ServerIcon,
-  },
+	{
+		name: 'Save money',
+		description:
+			'No need to overstock on groceries when you can make delicious meals with what you have.',
+		icon: BanknotesIcon,
+	},
+	{
+		name: 'Reduce waste',
+		description:
+			'Stop throwing away food and use your ingredients in ways you never imagined.',
+		icon: GlobeAmericasIcon,
+	},
+	{
+		name: 'Fast results',
+		description:
+			'Instant meal generation backed by the power of AI.',
+		icon: ArrowPathIcon,
+	},
+	{
+		name: 'Delicious recipes',
+		description:
+			'Become a chef and discover new mouthwatering flavors at the click of a button.',
+		icon: CursorArrowRaysIcon,
+	},
+	{
+		name: 'Powerful AI.',
+		description:
+			'Leverage the most popular AI tool in the world.',
+		icon: CpuChipIcon,
+	},
+	{
+		name: 'Save your favorites',
+		description:
+			'Never lose your favorite recipes ever again by saving them in the cloud.',
+		icon: CloudArrowUpIcon,
+	},
 ]
 const stats = [
-  { id: 1, name: 'Different food recipes', value: '8,000+' },
-  { id: 2, name: 'Unlimited requests', value: '900m+' },
-  { id: 3, name: 'Uptime guarantee', value: '99.9%' },
-  { id: 4, name: 'Happy customers', value: '100%' },
+	{ id: 1, name: 'Different food recipes', value: '8,000+' },
+	{ id: 2, name: 'Unlimited requests', value: '900m+' },
+	{ id: 3, name: 'Uptime guarantee', value: '99.9%' },
+	{ id: 4, name: 'Happy customers', value: '100%' },
 ]
 const footerNavigation = {
-  social: [
-    {
-      name: 'GitHub',
-      href: 'https://github.com/monysary/i-m-hungry-recipe-app',
-      icon: (props) => (
-        <svg fill='currentColor' viewBox='0 0 24 24' {...props}>
-          <path
-            fillRule='evenodd'
-            d='M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z'
-            clipRule='evenodd'
-          />
-        </svg>
-      ),
-    },
-  ],
+	social: [
+		{
+			name: 'GitHub',
+			href: 'https://github.com/monysary/i-m-hungry-recipe-app',
+			icon: (props) => (
+				<svg fill='currentColor' viewBox='0 0 24 24' {...props}>
+					<path
+						fillRule='evenodd'
+						d='M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z'
+						clipRule='evenodd'
+					/>
+				</svg>
+			),
+		},
+	],
 }
