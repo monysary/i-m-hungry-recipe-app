@@ -29,9 +29,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to access 
 
 You can also check out the gif below to see how we start up our server!
 
-`
-! [GIF showing user how to install dependencies and starting up the server](./public/images/readme.gif)
-`
+
+[GIF showing user how to install dependencies and starting up the server](./public/images/readme.gif)
+
 
 
 # Usage
@@ -61,9 +61,9 @@ The "I'm Hungry" app allows users to perform the following actions:
 
 You can check out our application demo following the youtube link!
 
-`
-! [Youtube video link for demo usage of the web application](https://youtu.be/WdB640nxd3M)
-`
+
+ [Youtube video link for demo usage of the web application](https://youtu.be/WdB640nxd3M)
+
 
 # Key Features
 Pantry Management: Users can add the food items they have into their pantry.
