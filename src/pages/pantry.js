@@ -2,6 +2,10 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import authService from '@/utils/authService'
 import { AiFillCloseCircle } from 'react-icons/ai'
+import {
+  QuestionMarkCircleIcon,
+  ArrowRightIcon
+} from '@heroicons/react/24/outline'
 
 function Pantry() {
   useEffect(() => {
@@ -88,10 +92,15 @@ function Pantry() {
         <title>Checking out the pantry...</title>
       </Head>
       <div className='min-h-full lg:px-[200px] px-6 py-12'>
-        <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
-          Add To Pantry
+        <div className='flex items-start gap-1'>
+          <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
+            Add To Pantry
+          </div>
+          <button className=''>
+            <QuestionMarkCircleIcon className='w-4 md:w-6' />
+          </button>
         </div>
-        <div className='sm:flex justify-between items-end'>
+        <div className='md:flex items-end'>
           <form
             className='sm:flex items-end'
             id='pantry-form'
@@ -127,27 +136,27 @@ function Pantry() {
                 </select>
               </div>
             </div>
-            <button
-              type='submit'
-              className='hidden sm:block mt-2 sm:mt-0 sm:ml-[20px] text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
-            >
-              Add
-            </button>
           </form>
 
-          <div className='mt-4 sm:mt-0 flex justify-center'>
-            <button
-              className='sm:hidden text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
-              type='submit'
-              form='pantry-form'
-            >
-              Add
-            </button>
-            <button
-              className='ml-[10px] sm:ml-0 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2'
-              onClick={handleUpdateButton}
-            >
-              Update
+          <div className='grow mt-4 md:mt-0 md:ml-[20px] flex justify-between'>
+            <div>
+              <button
+                className='text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
+                type='submit'
+                form='pantry-form'
+              >
+                Add
+              </button>
+              <button
+                className='ml-[10px] text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2'
+                onClick={handleUpdateButton}
+              >
+                Update
+              </button>
+            </div>
+            <button className='font-semibold inline-flex items-center gap-2'>
+              Next
+              <ArrowRightIcon className='w-5' />
             </button>
           </div>
         </div>
