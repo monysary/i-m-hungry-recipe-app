@@ -121,9 +121,9 @@ function Pantry() {
               Instructions:
             </p>
             <ol className='font-normal'>
-              <li className='mt-4 md:mt-2'>1. Enter an ingredient and select a category</li>
-              <li className='mt-4 md:mt-2'>2. Click Add to add ingredient into the pantry </li>
-              <li className='mt-4 md:mt-2'>3. Click Update to remove ingredients</li>
+              <li className='mt-4 md:mt-2'>1. Enter an Ingredient and select a Category</li>
+              <li className='mt-4 md:mt-2'>2. Click Add to add the ingredient into the pantry </li>
+              <li className='mt-4 md:mt-2'>3. Click Update to remove an ingredients</li>
               <li className='mt-4 md:mt-2'>4. Select Next to proceed to the Kitchen</li>
             </ol>
           </dialog>

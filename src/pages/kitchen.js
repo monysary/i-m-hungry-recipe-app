@@ -4,7 +4,7 @@ import authService from '@/utils/authService'
 import RecipeCard from '../components/recipeCard'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import CircleSpinner from '@/components/spinners/circle'
-import { ChevronRightIcon } from '@heroicons/react/24/outline'
+import { ChevronRightIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 
 function Kitchen() {
   useEffect(() => {
@@ -100,7 +100,6 @@ function Kitchen() {
         .then((res) => res.json())
         .then((data) => {
           const finalResponse = data.choices[0].message.content
-          console.log(JSON.parse(finalResponse));
           localStorage.setItem('kitchen', JSON.stringify({
             recipe: finalResponse,
             expire: Date.now() + (1000 * 60 * 60)
@@ -131,14 +130,44 @@ function Kitchen() {
     window.location.assign('/savedRecipes')
   }
 
+  // Handle instructions dialog
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const handleDialogOpen = () => {
+    setDialogOpen(!dialogOpen)
+  }
+
   return (
     <>
       <Head>
         <title>Chefing it up!</title>
       </Head>
       <div className='min-h-full lg:px-[200px] px-6 py-12'>
-        <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
-          Select Ingredients
+        <div className='relative flex items-start gap-1'>
+          <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
+            Select Ingredients
+          </div>
+          <button onClick={handleDialogOpen}>
+            <QuestionMarkCircleIcon className='w-4 md:w-6' />
+          </button>
+          <div
+            onClick={handleDialogOpen}
+            className={`fixed z-10 top-0 left-0 w-screen h-screen ${dialogOpen === false && 'hidden'}`}
+          ></div>
+          <dialog open={dialogOpen}
+            className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'
+          >
+            <p className='text-gray-900 font-semibold'>
+              Instructions:
+            </p>
+            <ol className='font-normal'>
+              <li className='mt-4 md:mt-2'>1. Select a Category then an Ingredient</li>
+              <li className='mt-4 md:mt-2'>2. Add as many ingredients as you want to cook with</li>
+              <li className='mt-4 md:mt-2'>3. Click Generate Recipe to generate your recipe</li>
+              <li className='mt-4 md:mt-2'>4. Click Save Recipe to save your new recipe</li>
+              <li className='mt-4 md:mt-2'>5. Clicking Generate Recipe again will generate another recipe</li>
+              <li className='mt-4 md:mt-2'>6. Select Next to proceed to your Saved Recipes</li>
+            </ol>
+          </dialog>
         </div>
         <form className='md:flex items-end mb-[20px]' onSubmit={addIngredient}>
           <div className='flex items-end'>
@@ -252,7 +281,7 @@ function Kitchen() {
           {
             isLoading
               ? <CircleSpinner />
-              : recipe !== null && <RecipeCard recipe={recipe} />
+              : recipe !== null && <RecipeCard recipe={recipe} isLoading={isLoading}/>
           }
         </div>
       </div >
