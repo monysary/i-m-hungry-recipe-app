@@ -4,6 +4,7 @@ import authService from '@/utils/authService'
 import RecipeCard from '../components/recipeCard'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import CircleSpinner from '@/components/spinners/circle'
+import { ChevronRightIcon } from '@heroicons/react/24/outline'
 
 function Kitchen() {
   useEffect(() => {
@@ -125,6 +126,11 @@ function Kitchen() {
 
   }, [])
 
+  // Handle Next button
+  const handleNextButton = () => {
+    window.location.assign('/savedRecipes')
+  }
+
   return (
     <>
       <Head>
@@ -134,59 +140,70 @@ function Kitchen() {
         <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
           Select Ingredients
         </div>
-        <form className='sm:flex items-end mb-[20px]' onSubmit={addIngredient}>
-          <div>
-            <label className='block text-sm font-medium leading-6 text-gray-900'>
-              Category
-            </label>
-            <div className='sm:mt-2'>
-              <select
-                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
-                name='category'
-                onChange={handleRecipeForm}
-              >
-                <option value=''>- select category -</option>
-                {categories.map((category) => {
-                  return (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  )
-                })}
-              </select>
-            </div>
-          </div>
-
-          <div className='sm:ml-[20px] mt-2 sm:mt-0'>
-            <label className='block text-sm font-medium leading-6 text-gray-900'>
-              Ingredient
-            </label>
-            <div className='sm:mt-2'>
-              <select
-                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
-                name='ingredient'
-                onChange={handleRecipeForm}
-              >
-                <option value=''>- select ingredient -</option>
-                {pantryItems
-                  .filter((item) => item.category === recipeForm.category)
-                  .map((item) => {
+        <form className='md:flex items-end mb-[20px]' onSubmit={addIngredient}>
+          <div className='flex items-end'>
+            <div>
+              <label className='block text-sm font-medium leading-6 text-gray-900'>
+                Category
+              </label>
+              <div className='sm:mt-2'>
+                <select
+                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
+                  name='category'
+                  onChange={handleRecipeForm}
+                >
+                  <option value=''>- select category -</option>
+                  {categories.map((category) => {
                     return (
-                      <option key={item.ingredient} value={item.ingredient}>
-                        {item.ingredient}
+                      <option key={category} value={category}>
+                        {category}
                       </option>
                     )
                   })}
-              </select>
+                </select>
+              </div>
+            </div>
+
+            <div className='sm:ml-[20px] mt-2 sm:mt-0'>
+              <label className='block text-sm font-medium leading-6 text-gray-900'>
+                Ingredient
+              </label>
+              <div className='sm:mt-2'>
+                <select
+                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
+                  name='ingredient'
+                  onChange={handleRecipeForm}
+                >
+                  <option value=''>- select ingredient -</option>
+                  {pantryItems
+                    .filter((item) => item.category === recipeForm.category)
+                    .map((item) => {
+                      return (
+                        <option key={item.ingredient} value={item.ingredient}>
+                          {item.ingredient}
+                        </option>
+                      )
+                    })}
+                </select>
+              </div>
             </div>
           </div>
 
-          <button
-            type='submit'
-            className='mt-2 sm:mt-0 sm:ml-[20px] text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
-          >
-            Add
-          </button>
+
+          <div className='grow mt-4 md:mt-0 md:ml-[20px] flex justify-between'>
+            <button
+              type='submit'
+              className='text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
+            >
+              Add
+            </button>
+            <button className='font-semibold inline-flex items-center gap-1'
+              onClick={handleNextButton}
+            >
+              Next
+              <ChevronRightIcon className='w-5' />
+            </button>
+          </div>
         </form >
         <div className="flex flex-wrap gap-[10px] mb-[20px] py-6 border-t border-b border-gray-200">
           {ingredientsArr.map((item) => {
