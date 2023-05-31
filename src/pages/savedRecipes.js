@@ -18,24 +18,33 @@ function SavedRecipes() {
   // Fetch user recipes from db
   const [toggle, setToggle] = useState(true)
   const [myRecipes, setMyRecipes] = useState()
+  const [loading, setLoading] = useState(false)
   const fetchRecipes = async () => {
-    const response = await fetch('/api/savedRecipe', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': authService.getToken()
-      }
-    })
-
-    const data = await response.json()
-    const convertedData = data.map((object) => {
-      return ({
-        ...object,
-        ingredients: JSON.parse(object.ingredients),
-        instructions: JSON.parse(object.instructions)
+    setLoading(true)
+    try {
+      const response = await fetch('/api/savedRecipe', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authService.getToken()
+        }
       })
-    })
 
-    setMyRecipes(convertedData)
+      const data = await response.json()
+      const convertedData = data.map((object) => {
+        return ({
+          ...object,
+          ingredients: JSON.parse(object.ingredients),
+          instructions: JSON.parse(object.instructions)
+        })
+      })
+
+      setMyRecipes(convertedData)
+
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
