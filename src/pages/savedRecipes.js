@@ -18,9 +18,7 @@ function SavedRecipes() {
   // Fetch user recipes from db
   const [toggle, setToggle] = useState(true)
   const [myRecipes, setMyRecipes] = useState()
-  const [loading, setLoading] = useState(false)
   const fetchRecipes = async () => {
-    setLoading(true)
     try {
       const response = await fetch('/api/savedRecipe', {
         headers: {
@@ -42,8 +40,6 @@ function SavedRecipes() {
 
     } catch (err) {
       console.log(err);
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -66,10 +62,12 @@ function SavedRecipes() {
             <SavedRecipeCard myRecipes={myRecipes} setToggle={setToggle} />
           </div>
         </div>
-        : <h1 className='min-h-full lg:px-[100px] px-6 py-60 md:text-[30px] text-center align-center'>
-          <FaceFrownIcon className='w-14 md:w-36 mx-auto' />
-          You have no saved recipes
-        </h1>
+        : myRecipes?.length < 1
+          ? <h1 className='min-h-full lg:px-[100px] px-6 py-60 md:text-[30px] text-center align-center'>
+            <FaceFrownIcon className='w-14 md:w-36 mx-auto' />
+            You have no saved recipes
+          </h1>
+          : <div></div>
       }
     </>
   )
