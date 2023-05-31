@@ -16,15 +16,6 @@ function SignUp() {
 
   const [buttonActive, setButtonActive] = useState(false)
 
-  // if user is logged in already, redirect to pantry page
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (authService.loggedIn() && !authService.tokenExpired()) {
-        window.location.assign('/pantry')
-      }
-    }
-  }, [])
-
   useEffect(() => {
     if (
       signUpForm.username !== '' &&
