@@ -27,7 +27,7 @@ function Pantry() {
   useEffect(() => {
     const getItems = async () => {
       try {
-        const response = await fetch('/api/pantry', {
+        const response = await fetch(`/api/pantry?username=${authService.getProfile().username}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `${authService.getToken()}`,
