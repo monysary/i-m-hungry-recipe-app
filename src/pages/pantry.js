@@ -4,7 +4,7 @@ import authService from '@/utils/authService'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import {
   QuestionMarkCircleIcon,
-  ArrowRightIcon
+  ChevronRightIcon,
 } from '@heroicons/react/24/outline'
 
 function Pantry() {
@@ -86,19 +86,47 @@ function Pantry() {
     }
   }
 
+  // Handle Next button
+  const handleNextButton = () => {
+    window.location.assign('/kitchen')
+  }
+
+  // Handle instructions dialog
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const handleDialogOpen = () => {
+    setDialogOpen(!dialogOpen)
+  }
+
   return (
     <>
       <Head>
         <title>Checking out the pantry...</title>
       </Head>
       <div className='min-h-full lg:px-[200px] px-6 py-12'>
-        <div className='flex items-start gap-1'>
+        <div className='relative flex items-start gap-1'>
           <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
             Add To Pantry
           </div>
-          <button className=''>
+          <button onClick={handleDialogOpen}>
             <QuestionMarkCircleIcon className='w-4 md:w-6' />
           </button>
+          <div
+            onClick={handleDialogOpen}
+            className={`fixed z-10 top-0 left-0 w-screen h-screen ${dialogOpen === false && 'hidden'}`}
+          ></div>
+          <dialog open={dialogOpen}
+            className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'
+          >
+            <p className='text-gray-900 font-semibold'>
+              Instructions:
+            </p>
+            <ol className='font-normal'>
+              <li className='mt-4 md:mt-2'>1. Enter an ingredient and select a category</li>
+              <li className='mt-4 md:mt-2'>2. Click Add to add ingredient into the pantry </li>
+              <li className='mt-4 md:mt-2'>3. Click Update to remove ingredients</li>
+              <li className='mt-4 md:mt-2'>4. Select Next to proceed to the Kitchen</li>
+            </ol>
+          </dialog>
         </div>
         <div className='md:flex items-end'>
           <form
@@ -154,9 +182,11 @@ function Pantry() {
                 Update
               </button>
             </div>
-            <button className='font-semibold inline-flex items-center gap-2'>
+            <button className='font-semibold inline-flex items-center gap-1'
+              onClick={handleNextButton}
+            >
               Next
-              <ArrowRightIcon className='w-5' />
+              <ChevronRightIcon className='w-5' />
             </button>
           </div>
         </div>
