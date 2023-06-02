@@ -19,23 +19,28 @@ function SavedRecipes() {
   const [toggle, setToggle] = useState(true)
   const [myRecipes, setMyRecipes] = useState()
   const fetchRecipes = async () => {
-    const response = await fetch('/api/savedRecipe', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': authService.getToken()
-      }
-    })
-
-    const data = await response.json()
-    const convertedData = data.map((object) => {
-      return ({
-        ...object,
-        ingredients: JSON.parse(object.ingredients),
-        instructions: JSON.parse(object.instructions)
+    try {
+      const response = await fetch('/api/savedRecipe', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authService.getToken()
+        }
       })
-    })
 
-    setMyRecipes(convertedData)
+      const data = await response.json()
+      const convertedData = data.map((object) => {
+        return ({
+          ...object,
+          ingredients: JSON.parse(object.ingredients),
+          instructions: JSON.parse(object.instructions)
+        })
+      })
+
+      setMyRecipes(convertedData)
+
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   useEffect(() => {
@@ -57,10 +62,12 @@ function SavedRecipes() {
             <SavedRecipeCard myRecipes={myRecipes} setToggle={setToggle} />
           </div>
         </div>
-        : <h1 className='min-h-full lg:px-[100px] px-6 py-60 md:text-[30px] text-center align-center'>
-          <FaceFrownIcon className='w-14 md:w-36 mx-auto' />
-          You have no saved recipes
-        </h1>
+        : myRecipes?.length < 1
+          ? <h1 className='min-h-full lg:px-[100px] px-6 py-60 md:text-[30px] text-center align-center'>
+            <FaceFrownIcon className='w-14 md:w-36 mx-auto' />
+            You have no saved recipes
+          </h1>
+          : <div></div>
       }
     </>
   )

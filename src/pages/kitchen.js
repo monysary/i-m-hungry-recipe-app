@@ -4,6 +4,7 @@ import authService from '@/utils/authService'
 import RecipeCard from '../components/recipeCard'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import CircleSpinner from '@/components/spinners/circle'
+import { ChevronRightIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 
 function Kitchen() {
   useEffect(() => {
@@ -99,7 +100,6 @@ function Kitchen() {
         .then((res) => res.json())
         .then((data) => {
           const finalResponse = data.choices[0].message.content
-          console.log(JSON.parse(finalResponse));
           localStorage.setItem('kitchen', JSON.stringify({
             recipe: finalResponse,
             expire: Date.now() + (1000 * 60 * 60)
@@ -125,68 +125,114 @@ function Kitchen() {
 
   }, [])
 
+  // Handle Next button
+  const handleNextButton = () => {
+    window.location.assign('/savedRecipes')
+  }
+
+  // Handle instructions dialog
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const handleDialogOpen = () => {
+    setDialogOpen(!dialogOpen)
+  }
+
   return (
     <>
       <Head>
         <title>Chefing it up!</title>
       </Head>
       <div className='min-h-full lg:px-[200px] px-6 py-12'>
-        <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
-          Select Ingredients
-        </div>
-        <form className='sm:flex items-end mb-[20px]' onSubmit={addIngredient}>
-          <div>
-            <label className='block text-sm font-medium leading-6 text-gray-900'>
-              Category
-            </label>
-            <div className='sm:mt-2'>
-              <select
-                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
-                name='category'
-                onChange={handleRecipeForm}
-              >
-                <option value=''>- select category -</option>
-                {categories.map((category) => {
-                  return (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  )
-                })}
-              </select>
-            </div>
+        <div className='relative flex items-start gap-1'>
+          <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
+            Select Ingredients
           </div>
-
-          <div className='sm:ml-[20px] mt-2 sm:mt-0'>
-            <label className='block text-sm font-medium leading-6 text-gray-900'>
-              Ingredient
-            </label>
-            <div className='sm:mt-2'>
-              <select
-                className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
-                name='ingredient'
-                onChange={handleRecipeForm}
-              >
-                <option value=''>- select ingredient -</option>
-                {pantryItems
-                  .filter((item) => item.category === recipeForm.category)
-                  .map((item) => {
+          <button onClick={handleDialogOpen}>
+            <QuestionMarkCircleIcon className='w-4 md:w-6' />
+          </button>
+          <div
+            onClick={handleDialogOpen}
+            className={`fixed z-10 top-0 left-0 w-screen h-screen ${dialogOpen === false && 'hidden'}`}
+          ></div>
+          <dialog open={dialogOpen}
+            className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'
+          >
+            <p className='text-gray-900 font-semibold'>
+              Instructions:
+            </p>
+            <ol className='font-normal'>
+              <li className='mt-4 md:mt-2'>1. Select a Category then an Ingredient</li>
+              <li className='mt-4 md:mt-2'>2. Add as many ingredients as you want to cook with</li>
+              <li className='mt-4 md:mt-2'>3. Click Generate Recipe to generate your recipe</li>
+              <li className='mt-4 md:mt-2'>4. Click Save Recipe to save your new recipe</li>
+              <li className='mt-4 md:mt-2'>5. Clicking Generate Recipe again will generate another recipe</li>
+              <li className='mt-4 md:mt-2'>6. Select Next to proceed to your Saved Recipes</li>
+            </ol>
+          </dialog>
+        </div>
+        <form className='md:flex items-end mb-[20px]' onSubmit={addIngredient}>
+          <div className='flex items-end'>
+            <div>
+              <label className='block text-sm font-medium leading-6 text-gray-900'>
+                Category
+              </label>
+              <div className='sm:mt-2'>
+                <select
+                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
+                  name='category'
+                  onChange={handleRecipeForm}
+                >
+                  <option value=''>- select category -</option>
+                  {categories.map((category) => {
                     return (
-                      <option key={item.ingredient} value={item.ingredient}>
-                        {item.ingredient}
+                      <option key={category} value={category}>
+                        {category}
                       </option>
                     )
                   })}
-              </select>
+                </select>
+              </div>
+            </div>
+
+            <div className='sm:ml-[20px] mt-2 sm:mt-0'>
+              <label className='block text-sm font-medium leading-6 text-gray-900'>
+                Ingredient
+              </label>
+              <div className='sm:mt-2'>
+                <select
+                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
+                  name='ingredient'
+                  onChange={handleRecipeForm}
+                >
+                  <option value=''>- select ingredient -</option>
+                  {pantryItems
+                    .filter((item) => item.category === recipeForm.category)
+                    .map((item) => {
+                      return (
+                        <option key={item.ingredient} value={item.ingredient}>
+                          {item.ingredient}
+                        </option>
+                      )
+                    })}
+                </select>
+              </div>
             </div>
           </div>
 
-          <button
-            type='submit'
-            className='mt-2 sm:mt-0 sm:ml-[20px] text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
-          >
-            Add
-          </button>
+
+          <div className='grow mt-4 md:mt-0 md:ml-[20px] flex justify-between'>
+            <button
+              type='submit'
+              className='text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
+            >
+              Add
+            </button>
+            <button className='font-semibold inline-flex items-center gap-1'
+              onClick={handleNextButton}
+            >
+              Next
+              <ChevronRightIcon className='w-5' />
+            </button>
+          </div>
         </form >
         <div className="flex flex-wrap gap-[10px] mb-[20px] py-6 border-t border-b border-gray-200">
           {ingredientsArr.map((item) => {
@@ -235,7 +281,7 @@ function Kitchen() {
           {
             isLoading
               ? <CircleSpinner />
-              : recipe !== null && <RecipeCard recipe={recipe} />
+              : recipe !== null && <RecipeCard recipe={recipe} isLoading={isLoading}/>
           }
         </div>
       </div >
