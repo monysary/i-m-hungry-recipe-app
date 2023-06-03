@@ -108,7 +108,7 @@ function Pantry() {
             Add To Pantry
           </div>
           <button onClick={handleDialogOpen}>
-            <QuestionMarkCircleIcon className='w-4 md:w-6' />
+            <QuestionMarkCircleIcon className='w-4 md:w-6 text-gray-900' />
           </button>
           <div
             onClick={handleDialogOpen}
@@ -182,7 +182,7 @@ function Pantry() {
                 Update
               </button>
             </div>
-            <button className='font-semibold inline-flex items-center gap-1'
+            <button className='font-semibold inline-flex items-center gap-1 text-gray-900'
               onClick={handleNextButton}
             >
               Next
