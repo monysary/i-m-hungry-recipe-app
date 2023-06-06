@@ -12,10 +12,10 @@ export const config = {
 
 // Create add item
 export default async function handler(req, res) {
-  // find all items in pantry
+  /**
+   * GET all pantry items where user id matches 
+   */
   if (req.method === 'GET') {
-    isAuthenticated(req, res, async () => {
-      try {
         const token = req.headers.authorization // Assuming the token is provided in the Authorization header
         if (!token) {
           return res.status(401).json({ message: 'Missing token' })
@@ -27,21 +27,18 @@ export default async function handler(req, res) {
         if (!user) {
           return res.status(404).json({ message: 'User not found' })
         }
-
         try {
           const pantryItems = await Pantry.findAll({ where: { userId: userId } })
           res.status(200).json(pantryItems)
         } catch (err) {
           res.status(500).json(err)
         }
-      } catch (error) {
-        console.error(error)
-        res.status(400).json({ message: 'Failed to fetch pantry' })
-      }
-    })
-    // post a new item to pantry
+
+  /**
+   * POST new pantry item where user id matches 
+   */
   } else if (req.method === 'POST') {
-    isAuthenticated(req, res, async () => {
+ 
       const { ingredient, category } = req.body
       try {
         const token = req.headers.authorization;
@@ -62,10 +59,12 @@ export default async function handler(req, res) {
         console.error(error);
         res.status(400).json({ message: 'Failed to add ingredient to pantry' });
       }
-    })
+    
+  /**
+   * DELETE pantry item where user id, ingredient, and category match 
+   */
   } else if (req.method === 'DELETE') {
-    // delete a single item from pantry
-    isAuthenticated(req, res, async () => {
+    
       const { ingredient, category } = req.query;
       try {
         const token = req.headers.authorization;
@@ -93,7 +92,7 @@ export default async function handler(req, res) {
           .status(500)
           .json({ message: 'Failed to delete ingredient from pantry' });
       }
-    });
+ 
   } else {
     res.status(400).json({ message: 'Invalid request' });
   }
