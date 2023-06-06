@@ -18,12 +18,8 @@ function Pantry() {
 
   const [toggle, setToggle] = useState(true)
   const [updateState, setUpdateState] = useState(false)
-  const handleUpdateButton = () => {
-    setUpdateState((prev) => !prev)
-  }
-
-  // Get items from pantry
   const [pantryItems, setPantryItems] = useState([])
+
   useEffect(() => {
     const getItems = async () => {
       try {
@@ -69,7 +65,7 @@ function Pantry() {
   }
 
   // Delete items from pantry
-  const handleDelete = async (event) => {
+  const handleDeleteItem = async (event) => {
     const ingredient = event.target.parentElement.id.split(' ')
     try {
       await fetch(`/api/pantry?ingredient=${ingredient[0]}&category=${ingredient[1]}`, {
@@ -97,6 +93,11 @@ function Pantry() {
     setDialogOpen(!dialogOpen)
   }
 
+  const handleUpdateButton = () => {
+    setUpdateState((prev) => !prev)
+  }
+
+  console.log("pantryItems:", pantryItems)
   return (
     <>
       <Head>
@@ -204,7 +205,7 @@ function Pantry() {
                     </dt>
                     <div className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
                       <div className='flex flex-wrap gap-[10px]'>
-                        {pantryItems > 0 && pantryItems
+                        {pantryItems && pantryItems
                           .filter((item) => item.category === category)
                           .map((item) => {
                             return (
@@ -270,7 +271,7 @@ function Pantry() {
                                   className={`absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]
                                     ${!updateState && 'hidden absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]'}
                                     `}
-                                  onClick={handleDelete}
+                                  onClick={handleDeleteItem}
                                 />
                               </div>
                             )
