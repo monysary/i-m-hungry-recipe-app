@@ -1,7 +1,8 @@
 import authService from "@/utils/authService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function RecipeCard({ recipe }) {
+function RecipeCard({ recipe, isLoading }) {
+    const [isSaved, setIsSaved] = useState(false)
     const saveRecipe = async () => {
         const { username } = authService.getProfile();
         const recipeData = { username, ...recipe }
@@ -20,7 +21,11 @@ function RecipeCard({ recipe }) {
         }
     }
 
-    const [isSaved, setIsSaved] = useState(false)
+    useEffect(() => {
+        if (isLoading) {
+            setIsSaved(false)
+        }
+    }, [isLoading])
 
     return (
         <div>
@@ -56,7 +61,7 @@ function RecipeCard({ recipe }) {
                 {
                     isSaved
                         ? <div
-                            className="absolute right-0 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                            className="absolute right-0 text-gray-900 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
                         >Saved!</div>
                         : <button
                             type="button"

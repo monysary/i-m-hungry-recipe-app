@@ -2,6 +2,10 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import authService from '@/utils/authService'
 import { AiFillCloseCircle } from 'react-icons/ai'
+import {
+  QuestionMarkCircleIcon,
+  ChevronRightIcon,
+} from '@heroicons/react/24/outline'
 
 function Pantry() {
   useEffect(() => {
@@ -23,7 +27,7 @@ function Pantry() {
   useEffect(() => {
     const getItems = async () => {
       try {
-        const response = await fetch('/api/pantry', {
+        const response = await fetch(`/api/pantry?username=${authService.getProfile().username}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `${authService.getToken()}`,
@@ -82,16 +86,49 @@ function Pantry() {
     }
   }
 
+  // Handle Next button
+  const handleNextButton = () => {
+    window.location.assign('/kitchen')
+  }
+
+  // Handle instructions dialog
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const handleDialogOpen = () => {
+    setDialogOpen(!dialogOpen)
+  }
+
   return (
     <>
       <Head>
         <title>Checking out the pantry...</title>
       </Head>
       <div className='min-h-full lg:px-[200px] px-6 py-12'>
-        <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
-          Add To Pantry
+        <div className='relative flex items-start gap-1'>
+          <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
+            Add To Pantry
+          </div>
+          <button onClick={handleDialogOpen}>
+            <QuestionMarkCircleIcon className='w-4 md:w-6 text-gray-900' />
+          </button>
+          <div
+            onClick={handleDialogOpen}
+            className={`fixed z-10 top-0 left-0 w-screen h-screen ${dialogOpen === false && 'hidden'}`}
+          ></div>
+          <dialog open={dialogOpen}
+            className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'
+          >
+            <p className='text-gray-900 font-semibold'>
+              Instructions:
+            </p>
+            <ol className='font-normal'>
+              <li className='mt-4 md:mt-2'>1. Enter an Ingredient and select a Category</li>
+              <li className='mt-4 md:mt-2'>2. Click Add to add the ingredient into the pantry </li>
+              <li className='mt-4 md:mt-2'>3. Click Update to remove an ingredients</li>
+              <li className='mt-4 md:mt-2'>4. Select Next to proceed to the Kitchen</li>
+            </ol>
+          </dialog>
         </div>
-        <div className='sm:flex justify-between items-end'>
+        <div className='md:flex items-end'>
           <form
             className='sm:flex items-end'
             id='pantry-form'
@@ -127,27 +164,29 @@ function Pantry() {
                 </select>
               </div>
             </div>
-            <button
-              type='submit'
-              className='hidden sm:block mt-2 sm:mt-0 sm:ml-[20px] text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
-            >
-              Add
-            </button>
           </form>
 
-          <div className='mt-4 sm:mt-0 flex justify-center'>
-            <button
-              className='sm:hidden text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
-              type='submit'
-              form='pantry-form'
+          <div className='grow mt-4 md:mt-0 md:ml-[20px] flex justify-between'>
+            <div>
+              <button
+                className='text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
+                type='submit'
+                form='pantry-form'
+              >
+                Add
+              </button>
+              <button
+                className='ml-[10px] text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2'
+                onClick={handleUpdateButton}
+              >
+                Update
+              </button>
+            </div>
+            <button className='font-semibold inline-flex items-center gap-1 text-gray-900'
+              onClick={handleNextButton}
             >
-              Add
-            </button>
-            <button
-              className='ml-[10px] sm:ml-0 text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2'
-              onClick={handleUpdateButton}
-            >
-              Update
+              Next
+              <ChevronRightIcon className='w-5' />
             </button>
           </div>
         </div>
