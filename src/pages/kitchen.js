@@ -4,7 +4,9 @@ import authService from '@/utils/authService'
 import RecipeCard from '../components/recipeCard'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import CircleSpinner from '@/components/spinners/circle'
-import { ChevronRightIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
+import { ChevronRightIcon, QuestionMarkCircleIcon } from 
+'@heroicons/react/24/outline'
+
 
 function Kitchen() {
   useEffect(() => {
@@ -124,6 +126,7 @@ function Kitchen() {
     }
 
   }, [])
+
 
   // Handle Next button
   const handleNextButton = () => {
