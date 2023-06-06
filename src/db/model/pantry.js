@@ -4,12 +4,13 @@ const sequelize = require("../config/connections.js");
 class Pantry extends Model {}
 
 Pantry.init(
-  {
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			primaryKey: true,
+			autoIncrement: true,
+		  },
 		ingredient: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -39,6 +40,6 @@ Pantry.init(
 		modelName: "pantry",
 	}
 );
-Pantry.removeAttribute('id');
+// Pantry.removeAttribute('id');
 
 module.exports = Pantry;

@@ -5,6 +5,7 @@ import { FaceFrownIcon } from '@heroicons/react/24/outline'
 import authService from '@/utils/authService'
 
 import SavedRecipeCard from '@/components/savedRecipeCard'
+import SavedRecipesEmptyState from '@/components/emptyStates/savedRecipesEmptyState'
 
 function SavedRecipes() {
   useEffect(() => {
@@ -63,10 +64,15 @@ function SavedRecipes() {
           </div>
         </div>
         : myRecipes?.length < 1
-          ? <h1 className='min-h-full lg:px-[100px] px-6 py-60 md:text-[30px] text-center align-center'>
-            <FaceFrownIcon className='w-14 md:w-36 mx-auto' />
-            You have no saved recipes
-          </h1>
+          ? <section className='flex flex-col justify-center items-center w-full'>
+            <article className='min-h-full lg:px-[100px] px-6 pt-36 md:text-[30px] text-center align-center'>
+            <FaceFrownIcon className='w-14 md:w-36 mx-auto text-black' />
+            <p className='text-black'>You have no saved recipes</p>
+          </article>
+          <article className='w-full px-2 md:px-96 mt-8'>
+            <SavedRecipesEmptyState />
+            </article>
+          </section>
           : <div></div>
       }
     </>

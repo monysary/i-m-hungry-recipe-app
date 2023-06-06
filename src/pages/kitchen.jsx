@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import authService from '@/utils/authService'
-import RecipeCard from '../components/recipeCard'
+import RecipeCard from '../components/recipeCard.jsx'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import CircleSpinner from '@/components/spinners/circle'
 import { ChevronRightIcon, QuestionMarkCircleIcon } from 

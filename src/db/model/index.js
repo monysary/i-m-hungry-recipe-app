@@ -7,6 +7,15 @@ SavedRecipe.belongsTo(User);
 
 User.hasMany(SavedRecipe);
 
+User.hasMany(Pantry, {
+	foreignKey: "userId",
+})
+
+Pantry.belongsTo(User, {
+	foreignKey: "userId",
+})
+
+
 module.exports = {
 	User,
 	Pantry,
