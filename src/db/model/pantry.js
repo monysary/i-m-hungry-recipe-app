@@ -4,7 +4,12 @@ const sequelize = require("../config/connections.js");
 class Pantry extends Model {}
 
 Pantry.init(
-	{
+  {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
 		ingredient: {
 			type: DataTypes.STRING,
 			allowNull: false,

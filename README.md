@@ -29,7 +29,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to access 
 
 You can also check out the gif below to see how we start up our server!
 
-
 ![GIF showing user how to install dependencies and starting up the server](./public/images/readme.gif)
 
 
