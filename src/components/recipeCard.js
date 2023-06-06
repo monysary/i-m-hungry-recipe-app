@@ -61,7 +61,7 @@ function RecipeCard({ recipe, isLoading }) {
                 {
                     isSaved
                         ? <div
-                            className="absolute right-0 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+                            className="absolute right-0 text-gray-900 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
                         >Saved!</div>
                         : <button
                             type="button"
