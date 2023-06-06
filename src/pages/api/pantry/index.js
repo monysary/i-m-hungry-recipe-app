@@ -1,8 +1,8 @@
 // Pantry CRUD methods
 // Create routes
-
-const { Pantry } = require('../../../db/model/index.js')
+const { User, Pantry } = require('../../../db/model/index.js')
 import { isAuthenticated } from '../../../utils/authMiddleware'
+const jwt = require('jsonwebtoken')
 
 export const config = {
 	api: {
@@ -12,12 +12,28 @@ export const config = {
 
 // Create add item
 export default async function handler(req, res) {
-  //   find all items in pantry
+  // find all items in pantry
   if (req.method === 'GET') {
     isAuthenticated(req, res, async () => {
       try {
-        const pantry = await Pantry.findAll()
-        res.status(200).json(pantry)
+        const token = req.headers.authorization // Assuming the token is provided in the Authorization header
+        if (!token) {
+          return res.status(401).json({ message: 'Missing token' })
+        }
+
+        const decodedToken = jwt.verify(token, process.env.SECRET)
+        const userId = decodedToken.id
+        const user = await User.findByPk(userId) // Retrieve the user instance by their ID
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' })
+        }
+
+        try {
+          const pantryItems = await Pantry.findAll({ where: { userId: userId } })
+          res.status(200).json(pantryItems)
+        } catch (err) {
+          res.status(500).json(err)
+        }
       } catch (error) {
         console.error(error)
         res.status(400).json({ message: 'Failed to fetch pantry' })

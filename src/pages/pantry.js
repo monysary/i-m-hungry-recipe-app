@@ -27,7 +27,7 @@ function Pantry() {
   useEffect(() => {
     const getItems = async () => {
       try {
-        const response = await fetch(`/api/pantry?username=${authService.getProfile().username}`, {
+        const response = await fetch('/api/pantry', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `${authService.getToken()}`,
@@ -204,7 +204,7 @@ function Pantry() {
                     </dt>
                     <div className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
                       <div className='flex flex-wrap gap-[10px]'>
-                        {pantryItems
+                        {pantryItems > 0 && pantryItems
                           .filter((item) => item.category === category)
                           .map((item) => {
                             return (
