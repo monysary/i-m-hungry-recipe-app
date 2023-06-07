@@ -1,28 +1,13 @@
-import Head from 'next/head'
 import { useEffect, useState } from 'react'
+import Head from 'next/head'
 import authService from '@/utils/authService'
+import { motion as m, AnimatePresence } from 'framer-motion'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import {
   QuestionMarkCircleIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline'
-import { motion as m, AnimatePresence } from 'framer-motion'
 
-const cardVariantsVertical = {
-  hidden: {
-    y: 100,
-    opacity: 0,
-  },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      bounce: 0.4,
-      duration: 0.8,
-    },
-  },
-}
 
 function Pantry() {
   useEffect(() => {
@@ -126,6 +111,7 @@ function Pantry() {
         initial='hidden'
         animate='visible'
         viewport={{ once: true, amount: 0.8 }}
+
       >
         <m.div variants={cardVariantsVertical} className='relative flex items-start gap-1'>
           <div className='md:text-3xl text-2xl  md:mb-4 text-black font-medium'>
@@ -328,3 +314,21 @@ const categories = [
   'Seasoning',
   'Other',
 ]
+
+const cardVariantsVertical = {
+  hidden: {
+    y: 150,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+    type: 'spring',
+    bounce: 0.4,
+    duration: 0.8,
+    },
+  },
+  }
+
+  

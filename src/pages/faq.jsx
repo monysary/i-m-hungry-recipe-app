@@ -2,23 +2,7 @@ import { Disclosure } from "@headlessui/react";
 import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
 import { motion as m, AnimatePresence } from 'framer-motion'
 
-
 export default function Faq() {
-	const cardVariantsVertical = {
-		hidden: {
-		  y: 150,
-		  opacity: 0,
-		},
-		visible: {
-		  y: 0,
-		  opacity: 1,
-		  transition: {
-			type: 'spring',
-			bounce: 0.4,
-			duration: 0.8,
-		  },
-		},
-	  }
 	return (
 		<div className='bg-gray-900 h-full pb-24 md:pb-0'>
 			<AnimatePresence>
@@ -75,7 +59,7 @@ export default function Faq() {
 													<li>Ability to share via Social Media.</li>
 												</ul>
 											) : (
-												<p className='text-base leading-7 text-gray-300'>
+												<p className='text-base leading-7 text-gray-300 pl-4'>
 													{faq.answer}
 												</p>
 											)}
@@ -87,6 +71,7 @@ export default function Faq() {
 					</dl>
 				</div>
 			</div>
+			
 			</AnimatePresence>
 		</div>
 	);
@@ -141,3 +126,19 @@ const faqs = [
 			"You can send an email to info@imhungry.com! We will gladly accept your feedback.",
 	},
 ];
+
+const cardVariantsVertical = {
+	hidden: {
+	  y: 150,
+	  opacity: 0,
+	},
+	visible: {
+	  y: 0,
+	  opacity: 1,
+	  transition: {
+		type: 'spring',
+		bounce: 0.4,
+		duration: 0.8,
+	  },
+	},
+  }

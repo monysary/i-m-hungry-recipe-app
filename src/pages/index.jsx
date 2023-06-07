@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import Image from 'next/image'
 import pantry from '../../public/images/pantry.png'
 import kitchen from '../../public/images/kitchen.png'
@@ -18,54 +17,6 @@ import {
 import { motion as m, AnimatePresence } from 'framer-motion'
 
 export default function LandingPage() {
-  const cardVariantsVertical = {
-    hidden: {
-      y: 150,
-      opacity: 0,
-    },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: 'spring',
-        bounce: 0.4,
-        duration: 0.8,
-      },
-    },
-  }
-  
-  const cardVariantsHorizontal = {
-    hidden: {
-      x: 150,
-      opacity: 0,
-    },
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        type: 'spring',
-        bounce: 0.4,
-        duration: 0.8,
-      },
-    },
-  }
-
-  const cardVariantsChildren = {
-    offscreen: {
-      y: 150,
-    },
-    onscreen: {
-      y: 0,
-
-      transition: {
-        type: 'spring',
-        bounce: 0.4,
-        duration: 0.8,
-        
-      },
-    },
-  }
-
   return (
     <div className='bg-gray-800 h-full'>
           <AnimatePresence>
@@ -453,4 +404,53 @@ const footerNavigation = {
       ),
     },
   ],
+}
+
+
+const cardVariantsVertical = {
+  hidden: {
+    y: 150,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      bounce: 0.4,
+      duration: 0.8,
+    },
+  },
+}
+
+const cardVariantsHorizontal = {
+  hidden: {
+    x: 150,
+    opacity: 0,
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      bounce: 0.4,
+      duration: 0.8,
+    },
+  },
+}
+
+const cardVariantsChildren = {
+  offscreen: {
+    y: 150,
+  },
+  onscreen: {
+    y: 0,
+
+    transition: {
+      type: 'spring',
+      bounce: 0.4,
+      duration: 0.8,
+      
+    },
+  },
 }

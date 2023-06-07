@@ -1,4 +1,6 @@
 import '@/styles/globals.css'
+import '@/styles/robot.css'
+
 
 import Layout from '../components/layout'
 import Head from 'next/head'
