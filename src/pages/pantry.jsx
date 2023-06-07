@@ -126,7 +126,6 @@ function Pantry() {
         initial='hidden'
         animate='visible'
         viewport={{ once: true, amount: 0.8 }}
-        
       >
         <m.div variants={cardVariantsVertical} className='relative flex items-start gap-1'>
           <div className='md:text-3xl text-2xl  md:mb-4 text-black font-medium'>
