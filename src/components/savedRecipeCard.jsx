@@ -213,7 +213,7 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                         <button
                           type='button'
                           onClick={() => handleOpenModal(recipe)}
-                          className="rounded-md sm:ml-0 text-gray-900 bg-white shadow-sm hover:bg-gray-50 ring-1 ring-inset ring-gray-300 font-semibold rounded-lg text-sm px-2.5 py-1.5"
+                          className="rounded-md sm:ml-0 text-gray-900 bg-white shadow-sm hover:bg-gray-50 ring-1 ring-inset ring-gray-300 font-semibold text-sm px-2.5 py-1.5"
                         >
                           View<span className="sr-only">{recipe.title}</span>
                         </button>
