@@ -57,7 +57,6 @@ function Pantry() {
           category: category,
         }),
       });
-      // You can optionally handle the response data here if needed  
       setToggle((prev) => !prev);
     } catch (err) {
       console.log(err);
@@ -97,7 +96,6 @@ function Pantry() {
     setUpdateState((prev) => !prev)
   }
 
-  console.log("pantryItems:", pantryItems)
   return (
     <>
       <Head>

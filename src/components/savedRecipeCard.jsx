@@ -68,6 +68,7 @@ export default function Example({ myRecipes, setToggle }) {
       setEditMode(false)
     }
   }, [open])
+
   const handleRecipeChange = ({ target: { name, value } }, item) => {
     switch (name.split(' ')[0]) {
       case 'ingredients':
@@ -107,6 +108,7 @@ export default function Example({ myRecipes, setToggle }) {
         })
       })
       const data = await response.json()
+      return data
 
     } catch (err) {
       console.log(err);
@@ -167,7 +169,7 @@ export default function Example({ myRecipes, setToggle }) {
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {myRecipes?.map((recipe) => (
                     <tr
-                      key={recipe.title}
+                      key={recipe.id}
                       className={classNames('',
                         selectedRecipe.includes(recipe) ? 'bg-gray-50' : undefined
                       )}

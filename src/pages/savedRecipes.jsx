@@ -1,24 +1,28 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { FaceFrownIcon } from '@heroicons/react/24/outline'
-
 import authService from '@/utils/authService'
-
 import SavedRecipeCard from '@/components/savedRecipeCard'
 import SavedRecipesEmptyState from '@/components/emptyStates/savedRecipesEmptyState'
+import jwt_decode from "jwt-decode";
 
-function SavedRecipes() {
+function SavedRecipes({userId}) {
+  const [toggle, setToggle] = useState(true)
+  const [myRecipes, setMyRecipes] = useState()
+
   useEffect(() => {
     if (authService.loggedIn() && !authService.tokenExpired()) {
       return
     } else {
       window.location.assign('/login')
     }
-  })
+  },[])
+  
+  useEffect(() => {
+    fetchRecipes()
+  }, [toggle])
 
-  // Fetch user recipes from db
-  const [toggle, setToggle] = useState(true)
-  const [myRecipes, setMyRecipes] = useState()
+  // Fetch user's saved recipes from DB
   const fetchRecipes = async () => {
     try {
       const response = await fetch('/api/savedRecipe', {
@@ -38,16 +42,10 @@ function SavedRecipes() {
       })
 
       setMyRecipes(convertedData)
-
     } catch (err) {
       console.log(err);
     }
   }
-
-  useEffect(() => {
-    fetchRecipes()
-
-  }, [toggle])
 
   return (
     <>

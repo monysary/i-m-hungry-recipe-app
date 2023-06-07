@@ -1,7 +1,4 @@
-// Pantry CRUD methods
-// Create routes
 const { User, Pantry } = require('../../../db/model/index.js')
-import { isAuthenticated } from '../../../utils/authMiddleware'
 const jwt = require('jsonwebtoken')
 
 export const config = {
@@ -10,13 +7,13 @@ export const config = {
 	},
 };
 
-// Create add item
+// Pantry CRUD operation methods
 export default async function handler(req, res) {
   /**
    * GET all pantry items where user id matches 
    */
   if (req.method === 'GET') {
-        const token = req.headers.authorization // Assuming the token is provided in the Authorization header
+        const token = req.headers.authorization 
         if (!token) {
           return res.status(401).json({ message: 'Missing token' })
         }

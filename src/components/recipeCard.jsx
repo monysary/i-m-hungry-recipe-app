@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 
 function RecipeCard({ recipe, isLoading }) {
     const [isSaved, setIsSaved] = useState(false)
-    const saveRecipe = async () => {
-        const { username } = authService.getProfile();
-        const recipeData = { username, ...recipe }
+    
+    async function saveRecipe()  {
+        const recipeData = recipe 
         try {
-            const newRecipe = await fetch('/api/savedRecipe', {
+             await fetch('/api/savedRecipe', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

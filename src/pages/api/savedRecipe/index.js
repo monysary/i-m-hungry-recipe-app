@@ -1,5 +1,6 @@
 const { User, SavedRecipe } = require("../../../db/model/index.js");
 import { isAuthenticated } from "../../../utils/authMiddleware";
+const jwt = require('jsonwebtoken')
 
 export const config = {
 	api: {
@@ -7,99 +8,125 @@ export const config = {
 	},
 };
 
+// Saved Recipes CRUD operation methods
 export default async function handler(req, res) {
+	/**
+   	* GET all saved recipes where user id matches 
+   	*/
 	if (req.method === "GET") {
-		isAuthenticated(req, res, async () => {
-			try {
-				const username = req.user.username;
-				if (!username) {
-					return res.status(401).json({ message: "Unauthorized" });
-				}
-				const savedRecipes = await SavedRecipe.findAll({ where: { username } });
-				res.status(200).json(savedRecipes);
-			} catch (error) {
-				console.error(error);
-				res.status(400).json({ message: "Failed to fetch saved recipes" });
-			}
-		});
+	    const token = req.headers.authorization 
+        if (!token) {
+          return res.status(401).json({ message: 'Missing token' })
+        }
+        const decodedToken = jwt.verify(token, process.env.SECRET)
+        const userId = decodedToken.id
+        const user = await User.findByPk(userId) // Retrieve the user instance by their ID
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' })
+        }
+
+        try {
+          const savedRecipes = await SavedRecipe.findAll({ where: { userId: userId } })
+          res.status(200).json(savedRecipes)
+        } catch (err) {
+          res.status(500).json(err)
+        }
+
+	/**
+   	* POST new saved recipe where user id matches 
+   	*/
 	} else if (req.method === "POST") {
-		isAuthenticated(req, res, async () => {
-			const { username, title, servings, ingredients, instructions, notes } =
-				req.body;
-			try {
-				const newSavedRecipe = await SavedRecipe.create({
-					username,
-					title,
-					servings,
-					ingredients,
-					instructions,
-					notes,
-				});
-				res.status(200).json(newSavedRecipe);
-			} catch (error) {
-				console.error(error);
-				res.status(400).json({ message: "Failed to save recipe" });
+		const { title, servings, ingredients, instructions, notes } = req.body;
+		try {
+			const token = req.headers.authorization;
+			if (!token) {
+			return res.status(401).json({ message: 'Missing token' });
 			}
-		});
+
+			const decodedToken = jwt.verify(token, process.env.SECRET);
+			const userId = decodedToken.id;
+			const user = await User.findByPk(userId);
+			if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+			}
+
+			const newSavedRecipe = await user.createSavedRecipe({ title, servings, ingredients, instructions, notes, }); 
+			res.status(200).json(newSavedRecipe);
+		} catch (error) {
+			console.error(error);
+			res.status(400).json({ message: "Failed to save recipe" });
+		}
+
+	/**
+   	* PUT update saved recipe where user id an saved recipe ID matches 
+   	*/
 	} else if (req.method === "PUT") {
-		isAuthenticated(req, res, async () => {
+		const savedRecipeId = req.query.id;
 			try {
+				const token = req.headers.authorization;
+				if (!token) {
+				return res.status(401).json({ message: 'Missing token' });
+				}
+	
+				const decodedToken = jwt.verify(token, process.env.SECRET);
+				const userId = decodedToken.id;
+				const user = await User.findByPk(userId);
+
+				if (!user) {
+				return res.status(404).json({ message: 'User not found' });
+				}
+
 				const updatedRecipe = await SavedRecipe.update(req.body, {
-					where: { id: req.body.id },
+					where: { id: savedRecipeId, userId: userId },
 				});
 
 				if (!updatedRecipe) {
 					res.status(404).json({ message: "Recipe not found" });
-					return;
-				}
-
-				res.status(200).json(updatedRecipe);
-
-				// const { id, servings, ingredients, instructions, notes } = req.body;
-				// // const recipeId = req.query.id;
-				// try {
-				// 	if (!id) {
-				// 		return res.status(400).json({ message: "Recipe ID is required" });
-				// 	}
-				// 	const updatedRecipe = await SavedRecipe.update(
-				// 		{
-				// 			servings,
-				// 			ingredients,
-				// 			instructions,
-				// 			notes,
-				// 		},
-				// 		{ where: { id } }
-				// 	);
-				// 	if (updatedRecipe[0]) {
-				// 		const updatedRecipeData = await SavedRecipe.findByPk(id);
-				// 		res.status(200).json(updatedRecipeData);
-				// 	} else {
-				// 		res.status(404).json({ message: "Recipe not found" });
-				// 	}
+					return
+				}		
+				res.status(200).json({ message: `${req.body.title} recipe successfully updated`});		
 			} catch (error) {
 				console.error(error);
-				res.status(400).json({ message: "Failed to edit recipe" });
+				res.status(400).json({ message: "Failed to save recipe" });
 			}
-		});
+	/**
+   	* DELETE saved recipe where user id an saved recipe ID matches 
+   	*/
 	} else if (req.method === "DELETE") {
-		isAuthenticated(req, res, async () => {
+		
 			const { ids } = req.query;
-			if (!ids) {
-				return res.status(400).json({ message: "IDs parameter is missing" });
-			}
-			const idArray = ids.split(",").map((id) => Number(id));
 			try {
+				const token = req.headers.authorization;
+				if (!token) {
+				return res.status(401).json({ message: 'Missing token' });
+				}
+	
+				const decodedToken = jwt.verify(token, process.env.SECRET);
+				const userId = decodedToken.id;
+				const user = await User.findByPk(userId);
+
+				if (!user) {
+				return res.status(404).json({ message: 'User not found' });
+				}
+
+				if (!ids) {
+					return res.status(400).json({ message: "IDs parameter is missing" });
+				}
+
+				const idArray = ids.split(",").map((id) => Number(id));
+			
 				const deletedRecipes = await SavedRecipe.destroy({
-					where: { id: idArray },
+					where: { id: idArray, userId: userId },
 				});
+
 				if (!deletedRecipes) {
 					return res.status(404).json({ message: "Recipes not found" });
 				}
-				res.status(200).json({ message: "Recipes deleted successfully" });
+				res.status(200).json({ message:  `ID: ${ids} recipe successfully deleted` });
 			} catch (error) {
 				console.error(error);
 				res.status(400).json({ message: "Failed to delete recipes" });
 			}
-		});
+		
 	}
 }
