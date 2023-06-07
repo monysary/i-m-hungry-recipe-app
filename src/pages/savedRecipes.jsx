@@ -47,7 +47,7 @@ function SavedRecipes() {
 
   if (myRecipes < 1) 
     return (
-      <div className="flex justify-center">
+      <div className="flex justify-center h-screen">
       <div className="max-w-[1280px] w-full px-2 py-6 mt-24">    
           <SavedRecipesEmptyState />
       </div>
@@ -60,7 +60,7 @@ function SavedRecipes() {
         <title>What am I craving?</title>
       </Head>
       {myRecipes?.length > 0 &&
-       <div className="flex justify-center">
+       <div className="flex justify-center h-screen">
        <div className="max-w-[1280px] w-full px-2 py-6">
          <div className='min-h-full  px-4 py-6 '>
           <div>

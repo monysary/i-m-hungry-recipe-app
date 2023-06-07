@@ -139,7 +139,7 @@ function Kitchen() {
       <Head>
         <title>Chefing it up!</title>
       </Head>
-      <div className="flex justify-center">
+      <div className="flex justify-center h-screen">
       <div className="max-w-[1280px] w-full px-4 py-6">
       <div className='min-h-full px-2 py-6'>
         <div className='relative flex items-start gap-1'>
