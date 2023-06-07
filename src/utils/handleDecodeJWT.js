@@ -5,5 +5,6 @@ export default async function handleDecodeJWT(token) {
 	const decodedToken = jwt.verify(token, process.env.SECRET)
 	const userId = decodedToken.id
 	const user = await User.findByPk(userId)
-	return { userId, user }
+	const username = user.username
+	return { userId, user, username }
 }
