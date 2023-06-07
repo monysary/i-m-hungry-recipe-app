@@ -47,7 +47,7 @@ function SavedRecipes() {
 
   if (myRecipes < 1) 
     return (
-      <div className="flex justify-center h-screen">
+      <div className="flex justify-center h-full md:h-screen pb-24 md:pb-0">
       <div className="max-w-[1280px] w-full px-2 py-6 mt-24">    
           <SavedRecipesEmptyState />
       </div>

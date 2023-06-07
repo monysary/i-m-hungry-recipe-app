@@ -118,18 +118,17 @@ function Pantry() {
       <Head>
         <title>Checking out the pantry...</title>
       </Head>
-      <div className="flex justify-center">
+      <div className="flex justify-center h-full pb-24">
       <div className="max-w-[1280px] w-full px-2 py-6">
       <div className='min-h-full px-4 py-8'>
       <AnimatePresence>
       <m.div
-                initial='hidden'
-                animate='visible'
-                viewport={{ once: true, amount: 0.8 }}
-               
-              >
-        <m.div
-                  variants={cardVariantsVertical} className='relative flex items-start gap-1'>
+        initial='hidden'
+        animate='visible'
+        viewport={{ once: true, amount: 0.8 }}
+        
+      >
+        <m.div variants={cardVariantsVertical} className='relative flex items-start gap-1'>
           <div className='md:text-3xl text-2xl  md:mb-4 text-black font-medium'>
             Add To Pantry
           </div>
