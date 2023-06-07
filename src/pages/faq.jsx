@@ -1,22 +1,49 @@
 import { Disclosure } from "@headlessui/react";
 import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
+import { motion as m, AnimatePresence } from 'framer-motion'
+
 
 export default function Faq() {
+	const cardVariantsVertical = {
+		hidden: {
+		  y: 150,
+		  opacity: 0,
+		},
+		visible: {
+		  y: 0,
+		  opacity: 1,
+		  transition: {
+			type: 'spring',
+			bounce: 0.4,
+			duration: 0.8,
+		  },
+		},
+	  }
 	return (
 		<div className='bg-gray-900 h-full pb-24 md:pb-0'>
+			<AnimatePresence>
 			<div className='mx-auto max-w-7xl px-6 pt-12 sm:py-24 lg:px-8 md:pb-48'>
 				<div className='divide-y divide-white/10'>
 					<h2 className='text-2xl font-bold leading-10 tracking-tight text-white'>
 						Frequently asked questions
 					</h2>
-					<dl className='mt-10 space-y-6 divide-y divide-white/10'>
-						{faqs.map((faq) => (
+					<dl className='mt-10 space-y-6 divide-y divide-white/10 '>
+						{faqs.map((faq, index) => (
 							<Disclosure as='div' key={faq.question} className='pt-6'>
 								{({ open }) => (
 									<>
-										<dt>
-											<Disclosure.Button className='flex w-full items-start justify-between text-left text-white'>
-												<span className='text-base font-semibold leading-7'>
+									 <m.div
+										key={faq.question}
+										initial="hidden"
+										animate="visible"
+										exit="hidden"
+										variants={cardVariantsVertical}
+										custom={index}										
+										className=''
+									>
+										<dt className='hover:bg-gray-800 p-2 rounded-md'>
+											<Disclosure.Button  className='flex w-full items-start justify-between text-left text-white'>
+												<span  className='text-base font-semibold leading-7'>
 													{faq.question}
 												</span>
 												<span className='ml-6 flex h-7 items-center'>
@@ -34,6 +61,7 @@ export default function Faq() {
 												</span>
 											</Disclosure.Button>
 										</dt>
+										</m.div>
 										<Disclosure.Panel as='dd' className='mt-2 pr-12'>
 											{faq.question ===
 											"What other features will be added in the future?" ? (
@@ -59,6 +87,7 @@ export default function Faq() {
 					</dl>
 				</div>
 			</div>
+			</AnimatePresence>
 		</div>
 	);
 }
