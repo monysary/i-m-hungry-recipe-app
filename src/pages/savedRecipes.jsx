@@ -4,9 +4,8 @@ import { FaceFrownIcon } from '@heroicons/react/24/outline'
 import authService from '@/utils/authService'
 import SavedRecipeCard from '@/components/savedRecipeCard'
 import SavedRecipesEmptyState from '@/components/emptyStates/savedRecipesEmptyState'
-import jwt_decode from "jwt-decode";
 
-function SavedRecipes({userId}) {
+function SavedRecipes() {
   const [toggle, setToggle] = useState(true)
   const [myRecipes, setMyRecipes] = useState()
 
@@ -47,13 +46,26 @@ function SavedRecipes({userId}) {
     }
   }
 
+  if (myRecipes < 1) 
+    return (
+      <section className='flex flex-col justify-center items-center w-full'>
+        <article className='min-h-full lg:px-[100px] px-6 pt-36 md:text-[30px] text-center align-center'>
+          <FaceFrownIcon className='w-14 md:w-36 mx-auto text-black' />
+          <p className='text-black'>You have no saved recipes</p>
+        </article>
+        <article className='w-full px-2 md:px-96 mt-8'>
+          <SavedRecipesEmptyState />
+        </article>
+      </section>
+    )
+
   return (
     <>
       <Head>
         <title>What am I craving?</title>
       </Head>
-      {myRecipes?.length > 0
-        ? <div className='min-h-full lg:px-[100px] px-6 py-12'>
+      {myRecipes?.length > 0 &&
+         <div className='min-h-full lg:px-[100px] px-6 py-12'>
           <h1 className='md:text-[30px] text-[16px] mb-[10px] text-black'>
             My Recipes
           </h1>
@@ -61,17 +73,6 @@ function SavedRecipes({userId}) {
             <SavedRecipeCard myRecipes={myRecipes} setToggle={setToggle} />
           </div>
         </div>
-        : myRecipes?.length < 1
-          ? <section className='flex flex-col justify-center items-center w-full'>
-            <article className='min-h-full lg:px-[100px] px-6 pt-36 md:text-[30px] text-center align-center'>
-            <FaceFrownIcon className='w-14 md:w-36 mx-auto text-black' />
-            <p className='text-black'>You have no saved recipes</p>
-          </article>
-          <article className='w-full px-2 md:px-96 mt-8'>
-            <SavedRecipesEmptyState />
-            </article>
-          </section>
-          : <div></div>
       }
     </>
   )

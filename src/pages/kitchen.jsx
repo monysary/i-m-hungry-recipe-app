@@ -17,6 +17,10 @@ function Kitchen() {
 
   // Setting ingredient choices
   const [pantryItems, setPantryItems] = useState([]) // Data stored from GET request
+  const [ingredientsArr, setIngredientsArr] = useState([])
+  const [recipe, setRecipe] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [recipeForm, setRecipeForm] = useState({
     category: '',
     ingredient: '',
@@ -42,6 +46,17 @@ function Kitchen() {
     getItems()
   }, [])
 
+  // Check local storage if a recipe was recently generated
+  useEffect(() => {
+    let prevRecipe;
+    if (localStorage.getItem('kitchen')) {
+      prevRecipe = JSON.parse(localStorage.getItem('kitchen'))
+      if (Date.now() < prevRecipe.expire) {
+        setRecipe(JSON.parse(prevRecipe.recipe))
+      }
+    }
+  }, [])
+
   const handleRecipeForm = ({ target: { name, value } }) => {
     setRecipeForm({
       ...recipeForm,
@@ -50,7 +65,6 @@ function Kitchen() {
   }
 
   // Selecting ingredients for recipe
-  const [ingredientsArr, setIngredientsArr] = useState([])
   const addIngredient = (event) => {
     event.preventDefault()
     const alreadyAdded = ingredientsArr.find((item) => item.ingredient === recipeForm.ingredient)
@@ -64,7 +78,7 @@ function Kitchen() {
     return
   }
 
-  // Removing a selected ingredient
+  // handle remove a selected ingredient
   const removeIngredient = (event) => {
     setIngredientsArr((prev) =>
       prev.filter((item) => item.ingredient !== event.target.parentElement.id)
@@ -72,8 +86,6 @@ function Kitchen() {
   }
 
   // Generating recipe
-  const [recipe, setRecipe] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
   const generateRecipe = async () => {
     const justIngredients = []
     try {
@@ -112,25 +124,12 @@ function Kitchen() {
     }
   }
 
-  // Check local storage if a recipe was recently generated
-  useEffect(() => {
-    let prevRecipe;
-    if (localStorage.getItem('kitchen')) {
-      prevRecipe = JSON.parse(localStorage.getItem('kitchen'))
-      if (Date.now() < prevRecipe.expire) {
-        setRecipe(JSON.parse(prevRecipe.recipe))
-      }
-    }
-
-  }, [])
-
   // Handle Next button
   const handleNextButton = () => {
     window.location.assign('/savedRecipes')
   }
 
   // Handle instructions dialog
-  const [dialogOpen, setDialogOpen] = useState(false)
   const handleDialogOpen = () => {
     setDialogOpen(!dialogOpen)
   }

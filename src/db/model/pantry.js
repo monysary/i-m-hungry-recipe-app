@@ -40,6 +40,5 @@ Pantry.init(
 		modelName: "pantry",
 	}
 );
-// Pantry.removeAttribute('id');
 
 module.exports = Pantry;
