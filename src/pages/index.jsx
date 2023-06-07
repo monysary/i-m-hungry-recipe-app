@@ -63,9 +63,9 @@ export default function LandingPage() {
               }}
             />
           </div>
-          <div className='mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40'>
+          <div className='mx-auto max-w-7xl px-6 pb-24 sm:pb-40 lg:flex lg:px-8 lg:pt-40'>
             <div className='mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8'>
-              <div className='mt-24 sm:mt-32 lg:mt-16'>
+              <div className='mt-12 sm:mt-32 lg:mt-16'>
                 <div className='inline-flex space-x-6'>
                   <span className='rounded-full bg-orange-500/10 px-3 py-1 text-sm font-semibold leading-6 text-orange-400 ring-1 ring-inset ring-orange-500/20'>
                     Free of Charge
@@ -110,7 +110,7 @@ export default function LandingPage() {
         </div>
 
         {/* Feature section */}
-        <div className='mx-auto mt-24 max-w-7xl px-6 sm:mt-24 lg:px-8'>
+        <div className='mx-auto max-w-7xl px-6 sm:mt-12 lg:px-8'>
           <div className='mx-auto max-w-2xl text-center'>
             <h2 className='text-base font-semibold leading-7 text-orange-400'>
               Effortless planning
@@ -154,7 +154,7 @@ export default function LandingPage() {
         </div>
 
         {/* Feature section */}
-        <div className='mt-32 sm:mt-56'>
+        <div className='mt-24 sm:mt-36'>
           <div className='mx-auto max-w-7xl px-6 lg:px-8'>
             <div className='mx-auto max-w-2xl sm:text-center'>
               <h2 className='text-base font-semibold leading-7 text-orange-400'>
@@ -202,7 +202,7 @@ export default function LandingPage() {
         </div>
 
         {/* Stats */}
-        <div className='mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8'>
+        <div className='mx-auto mt-24 max-w-7xl px-6 sm:mt-36 lg:px-8'>
           <div className='mx-auto max-w-2xl lg:mx-0 lg:max-w-xl'>
             <h2 className='text-base font-semibold leading-8 text-orange-400'>
               ChatGPT Algorithm
@@ -231,7 +231,7 @@ export default function LandingPage() {
         </div>
 
         {/* CTA section */}
-        <div className='relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8'>
+        <div className='relative isolate mt-0 px-6 py-24 sm:mt-24 sm:py-40 lg:px-8'>
           <svg
             className='absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]'
             aria-hidden='true'
@@ -302,12 +302,12 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer aria-labelledby='footer-heading' className='relative '>
+      <footer aria-labelledby='footer-heading' className='relative pb-24'>
         <h2 id='footer-heading' className='sr-only'>
           Footer
         </h2>
-        <div className='mx-auto max-w-7xl px-6 pb-8 pt-4 lg:px-8'>
-          <div className='border-t border-white/10 pt-8 md:flex md:items-center md:justify-between'>
+        <div className='mx-auto max-w-7xl px-6 pt-4 lg:px-8'>
+          <div className= 'pt-8 md:flex md:items-center md:justify-between border-t border-white/10'>
             <div className='flex space-x-6 md:order-2'>
               {footerNavigation.social.map((item) => (
                 <Link
