@@ -1,20 +1,14 @@
-const Sequelize = require("sequelize");
 const User = require("./user");
 const Pantry = require("./pantry");
 const SavedRecipe = require("./savedRecipe");
 
-// SavedRecipe.belongsTo(User, {
-// 	foreignKey: "id",
-// 	// or user_id
-// });
+User.hasMany(SavedRecipe, {
+	foreignKey: "userId",
+});
 
-// SavedRecipe.hasMany(Pantry, {
-// 	foreignKey: "id",
-// });
-
-SavedRecipe.belongsTo(User);
-
-User.hasMany(SavedRecipe);
+SavedRecipe.belongsTo(User, {
+	foreignKey: "userId",
+});
 
 User.hasMany(Pantry, {
 	foreignKey: "userId",

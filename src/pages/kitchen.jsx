@@ -61,7 +61,6 @@ function Kitchen() {
     ) {
       setIngredientsArr([...ingredientsArr, recipeForm])
     }
-
     return
   }
 
