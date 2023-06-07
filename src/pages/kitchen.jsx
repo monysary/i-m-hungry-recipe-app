@@ -139,9 +139,11 @@ function Kitchen() {
       <Head>
         <title>Chefing it up!</title>
       </Head>
-      <div className='min-h-full lg:px-[200px] px-6 py-12'>
+      <div className="flex justify-center">
+      <div className="max-w-[1280px] w-full px-4 py-6">
+      <div className='min-h-full px-2 py-6'>
         <div className='relative flex items-start gap-1'>
-          <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
+          <div className='md:text-3xl text-2xl mb-2 md:mb-6 text-black font-medium'>
             Select Ingredients
           </div>
           <button onClick={handleDialogOpen}>
@@ -168,7 +170,7 @@ function Kitchen() {
           </dialog>
         </div>
         <form className='md:flex items-end mb-[20px]' onSubmit={addIngredient}>
-          <div className='flex items-end'>
+          <div className='flex gap-2 items-end'>
             <div>
               <label className='block text-sm font-medium leading-6 text-gray-900'>
                 Category
@@ -282,6 +284,8 @@ function Kitchen() {
               : recipe !== null && <RecipeCard recipe={recipe} isLoading={isLoading}/>
           }
         </div>
+      </div >
+      </div >
       </div >
     </>
 

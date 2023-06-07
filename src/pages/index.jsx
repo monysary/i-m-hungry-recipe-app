@@ -15,10 +15,60 @@ import {
   CalendarDaysIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline'
+import { motion as m, AnimatePresence } from 'framer-motion'
 
 export default function LandingPage() {
+  const cardVariantsVertical = {
+    hidden: {
+      y: 150,
+      opacity: 0,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        bounce: 0.4,
+        duration: 0.8,
+      },
+    },
+  }
+  
+  const cardVariantsHorizontal = {
+    hidden: {
+      x: 150,
+      opacity: 0,
+    },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        bounce: 0.4,
+        duration: 0.8,
+      },
+    },
+  }
+
+  const cardVariantsChildren = {
+    offscreen: {
+      y: 150,
+    },
+    onscreen: {
+      y: 0,
+
+      transition: {
+        type: 'spring',
+        bounce: 0.4,
+        duration: 0.8,
+        
+      },
+    },
+  }
+
   return (
     <div className='bg-gray-800 h-full'>
+          <AnimatePresence>
       <main>
         {/* Hero section */}
         <div className='relative isolate overflow-hidden'>
@@ -63,98 +113,115 @@ export default function LandingPage() {
               }}
             />
           </div>
-          <div className='mx-auto max-w-7xl px-6 pb-24 sm:pb-40 lg:flex lg:px-8 lg:pt-40'>
-            <div className='mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8'>
-              <div className='mt-12 sm:mt-32 lg:mt-16'>
-                <div className='inline-flex space-x-6'>
-                  <span className='rounded-full bg-orange-500/10 px-3 py-1 text-sm font-semibold leading-6 text-orange-400 ring-1 ring-inset ring-orange-500/20'>
-                    Free of Charge
-                  </span>
+          <div className='mx-auto max-w-7xl px-6  sm:pb-40 lg:flex lg:px-8 lg:pt-24'>
+            <m.div
+                initial='hidden'
+                animate='visible'
+                viewport={{ once: true, amount: 0.8 }}
+                className='flex flex-col md:flex-row'
+              >
+              <m.div
+                  variants={cardVariantsVertical} className='mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8'>
+                <div className='mt-12 sm:mt-32 lg:mt-16'>
+                  <div className='inline-flex space-x-6'>
+                    <span className='rounded-full bg-orange-500/10 px-3 py-1 text-sm font-semibold leading-6 text-orange-400 ring-1 ring-inset ring-orange-500/20'>
+                      Free of Charge
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <h1 className='mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl'>
-                Cook <span className='text-orange-600'> smarter</span>, not
-                harder
-              </h1>
-              <p className='mt-6 text-lg leading-8 text-gray-300'>
-                Say goodbye to home meal planning stress with tasty recipes at
-                your fingertips!
+                <h1 className='mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl'>
+                  Cook <span className='text-orange-600'> smarter</span>, not
+                  harder
+                </h1>
+                <p className='mt-6 text-lg leading-8 text-gray-300'>
+                  Say goodbye to home meal planning stress with tasty recipes at
+                  your fingertips!
+                </p>
+                <div className='mt-10 flex items-center gap-x-6'>
+                  <a
+                    href='/signup'
+                    className='rounded-md bg-orange-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400'
+                  >
+                    Get started
+                  </a>
+                  <a
+                    href='/signup'
+                    className='text-sm font-semibold leading-6 text-white'
+                  >
+                    Sign up <span aria-hidden='true'>→</span>
+                  </a>
+                </div>
+              </m.div>
+              <m.div
+                  variants={cardVariantsHorizontal} className='mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32'>
+                <div className='max-w-3xl flex-none sm:max-w-5xl lg:max-w-none'>
+                  <Image
+                    src={kitchen}
+                    alt='App screenshot'
+                    width={2432}
+                    height={1442}
+                    className='w-[76rem] rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10'
+                  />
+                </div>
+              </m.div>
+              </m.div>
+           
+          </div>
+        </div>
+
+        {/* Feature section */}
+        
+        <m.div
+          initial='offscreen'
+          whileInView='onscreen'
+          viewport={{ once: true, amount: 0.8 }}
+          className='mx-auto max-w-7xl px-6 mb-24 md:mb-0 sm:mt-12 lg:px-8'
+          >
+            <m.div variants={cardVariantsChildren} className='mx-auto max-w-2xl text-center'>
+              <h2 className='text-base font-semibold leading-7 text-orange-400'>
+                Effortless planning
+              </h2>
+              <p className='mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl'>
+                Everything you need to create delicious recipes
               </p>
-              <div className='mt-10 flex items-center gap-x-6'>
-                <a
-                  href='/signup'
-                  className='rounded-md bg-orange-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400'
-                >
-                  Get started
-                </a>
-                <a
-                  href='/signup'
-                  className='text-sm font-semibold leading-6 text-white'
-                >
-                  Sign up <span aria-hidden='true'>→</span>
-                </a>
-              </div>
+              <p className='mt-6 text-lg leading-8 text-gray-300'>
+                Experience the joy of effortless cooking, resourceful meal
+                planning, and delightful flavors.
+              </p>
+            </m.div>   
+          <div className='mx-auto my-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none'>
+              <dl className='grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3'>
+                {primaryFeatures.map((feature) => (
+                  <m.div variants={cardVariantsChildren} key={feature.name} className='flex flex-col'>
+                    <dt className='text-base font-semibold leading-7 text-white'>
+                      <div className='mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500'>
+                        <feature.icon
+                          className='h-6 w-6 text-white'
+                          aria-hidden='true'
+                        />
+                      </div>
+                      {feature.name}
+                    </dt>
+                    <dd className='mt-1 flex flex-auto flex-col text-base leading-7 text-gray-300'>
+                      <p className='flex-auto'>{feature.description}</p>
+                      <p className='mt-6'>
+                        <a
+                          href={feature.href}
+                          className='text-sm font-semibold leading-6 text-orange-400'
+                        >
+                          Learn more <span aria-hidden='true'>→</span>
+                        </a>
+                      </p>
+                    </dd>
+                  </m.div>
+                ))}
+              </dl>
             </div>
-            <div className='mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32'>
-              <div className='max-w-3xl flex-none sm:max-w-5xl lg:max-w-none'>
-                <Image
-                  src={kitchen}
-                  alt='App screenshot'
-                  width={2432}
-                  height={1442}
-                  className='w-[76rem] rounded-md bg-white/5 shadow-2xl ring-1 ring-white/10'
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+          
+        </m.div>
 
         {/* Feature section */}
-        <div className='mx-auto max-w-7xl px-6 sm:mt-12 lg:px-8'>
-          <div className='mx-auto max-w-2xl text-center'>
-            <h2 className='text-base font-semibold leading-7 text-orange-400'>
-              Effortless planning
-            </h2>
-            <p className='mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl'>
-              Everything you need to create delicious recipes
-            </p>
-            <p className='mt-6 text-lg leading-8 text-gray-300'>
-              Experience the joy of effortless cooking, resourceful meal
-              planning, and delightful flavors.
-            </p>
-          </div>
-          <div className='mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none'>
-            <dl className='grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3'>
-              {primaryFeatures.map((feature) => (
-                <div key={feature.name} className='flex flex-col'>
-                  <dt className='text-base font-semibold leading-7 text-white'>
-                    <div className='mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500'>
-                      <feature.icon
-                        className='h-6 w-6 text-white'
-                        aria-hidden='true'
-                      />
-                    </div>
-                    {feature.name}
-                  </dt>
-                  <dd className='mt-1 flex flex-auto flex-col text-base leading-7 text-gray-300'>
-                    <p className='flex-auto'>{feature.description}</p>
-                    <p className='mt-6'>
-                      <a
-                        href={feature.href}
-                        className='text-sm font-semibold leading-6 text-orange-400'
-                      >
-                        Learn more <span aria-hidden='true'>→</span>
-                      </a>
-                    </p>
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-
-        {/* Feature section */}
-        <div className='mt-24 sm:mt-36'>
+        <div className='mt-56 sm:mt-36'>
           <div className='mx-auto max-w-7xl px-6 lg:px-8'>
             <div className='mx-auto max-w-2xl sm:text-center'>
               <h2 className='text-base font-semibold leading-7 text-orange-400'>
@@ -300,7 +367,7 @@ export default function LandingPage() {
           </div>
         </div>
       </main>
-
+      </AnimatePresence>
       {/* Footer */}
       <footer aria-labelledby='footer-heading' className='relative pb-24'>
         <h2 id='footer-heading' className='sr-only'>

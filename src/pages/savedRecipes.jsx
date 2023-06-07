@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import { FaceFrownIcon } from '@heroicons/react/24/outline'
 import authService from '@/utils/authService'
 import SavedRecipeCard from '@/components/savedRecipeCard'
 import SavedRecipesEmptyState from '@/components/emptyStates/savedRecipesEmptyState'
@@ -48,15 +47,11 @@ function SavedRecipes() {
 
   if (myRecipes < 1) 
     return (
-      <section className='flex flex-col justify-center items-center w-full'>
-        <article className='min-h-full lg:px-[100px] px-6 pt-36 md:text-[30px] text-center align-center'>
-          <FaceFrownIcon className='w-14 md:w-36 mx-auto text-black' />
-          <p className='text-black'>You have no saved recipes</p>
-        </article>
-        <article className='w-full px-2 md:px-96 mt-8'>
+      <div className="flex justify-center">
+      <div className="max-w-[1280px] w-full px-2 py-6 mt-24">    
           <SavedRecipesEmptyState />
-        </article>
-      </section>
+      </div>
+      </div>
     )
 
   return (
@@ -65,13 +60,19 @@ function SavedRecipes() {
         <title>What am I craving?</title>
       </Head>
       {myRecipes?.length > 0 &&
-         <div className='min-h-full lg:px-[100px] px-6 py-12'>
-          <h1 className='md:text-[30px] text-[16px] mb-[10px] text-black'>
-            My Recipes
-          </h1>
-          <div className='mx-auto max-w-7xl py-4'>
-            <SavedRecipeCard myRecipes={myRecipes} setToggle={setToggle} />
+       <div className="flex justify-center">
+       <div className="max-w-[1280px] w-full px-2 py-6">
+         <div className='min-h-full  px-4 py-6 '>
+          <div>
+            <h1 className='md:text-3xl text-2xl mb-2 font-medium text-black'>
+              My Recipes
+            </h1>
+            <div className='py-4'>
+              <SavedRecipeCard myRecipes={myRecipes} setToggle={setToggle} />
+            </div>
           </div>
+        </div>
+        </div>
         </div>
       }
     </>
