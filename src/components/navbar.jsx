@@ -24,7 +24,7 @@ function Navbar() {
 
     return (
         <nav className="bg-gray-800">
-            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4">
                 <div className="relative flex h-16 items-center justify-between">
                     <div className="inset-y-0 left-0 flex items-center md:hidden">
                         {/* <!-- Mobile menu button--> */}
@@ -43,10 +43,10 @@ function Navbar() {
                         </button>
                     </div>
                     <div className="md:flex flex-1 items-center justify-center md:items-stretch md:justify-start hidden">
-                        <Link href='/' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Home</Link>
-                        <Link href='/pantry' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Pantry</Link>
-                        <Link href='/kitchen' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Kitchen</Link>
-                        <Link href='/savedRecipes' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">Saved Recipes</Link>
+                        <Link href='/' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium transition ease-out">Home</Link>
+                        <Link href='/pantry' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium transition ease-out">Pantry</Link>
+                        <Link href='/kitchen' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium transition ease-out">Kitchen</Link>
+                        <Link href='/savedRecipes' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium transition ease-out">Saved Recipes</Link>
                         <Link href='/faq'
                         className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">FAQ</Link>
                     </div>
@@ -79,6 +79,7 @@ function Navbar() {
                     <Link href="/pantry" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Pantry</Link>
                     <Link href="/kitchen" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Kitchen</Link>
                     <Link href="/savedRecipes" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Saved Recipes</Link>
+                    <Link href="/faq" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Faq</Link>
                 </div>
             </div>
         </nav>

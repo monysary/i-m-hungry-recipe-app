@@ -3,6 +3,12 @@ import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 import authService from '@/utils/authService'
 
 function SignUp() {
+  useEffect(() => {
+    if (authService.loggedIn() && !authService.tokenExpired()) {
+      window.location.assign('/pantry')
+    }
+  })
+  
   const [signUpForm, setSignUpForm] = useState({
     username: '',
     email: '',

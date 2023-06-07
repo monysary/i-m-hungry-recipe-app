@@ -17,6 +17,10 @@ function Kitchen() {
 
   // Setting ingredient choices
   const [pantryItems, setPantryItems] = useState([]) // Data stored from GET request
+  const [ingredientsArr, setIngredientsArr] = useState([])
+  const [recipe, setRecipe] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [recipeForm, setRecipeForm] = useState({
     category: '',
     ingredient: '',
@@ -42,6 +46,17 @@ function Kitchen() {
     getItems()
   }, [])
 
+  // Check local storage if a recipe was recently generated
+  useEffect(() => {
+    let prevRecipe;
+    if (localStorage.getItem('kitchen')) {
+      prevRecipe = JSON.parse(localStorage.getItem('kitchen'))
+      if (Date.now() < prevRecipe.expire) {
+        setRecipe(JSON.parse(prevRecipe.recipe))
+      }
+    }
+  }, [])
+
   const handleRecipeForm = ({ target: { name, value } }) => {
     setRecipeForm({
       ...recipeForm,
@@ -50,7 +65,6 @@ function Kitchen() {
   }
 
   // Selecting ingredients for recipe
-  const [ingredientsArr, setIngredientsArr] = useState([])
   const addIngredient = (event) => {
     event.preventDefault()
     const alreadyAdded = ingredientsArr.find((item) => item.ingredient === recipeForm.ingredient)
@@ -64,7 +78,7 @@ function Kitchen() {
     return
   }
 
-  // Removing a selected ingredient
+  // handle remove a selected ingredient
   const removeIngredient = (event) => {
     setIngredientsArr((prev) =>
       prev.filter((item) => item.ingredient !== event.target.parentElement.id)
@@ -72,8 +86,6 @@ function Kitchen() {
   }
 
   // Generating recipe
-  const [recipe, setRecipe] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
   const generateRecipe = async () => {
     const justIngredients = []
     try {
@@ -112,25 +124,12 @@ function Kitchen() {
     }
   }
 
-  // Check local storage if a recipe was recently generated
-  useEffect(() => {
-    let prevRecipe;
-    if (localStorage.getItem('kitchen')) {
-      prevRecipe = JSON.parse(localStorage.getItem('kitchen'))
-      if (Date.now() < prevRecipe.expire) {
-        setRecipe(JSON.parse(prevRecipe.recipe))
-      }
-    }
-
-  }, [])
-
   // Handle Next button
   const handleNextButton = () => {
     window.location.assign('/savedRecipes')
   }
 
   // Handle instructions dialog
-  const [dialogOpen, setDialogOpen] = useState(false)
   const handleDialogOpen = () => {
     setDialogOpen(!dialogOpen)
   }
@@ -140,9 +139,11 @@ function Kitchen() {
       <Head>
         <title>Chefing it up!</title>
       </Head>
-      <div className='min-h-full lg:px-[200px] px-6 py-12'>
+      <div className="flex justify-center h-full md:h-screen pb-24 mb-24 ">
+      <div className="max-w-[1280px] w-full px-4 py-6">
+      <div className='min-h-full px-2 py-6'>
         <div className='relative flex items-start gap-1'>
-          <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
+          <div className='md:text-3xl text-2xl mb-2 md:mb-6 text-black font-medium'>
             Select Ingredients
           </div>
           <button onClick={handleDialogOpen}>
@@ -169,7 +170,7 @@ function Kitchen() {
           </dialog>
         </div>
         <form className='md:flex items-end mb-[20px]' onSubmit={addIngredient}>
-          <div className='flex items-end'>
+          <div className='flex gap-2 items-end'>
             <div>
               <label className='block text-sm font-medium leading-6 text-gray-900'>
                 Category
@@ -283,6 +284,8 @@ function Kitchen() {
               : recipe !== null && <RecipeCard recipe={recipe} isLoading={isLoading}/>
           }
         </div>
+      </div >
+      </div >
       </div >
     </>
 

@@ -1,11 +1,5 @@
-const { User, Pantry } = require('../../../db/model/index.js')
-const jwt = require('jsonwebtoken')
-
-export const config = {
-	api: {
-		externalResolver: true,
-	},
-};
+const { Pantry } = require('../../../db/model/index.js')
+import handleDecodeJWT from "@/utils/handleDecodeJWT.js";
 
 // Pantry CRUD operation methods
 export default async function handler(req, res) {
@@ -18,9 +12,7 @@ export default async function handler(req, res) {
           return res.status(401).json({ message: 'Missing token' })
         }
 
-        const decodedToken = jwt.verify(token, process.env.SECRET)
-        const userId = decodedToken.id
-        const user = await User.findByPk(userId) // Retrieve the user instance by their ID
+        const { userId, user } = await handleDecodeJWT(token)
         if (!user) {
           return res.status(404).json({ message: 'User not found' })
         }
@@ -43,9 +35,7 @@ export default async function handler(req, res) {
           return res.status(401).json({ message: 'Missing token' });
         }
 
-        const decodedToken = jwt.verify(token, process.env.SECRET);
-        const userId = decodedToken.id;
-        const user = await User.findByPk(userId);
+        const { user } = await handleDecodeJWT(token)
         if (!user) {
           return res.status(404).json({ message: 'User not found' });
         }
@@ -69,9 +59,7 @@ export default async function handler(req, res) {
           return res.status(401).json({ message: 'Missing token' });
         }
 
-        const decodedToken = jwt.verify(token, process.env.SECRET);
-        const userId = decodedToken.id;
-        const user = await User.findByPk(userId);
+        const { userId, user } = await handleDecodeJWT(token)
         if (!user) {
           return res.status(404).json({ message: 'User not found' });
         }
@@ -94,3 +82,9 @@ export default async function handler(req, res) {
     res.status(400).json({ message: 'Invalid request' });
   }
 }
+
+export const config = {
+	api: {
+		externalResolver: true,
+	},
+};

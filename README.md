@@ -4,36 +4,6 @@ A web application built with Next.js, React, JavaScript, and Tailwind CSS that h
 
 ![Screenshot of web app](./public/images/readme-image.png)
 
-# Installation
-To run the application locally, follow these steps:
-
-Open the terminal and navigate to the project directory.
-
-Run the following command to install the dependencies:
-
-- npm install
-
-Start the development server by running the following command:
-
-- First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-npm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to access the application.
-
-You can also check out the gif below to see how we start up our server!
-
-
-[GIF showing user how to install dependencies and starting up the server](./public/images/readme.gif)
-
-
-
 # Usage
 The "I'm Hungry" app allows users to perform the following actions:
 
@@ -62,7 +32,7 @@ The "I'm Hungry" app allows users to perform the following actions:
 You can check out our application demo following the youtube link!
 
 
- [Youtube video link for demo usage of the web application](https://youtu.be/WdB640nxd3M)
+[Youtube video link for demo usage of the web application](https://youtu.be/WdB640nxd3M)
 
 
 # Key Features
@@ -73,16 +43,47 @@ Saved Recipes: Users can view and edit their saved recipes.
 # Technologies Used
 The "I'm Hungry" app utilizes the following technologies, frameworks, and libraries:
 
-Next.js
-React
-JavaScript
-Tailwind CSS
-JWT
-Sequelize
-Axios
-MySQL
+- &#9745; Next.js
+- &#9745; React
+- &#9745; JavaScript
+- &#9745; OpenAI API
+- &#9745; JWT
+- &#9745; Sequelize
+- &#9745; Axios
+- &#9745; MySQL
+- &#9745; Tailwind CSS
+# Installation
+To run the application locally, follow these steps:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Open the terminal and navigate to the project directory.
+
+Run the following command to install the dependencies:
+
+- npm install
+
+Add local env variables 
+- check out `.env.example` to see the env variables needed to run the app
+
+Create mySQL db following the schema located in `src/db/schema`
+
+Start the development server by running the following command:
+
+- First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+npm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to access the application.
+
+You can also check out the gif below to see how we start up our server!
+
+
+[GIF showing user how to install dependencies and starting up the server](./public/images/readme.gif)
 
 ## Learn More
 
@@ -121,4 +122,4 @@ Contributions to the project are welcome. If you would like to contribute, pleas
 
 # Licenses
 
-None
+MIT License

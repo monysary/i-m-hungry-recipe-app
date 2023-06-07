@@ -8,7 +8,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example({ myRecipes, setToggle }) {
+export default function SavedRecipeCard({ myRecipes, setToggle }) {
   const checkbox = useRef()
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
@@ -119,10 +119,10 @@ export default function Example({ myRecipes, setToggle }) {
   }
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="px-2 sm:px-6">
       <div className="mt-8 flow-root">
         <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+          <div className="inline-block min-w-full py-2 align-middle sm:px-6 ">
             <div className="relative">
               {selectedRecipe.length > 0 && (
                 <div className="absolute left-14 top-0 flex h-12 items-center space-x-3 bg-white sm:left-12">

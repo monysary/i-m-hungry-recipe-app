@@ -1,3 +1,5 @@
+import { FaceFrownIcon } from "@heroicons/react/24/outline";
+
 export default function SavedRecipesEmptyState() {
     return (
         <button
@@ -5,6 +7,10 @@ export default function SavedRecipesEmptyState() {
         className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       >
             <a href="/kitchen">
+        <article className='min-h-full px-6 mb-12 md:text-3xl text-center align-center'>
+          <FaceFrownIcon className='w-14 md:w-36 mx-auto text-black' />
+          <p className='text-black'>You have no saved recipes</p>
+        </article>
             <svg
             className="mx-auto h-12 w-12 text-gray-400"
             stroke="currentColor"

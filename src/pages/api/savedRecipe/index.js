@@ -1,14 +1,8 @@
-const { User, SavedRecipe } = require("../../../db/model/index.js");
-const jwt = require('jsonwebtoken')
-
-export const config = {
-	api: {
-		externalResolver: true,
-	},
-};
+const { SavedRecipe } = require("../../../db/model/index.js");
+import handleDecodeJWT from "@/utils/handleDecodeJWT.js";
 
 // Saved Recipes CRUD operation methods
-export default async function handler(req, res) {
+export default async function handler(req, res) {	
 	/**
    	* GET all saved recipes where user id matches 
    	*/
@@ -17,9 +11,8 @@ export default async function handler(req, res) {
         if (!token) {
           return res.status(401).json({ message: 'Missing token' })
         }
-        const decodedToken = jwt.verify(token, process.env.SECRET)
-        const userId = decodedToken.id
-        const user = await User.findByPk(userId)
+       
+		const { userId, user } = await handleDecodeJWT(token)
         if (!user) {
           return res.status(404).json({ message: 'User not found' })
         }
@@ -42,9 +35,7 @@ export default async function handler(req, res) {
 			return res.status(401).json({ message: 'Missing token' });
 			}
 
-			const decodedToken = jwt.verify(token, process.env.SECRET);
-			const userId = decodedToken.id;
-			const user = await User.findByPk(userId);
+			const { user } = await handleDecodeJWT(token)
 			if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 			}
@@ -67,9 +58,7 @@ export default async function handler(req, res) {
 			return res.status(401).json({ message: 'Missing token' });
 			}
 
-			const decodedToken = jwt.verify(token, process.env.SECRET);
-			const userId = decodedToken.id;
-			const user = await User.findByPk(userId);
+			const { userId, user } = await handleDecodeJWT(token)
 
 			if (!user) {
 			return res.status(404).json({ message: 'User not found' });
@@ -99,9 +88,7 @@ export default async function handler(req, res) {
 			return res.status(401).json({ message: 'Missing token' });
 			}
 
-			const decodedToken = jwt.verify(token, process.env.SECRET);
-			const userId = decodedToken.id;
-			const user = await User.findByPk(userId);
+			const { userId, user } = await handleDecodeJWT(token)
 
 			if (!user) {
 			return res.status(404).json({ message: 'User not found' });
@@ -128,3 +115,9 @@ export default async function handler(req, res) {
 		
 	}
 }
+
+export const config = {
+	api: {
+		externalResolver: true,
+	},
+};

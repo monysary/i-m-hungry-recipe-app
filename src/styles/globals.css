@@ -25,4 +25,5 @@ html, body {
 body {
   color: rgb(var(--foreground-rgb));
   background-color: #fafafa;
+
 }

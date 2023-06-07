@@ -6,6 +6,23 @@ import {
   QuestionMarkCircleIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline'
+import { motion as m, AnimatePresence } from 'framer-motion'
+
+const cardVariantsVertical = {
+  hidden: {
+    y: 100,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      bounce: 0.4,
+      duration: 0.8,
+    },
+  },
+}
 
 function Pantry() {
   useEffect(() => {
@@ -101,13 +118,21 @@ function Pantry() {
       <Head>
         <title>Checking out the pantry...</title>
       </Head>
-      <div className='min-h-full lg:px-[200px] px-6 py-12'>
-        <div className='relative flex items-start gap-1'>
-          <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
+      <div className="flex justify-center h-full pb-24">
+      <div className="max-w-[1280px] w-full px-2 py-6">
+      <div className='min-h-full px-4 py-8'>
+      <AnimatePresence>
+      <m.div
+        initial='hidden'
+        animate='visible'
+        viewport={{ once: true, amount: 0.8 }}
+      >
+        <m.div variants={cardVariantsVertical} className='relative flex items-start gap-1'>
+          <div className='md:text-3xl text-2xl  md:mb-4 text-black font-medium'>
             Add To Pantry
           </div>
           <button onClick={handleDialogOpen}>
-            <QuestionMarkCircleIcon className='w-4 md:w-6 text-gray-900' />
+            <QuestionMarkCircleIcon className='w-4 md:w-6 text-gray-900 hover:text-gray-600' />
           </button>
           <div
             onClick={handleDialogOpen}
@@ -126,7 +151,8 @@ function Pantry() {
               <li className='mt-4 md:mt-2'>4. Select Next to proceed to the Kitchen</li>
             </ol>
           </dialog>
-        </div>
+        </m.div>
+        </m.div>
         <div className='md:flex items-end'>
           <form
             className='sm:flex items-end'
@@ -281,7 +307,9 @@ function Pantry() {
               })}
             </dl>
           </div>
-        </div >
+        </div ></AnimatePresence>
+      </div >
+      </div >
       </div >
     </>
   )
