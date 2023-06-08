@@ -44,23 +44,24 @@ function Navbar() {
                     </div>
                     <div className="md:flex flex-1 items-center justify-center md:items-stretch md:justify-start hidden">
                         <Link href='/' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium transition ease-out">Home</Link>
+                        <Link href='/feed' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium transition ease-out">Feed</Link>
                         <Link href='/pantry' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium transition ease-out">Pantry</Link>
                         <Link href='/kitchen' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium transition ease-out">Kitchen</Link>
                         <Link href='/savedRecipes' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium transition ease-out">Saved Recipes</Link>
                         <Link href='/faq'
-                        className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">FAQ</Link>
+                            className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium">FAQ</Link>
                     </div>
                     <div className="inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         <Link href='/login' className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium"
                             style={{
                                 display: isLoggedIn ? 'none' : 'block'
                             }}
-                            >Login</Link>
+                        >Login</Link>
                         <Link href='/signup' className="text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium ml-2"
                             style={{
                                 display: isLoggedIn ? 'none' : 'block'
                             }}
-                            >Sign Up</Link>
+                        >Sign Up</Link>
                         <button href='/' className="text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium ml-2"
                             style={{
                                 display: isLoggedIn ? 'block' : 'none'
@@ -76,6 +77,7 @@ function Navbar() {
                 <div className="space-y-1 px-2 pb-3 pt-2">
                     {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
                     <Link href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Home</Link>
+                    <Link href="/feed" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Feed</Link>
                     <Link href="/pantry" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Pantry</Link>
                     <Link href="/kitchen" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Kitchen</Link>
                     <Link href="/savedRecipes" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Saved Recipes</Link>
