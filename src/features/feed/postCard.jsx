@@ -16,12 +16,10 @@ export default function PostCard({ recipe, comments }) {
                                     <p className='text-gray-500 text-sm italic'>
                                         {getTimeAgo(recipe.updatedAt)}
                                     </p>
-                                    <h3 className='font-semibold leading-7 text-gray-900 text-xl'>
+                                    <h3 className='font-semibold leading-7 text-gray-900 text-md'>
                                         {recipe.username}
                                     </h3>
-                                    <p className='mt-1 max-w-2xl text-sm leading-6 text-gray-500'>
-                                        Recipe information.
-                                    </p>
+
                                 </div>
                                 <div className='mr-4 mt-6 w-24 h-12'>
                                     <button
@@ -34,12 +32,19 @@ export default function PostCard({ recipe, comments }) {
                             <div className='border-t border-gray-100 rounded-md'>
                                 <dl className='divide-y divide-gray-100 rounded-md'>
                                     <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-                                        <dt className='text-sm font-medium text-gray-900'>
-                                            Recipe Name
+                                        <dt className='text-xl  text-gray-700'>
+                                            Recipe name
                                         </dt>
-                                        <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
+                                        <dd className='mt-1 text-xl leading-6 text-black font-medium sm:col-span-2 sm:mt-0'>
                                             {recipe.title}
                                         </dd>
+                                    </div>
+                                    <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+                                        <dt className='text-sm font-medium text-gray-900'>
+                                            <p className='mt-1 max-w-2xl text-sm leading-6 text-gray-500'>
+                                                Recipe information:
+                                            </p>
+                                        </dt>
                                     </div>
                                     <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
                                         <dt className='text-sm font-medium text-gray-900'>
@@ -100,12 +105,9 @@ export default function PostCard({ recipe, comments }) {
                                     <p className='text-gray-500 text-sm italic'>
                                         {getTimeAgo(recipe.updatedAt)}
                                     </p>
-                                    <h3 className='font-semibold leading-7 text-gray-900 text-xl'>
+                                    <h3 className='font-semibold leading-7 text-gray-900 text-md'>
                                         {recipe.username}
                                     </h3>
-                                    <p className='mt-1 max-w-2xl text-sm leading-6 text-gray-500'>
-                                        Recipe information.
-                                    </p>
                                 </div>
                                 <div className=' mr-4 mt-6 w-24 h-12'>
                                     <button
@@ -118,10 +120,10 @@ export default function PostCard({ recipe, comments }) {
                             <div className='border-t border-gray-100 rounded-md'>
                                 <dl className='divide-y divide-gray-100 rounded-md'>
                                     <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
-                                        <dt className='text-sm font-medium text-gray-900'>
-                                            Recipe Name
+                                        <dt className='text-xl  text-gray-700'>
+                                            Recipe name
                                         </dt>
-                                        <dd className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
+                                        <dd className='mt-1 text-xl leading-6 text-black font-medium sm:col-span-2 sm:mt-0'>
                                             {recipe.title}
                                         </dd>
                                     </div>
