@@ -3,6 +3,7 @@ import authService from "@/utils/auth/authService";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import SuccessNotification from "./alerts/successNotification";
+import getTimeAgo from "@/utils/getTimeAgo";
 
 export default function SavedRecipeCard({ myRecipes, setToggle }) {
   const checkbox = useRef();
@@ -136,7 +137,7 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
         },
         body: JSON.stringify({
           ...recipeModal,
-          postedToTimeline: true,
+          postedToTimeline: !recipeModal.postedToTimeline,
         }),
       });
       const data = await response.json();
@@ -312,8 +313,9 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                           className='w-full sm:w-1/2 text-[25px] rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
                         />
                       ) : (
-                        <div className='flex flex-col gap-2'>
-                          <div className='flex flex-row justify-between'>
+                        <div className='flex flex-col gap-2 mb-2 md:mb-0'>
+                          <p className='italic text-sm text-gray-600'> added {getTimeAgo(recipeModal?.createdAt)}</p>
+                          <div className='flex flex-col gap-4 md:gap-0 md:flex-row justify-between'>
                             <h3 className='text-[25px] font-semibold leading-7 text-gray-900'>
                               {recipeModal?.title}
                             </h3>
@@ -329,10 +331,9 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                               </button>) : (
                               <button
                                 type='button'
-                                disabled
-                                // onClick={() => handlePostToFeed(recipeModal?.id)}
+                                onClick={() => handlePostToFeed(recipeModal?.id)}
                                 className='rounded-md sm:ml-0 text-gray-900 bg-white shadow-sm hover:bg-gray-50 transition ease-out ring-1 ring-inset ring-gray-300 font-semibold text-sm px-2.5 py-1.5'>
-                                Shared
+                                Unshare
                                 <span className='sr-only'>
                                   {recipeModal?.title}
                                 </span>
@@ -341,11 +342,12 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                             }
                           </div>
                           
-                          {shareSuccess && <div className=''> <SuccessNotification title='Successfully shared!' message='View your publicly shared post on the feed.' btnTitle='View post' href='/feed' /> </div>}
+                          {shareSuccess && recipeModal.postedToTimeline === true && <div className=''> <SuccessNotification title='Successfully shared!' message='View your publicly shared post on the feed.' btnTitle='View post' href='/feed' /> </div>}
+                          {shareSuccess && recipeModal.postedToTimeline === false && <div className=''> <SuccessNotification title='Removed post from feed!' message='The recipe is no longer publicly available'  /> </div>}
                         </div>
                       )}
                       {editMode ? (
-                        <div className='flex items-center mt-1 max-w-2xl text-sm leading-6 text-gray-500'>
+                        <div className='flex items-center mt-1 max-w-2xl text-sm leading-6 text-gray-600'>
                           <div className='mr-1'>Servings:</div>
                           <input
                             placeholder='Serving Size'
@@ -357,7 +359,7 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                           />
                         </div>
                       ) : (
-                        <p className='mt-1 max-w-2xl text-sm font-medium leading-6 text-gray-500'>
+                        <p className='mt-1 max-w-2xl text-sm font-medium leading-6 text-gray-600'>
                           Servings: {recipeModal?.servings}
                         </p>
                       )}
