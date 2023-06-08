@@ -39,4 +39,5 @@ module.exports = {
   User,
   Pantry,
   SavedRecipe,
+  Comment,
 };

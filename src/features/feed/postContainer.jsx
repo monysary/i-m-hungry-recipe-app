@@ -5,11 +5,31 @@ import CircleSpinner from "@/components/spinners/circle";
 
 export default function PostContainer() {
   const [recipes, setRecipes] = useState([]);
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
+  console.log(comments);
   useEffect(() => {
     fetchRecipes();
+    fetchComments();
   }, []);
 
+  async function fetchComments() {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/comment", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const comments = await response.json();
+      if (response.ok) {
+        setComments(comments);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   // Fetch all timeline recipes
   const fetchRecipes = async () => {
     setLoading(true);
@@ -46,22 +66,24 @@ export default function PostContainer() {
       </div>
     );
   return (
-    <div className='px-2 md:px-4 pb-24'>
-      <AnimatePresence>
-        {recipes &&
-          recipes.map((recipe, index) => (
-            <>
-              <m.div
-                initial='hidden'
-                animate='visible'
-                viewport={{ once: true, amount: 0.8 }}>
-                <m.div key={index} variants={cardVariantsVertical}>
-                  <PostCard recipe={recipe} />
+    <div className='flex justify-center px-2 pb-24'>
+      <div className='px-2 pb-24 max-w-4xl'>
+        <AnimatePresence>
+          {recipes &&
+            recipes.map((recipe, index) => (
+              <>
+                <m.div
+                  initial='hidden'
+                  animate='visible'
+                  viewport={{ once: true, amount: 0.8 }}>
+                  <m.div key={index} variants={cardVariantsVertical}>
+                    <PostCard recipe={recipe} comments={comments} />
+                  </m.div>
                 </m.div>
-              </m.div>
-            </>
-          ))}
-      </AnimatePresence>
+              </>
+            ))}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

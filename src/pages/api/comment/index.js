@@ -4,21 +4,11 @@ import handleDecodeJWT from "@/utils/auth/handleDecodeJWT.js";
 // recipe post comments CRUD operation methods
 export default async function handler(req, res) {
   /**
-   * GET all recipe post comments where user id matches
+   * GET all recipe post comments
    */
   if (req.method === "GET") {
-    const token = req.headers.authorization;
-    if (!token) {
-      return res.status(401).json({ message: "Missing token" });
-    }
-
-    const { userId, user } = await handleDecodeJWT(token);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
     try {
-      const comments = await Comment.findAll({ where: { userId: userId } });
+      const comments = await Comment.findAll();
       res.status(200).json(comments);
     } catch (err) {
       res.status(500).json(err);
@@ -28,23 +18,45 @@ export default async function handler(req, res) {
      * POST new recipe post comments where user id matches
      */
   } else if (req.method === "POST") {
-    const { description } = req.body;
+    const token = req.headers.authorization;
+    if (!token) {
+      return res.status(401).json({ message: "Missing token" });
+    }
+    const { userId, user, username } = await handleDecodeJWT(token);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
     try {
-      const token = req.headers.authorization;
-      if (!token) {
-        return res.status(401).json({ message: "Missing token" });
+      // Get the recipe ID and comment from the request body
+      const { recipeId, description } = req.body;
+
+      // Validate the inputs
+      if (!recipeId || !description) {
+        return res
+          .status(400)
+          .json({ message: "Recipe ID and description are required." });
       }
 
-      const { user } = await handleDecodeJWT(token);
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
+      // Add the comment to the recipe post
+      const comment = await user.createComment({
+        recipeId,
+        description,
+        username,
+      });
 
-      const newComment = await user.createComment({ description });
-      res.status(200).json(newComment);
+      // Check if the comment was created successfully
+      if (comment) {
+        return res
+          .status(200)
+          .json({ message: "Comment added successfully.", comment });
+      } else {
+        return res.status(500).json({ message: "Failed to add the comment." });
+      }
     } catch (error) {
       console.error(error);
-      res.status(400).json({ message: "Failed to save recipe" });
+      return res
+        .status(500)
+        .json({ message: "An error occurred while adding the comment." });
     }
 
     /**
@@ -72,11 +84,9 @@ export default async function handler(req, res) {
         res.status(404).json({ message: "Comment not found" });
         return;
       }
-      res
-        .status(200)
-        .json({
-          message: `${req.body.description} comment successfully updated`,
-        });
+      res.status(200).json({
+        message: `${req.body.description} comment successfully updated`,
+      });
     } catch (error) {
       console.error(error);
       res.status(400).json({ message: "Failed to save recipe" });
