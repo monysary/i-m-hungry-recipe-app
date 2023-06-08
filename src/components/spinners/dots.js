@@ -1,5 +1,5 @@
-import { ThreeDots } from 'react-loader-spinner'
-import React from 'react'
+import { ThreeDots } from "react-loader-spinner";
+import React from "react";
 
 export default function ThreeDotsSpinner() {
   return (
@@ -13,5 +13,5 @@ export default function ThreeDotsSpinner() {
       wrapperClassName=''
       visible={true}
     />
-  )
+  );
 }
