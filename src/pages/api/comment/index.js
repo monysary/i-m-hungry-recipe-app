@@ -1,10 +1,10 @@
-const { SavedRecipe } = require("../../../db/model/index.js");
+const { Comment } = require("../../../db/model/index.js");
 import handleDecodeJWT from "@/utils/handleDecodeJWT.js";
 
-// Saved Recipes CRUD operation methods
+// recipe post comments CRUD operation methods
 export default async function handler(req, res) {	
 	/**
-   	* GET all saved recipes where user id matches 
+   	* GET all recipe post comments where user id matches 
    	*/
 	if (req.method === "GET") {
 	    const token = req.headers.authorization 
@@ -18,70 +18,40 @@ export default async function handler(req, res) {
         }
 
         try {
-          const savedRecipes = await SavedRecipe.findAll({ where: { userId: userId } })
-          res.status(200).json(savedRecipes)
+          const comments = await Comment.findAll({ where: { userId: userId } })
+          res.status(200).json(comments)
         } catch (err) {
           res.status(500).json(err)
         }
 
 	/**
-   	* POST new saved recipe where user id matches 
+   	* POST new recipe post comments where user id matches 
    	*/
 	} else if (req.method === "POST") {
-		const { title, servings, ingredients, instructions, notes } = req.body;
+		const { description } = req.body;
 		try {
 			const token = req.headers.authorization;
 			if (!token) {
 			return res.status(401).json({ message: 'Missing token' });
 			}
 
-			const { user, username } = await handleDecodeJWT(token)
+			const { user } = await handleDecodeJWT(token)
 			if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 			}
 
-			const newSavedRecipe = await user.createSavedRecipe({ title, servings, ingredients, instructions, notes, username }); 
-			res.status(200).json(newSavedRecipe);
+			const newComment = await user.createComment({ description }); 
+			res.status(200).json(newComment);
 		} catch (error) {
 			console.error(error);
 			res.status(400).json({ message: "Failed to save recipe" });
 		}
 
 	/**
-   	* PUT update saved recipe where user id an saved recipe ID matches 
+   	* PUT update recipe post comments where user id an saved recipe ID matches 
    	*/
 	} else if (req.method === "PUT") {
-		const savedRecipeId = req.query.id;
-		try {
-			const token = req.headers.authorization;
-			if (!token) {
-			return res.status(401).json({ message: 'Missing token' });
-			}
-
-			const { userId, user, username } = await handleDecodeJWT(token)
-
-			if (!user) {
-			return res.status(404).json({ message: 'User not found' });
-			}
-
-			const updatedRecipe = await SavedRecipe.update({...req.body, username}, {
-				where: { id: savedRecipeId, userId: userId },
-			});
-
-			if (!updatedRecipe) {
-				res.status(404).json({ message: "Recipe not found" });
-				return
-			}		
-			res.status(200).json({ message: `${req.body.title} recipe successfully updated`});		
-		} catch (error) {
-			console.error(error);
-			res.status(400).json({ message: "Failed to save recipe" });
-		}
-	/**
-   	* DELETE saved recipe where user id an saved recipe ID matches 
-   	*/
-	} else if (req.method === "DELETE") {
-		const { ids } = req.query;
+		const commentId = req.query.id;
 		try {
 			const token = req.headers.authorization;
 			if (!token) {
@@ -94,23 +64,52 @@ export default async function handler(req, res) {
 			return res.status(404).json({ message: 'User not found' });
 			}
 
-			if (!ids) {
+			const updatedComment = await Comment.update(req.body, {
+				where: { id: commentId, userId: userId },
+			});
+
+			if (!updatedComment) {
+				res.status(404).json({ message: "Comment not found" });
+				return
+			}		
+			res.status(200).json({ message: `${req.body.description} comment successfully updated`});		
+		} catch (error) {
+			console.error(error);
+			res.status(400).json({ message: "Failed to save recipe" });
+		}
+	/**
+   	* DELETE recipe post comments where user id and saved recipe ID matches 
+   	*/
+	} else if (req.method === "DELETE") {
+		const { id } = req.query;
+		try {
+			const token = req.headers.authorization;
+			if (!token) {
+			return res.status(401).json({ message: 'Missing token' });
+			}
+
+			const { userId, user } = await handleDecodeJWT(token)
+
+			if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+			}
+
+			if (!id) {
 				return res.status(400).json({ message: "IDs parameter is missing" });
 			}
 
-			const idArray = ids.split(",").map((id) => Number(id));
 		
-			const deletedRecipes = await SavedRecipe.destroy({
-				where: { id: idArray, userId: userId },
+			const deletedComment = await Comment.destroy({
+				where: { id: id, userId: userId },
 			});
 
-			if (!deletedRecipes) {
-				return res.status(404).json({ message: "Recipes not found" });
+			if (!deletedComment) {
+				return res.status(404).json({ message: "Comment not found" });
 			}
-			res.status(200).json({ message:  `ID: ${ids} recipe successfully deleted` });
+			res.status(200).json({ message:  `ID: ${ids} comment successfully deleted` });
 		} catch (error) {
 			console.error(error);
-			res.status(400).json({ message: "Failed to delete recipes" });
+			res.status(400).json({ message: "Failed to delete comment" });
 		}
 		
 	}

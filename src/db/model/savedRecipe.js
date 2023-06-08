@@ -9,6 +9,10 @@ SavedRecipe.init(
 			primaryKey: true,
 			autoIncrement: true,
 		},
+		username: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 		title: {
 			type: DataTypes.STRING,
 			allowNull: false,
@@ -36,10 +40,14 @@ SavedRecipe.init(
 			set: function (value) {
 				return this.setDataValue("instructions", JSON.stringify(value));
 			},
-    },
-    notes: {
-      type: DataTypes.TEXT,
-      allowNull: true,
+		},
+		notes: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+			},
+		postedToTimeline: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
 		},
   },
 	{
