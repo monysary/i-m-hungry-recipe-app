@@ -1,5 +1,5 @@
 const { SavedRecipe } = require("../../../db/model/index.js");
-import handleDecodeJWT from "@/utils/handleDecodeJWT.js";
+import handleDecodeJWT from "@/utils/auth/handleDecodeJWT.js";
 
 // Saved Recipes CRUD operation methods
 export default async function handler(req, res) {	

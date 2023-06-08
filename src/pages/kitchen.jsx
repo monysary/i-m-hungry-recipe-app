@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import authService from '@/utils/authService'
+import authService from '@/utils/auth/authService'
 import RecipeCard from '../components/recipeCard.jsx'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import CircleSpinner from '@/components/spinners/circle'
@@ -140,152 +140,152 @@ function Kitchen() {
         <title>Chefing it up!</title>
       </Head>
       <div className="flex justify-center h-full md:h-screen pb-24 mb-24 ">
-      <div className="max-w-[1280px] w-full px-4 py-6">
-      <div className='min-h-full px-2 py-6'>
-        <div className='relative flex items-start gap-1'>
-          <div className='md:text-3xl text-2xl mb-2 md:mb-6 text-black font-medium'>
-            Select Ingredients
-          </div>
-          <button onClick={handleDialogOpen}>
-            <QuestionMarkCircleIcon className='w-4 md:w-6 text-gray-900' />
-          </button>
-          <div
-            onClick={handleDialogOpen}
-            className={`fixed z-10 top-0 left-0 w-screen h-screen ${dialogOpen === false && 'hidden'}`}
-          ></div>
-          <dialog open={dialogOpen}
-            className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'
-          >
-            <p className='text-gray-900 font-semibold'>
-              Instructions:
-            </p>
-            <ol className='font-normal'>
-              <li className='mt-4 md:mt-2'>1. Select a Category then an Ingredient</li>
-              <li className='mt-4 md:mt-2'>2. Add as many ingredients as you want to cook with</li>
-              <li className='mt-4 md:mt-2'>3. Click Generate Recipe to generate your recipe</li>
-              <li className='mt-4 md:mt-2'>4. Click Save Recipe to save your new recipe</li>
-              <li className='mt-4 md:mt-2'>5. Clicking Generate Recipe again will generate another recipe</li>
-              <li className='mt-4 md:mt-2'>6. Select Next to proceed to your Saved Recipes</li>
-            </ol>
-          </dialog>
-        </div>
-        <form className='md:flex items-end mb-[20px]' onSubmit={addIngredient}>
-          <div className='flex gap-2 items-end'>
-            <div>
-              <label className='block text-sm font-medium leading-6 text-gray-900'>
-                Category
-              </label>
-              <div className='sm:mt-2'>
-                <select
-                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
-                  name='category'
-                  onChange={handleRecipeForm}
-                >
-                  <option value=''>- select category -</option>
-                  {categories.map((category) => {
-                    return (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    )
-                  })}
-                </select>
+        <div className="max-w-[1280px] w-full px-4 py-6">
+          <div className='min-h-full px-2 py-6'>
+            <div className='relative flex items-start gap-1'>
+              <div className='md:text-3xl text-2xl mb-2 md:mb-6 text-black font-medium'>
+                Select Ingredients
               </div>
-            </div>
-
-            <div className='sm:ml-[20px] mt-2 sm:mt-0'>
-              <label className='block text-sm font-medium leading-6 text-gray-900'>
-                Ingredient
-              </label>
-              <div className='sm:mt-2'>
-                <select
-                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
-                  name='ingredient'
-                  onChange={handleRecipeForm}
-                >
-                  <option value=''>- select ingredient -</option>
-                  {pantryItems
-                    .filter((item) => item.category === recipeForm.category)
-                    .map((item) => {
-                      return (
-                        <option key={item.ingredient} value={item.ingredient}>
-                          {item.ingredient}
-                        </option>
-                      )
-                    })}
-                </select>
-              </div>
-            </div>
-          </div>
-
-
-          <div className='grow mt-4 md:mt-0 md:ml-[20px] flex justify-between'>
-            <button
-              type='submit'
-              className='text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
-            >
-              Add
-            </button>
-            <button className='font-semibold inline-flex items-center gap-1 text-gray-900'
-              onClick={handleNextButton}
-            >
-              Next
-              <ChevronRightIcon className='w-5' />
-            </button>
-          </div>
-        </form >
-        <div className="flex flex-wrap gap-[10px] mb-[20px] py-6 border-t border-b border-gray-200">
-          {ingredientsArr.map((item) => {
-            return (
+              <button onClick={handleDialogOpen}>
+                <QuestionMarkCircleIcon className='w-4 md:w-6 text-gray-900' />
+              </button>
               <div
-                key={item.ingredient}
-                id={item.ingredient}
-                className={`relative text-gray-900 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5
-                  ${item.category === categories[0]
-                    ? 'bg-rose-100'
-                    : item.category === categories[1]
-                      ? 'bg-green-100'
-                      : item.category === categories[2]
-                        ? 'bg-orange-100'
-                        : item.category === categories[3]
-                          ? 'bg-slate-100'
-                          : item.category === categories[4]
-                            ? 'bg-yellow-100'
-                            : item.category === categories[5]
-                              ? 'bg-lime-100'
-                              : item.category === categories[6]
-                                ? 'bg-blue-100'
-                                : item.category === categories[7]
-                                  ? 'bg-gray-100'
-                                  : 'bg-white'
-                  }`}
+                onClick={handleDialogOpen}
+                className={`fixed z-10 top-0 left-0 w-screen h-screen ${dialogOpen === false && 'hidden'}`}
+              ></div>
+              <dialog open={dialogOpen}
+                className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'
               >
-                {item.ingredient}
-                <AiFillCloseCircle id={item.ingredient} className="absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]"
-                  onClick={removeIngredient}
-                />
+                <p className='text-gray-900 font-semibold'>
+                  Instructions:
+                </p>
+                <ol className='font-normal'>
+                  <li className='mt-4 md:mt-2'>1. Select a Category then an Ingredient</li>
+                  <li className='mt-4 md:mt-2'>2. Add as many ingredients as you want to cook with</li>
+                  <li className='mt-4 md:mt-2'>3. Click Generate Recipe to generate your recipe</li>
+                  <li className='mt-4 md:mt-2'>4. Click Save Recipe to save your new recipe</li>
+                  <li className='mt-4 md:mt-2'>5. Clicking Generate Recipe again will generate another recipe</li>
+                  <li className='mt-4 md:mt-2'>6. Select Next to proceed to your Saved Recipes</li>
+                </ol>
+              </dialog>
+            </div>
+            <form className='md:flex items-end mb-[20px]' onSubmit={addIngredient}>
+              <div className='flex gap-2 items-end'>
+                <div>
+                  <label className='block text-sm font-medium leading-6 text-gray-900'>
+                    Category
+                  </label>
+                  <div className='sm:mt-2'>
+                    <select
+                      className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
+                      name='category'
+                      onChange={handleRecipeForm}
+                    >
+                      <option value=''>- select category -</option>
+                      {categories.map((category) => {
+                        return (
+                          <option key={category} value={category}>
+                            {category}
+                          </option>
+                        )
+                      })}
+                    </select>
+                  </div>
+                </div>
+
+                <div className='sm:ml-[20px] mt-2 sm:mt-0'>
+                  <label className='block text-sm font-medium leading-6 text-gray-900'>
+                    Ingredient
+                  </label>
+                  <div className='sm:mt-2'>
+                    <select
+                      className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
+                      name='ingredient'
+                      onChange={handleRecipeForm}
+                    >
+                      <option value=''>- select ingredient -</option>
+                      {pantryItems
+                        .filter((item) => item.category === recipeForm.category)
+                        .map((item) => {
+                          return (
+                            <option key={item.ingredient} value={item.ingredient}>
+                              {item.ingredient}
+                            </option>
+                          )
+                        })}
+                    </select>
+                  </div>
+                </div>
               </div>
-            )
-          })}
-        </div>
-        {
-          isLoading
-            ? <></>
-            : <button
-              className="text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-6"
-              type="button"
-              onClick={generateRecipe}
-            >Generate Recipe</button>
-        }
-        <div className='flex justify-center'>
-          {
-            isLoading
-              ? <CircleSpinner />
-              : recipe !== null && <RecipeCard recipe={recipe} isLoading={isLoading}/>
-          }
-        </div>
-      </div >
-      </div >
+
+
+              <div className='grow mt-4 md:mt-0 md:ml-[20px] flex justify-between'>
+                <button
+                  type='submit'
+                  className='text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
+                >
+                  Add
+                </button>
+                <button className='font-semibold inline-flex items-center gap-1 text-gray-900'
+                  onClick={handleNextButton}
+                >
+                  Next
+                  <ChevronRightIcon className='w-5' />
+                </button>
+              </div>
+            </form >
+            <div className="flex flex-wrap gap-[10px] mb-[20px] py-6 border-t border-b border-gray-200">
+              {ingredientsArr.map((item) => {
+                return (
+                  <div
+                    key={item.ingredient}
+                    id={item.ingredient}
+                    className={`relative text-gray-900 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5
+                  ${item.category === categories[0]
+                        ? 'bg-rose-100'
+                        : item.category === categories[1]
+                          ? 'bg-green-100'
+                          : item.category === categories[2]
+                            ? 'bg-orange-100'
+                            : item.category === categories[3]
+                              ? 'bg-slate-100'
+                              : item.category === categories[4]
+                                ? 'bg-yellow-100'
+                                : item.category === categories[5]
+                                  ? 'bg-lime-100'
+                                  : item.category === categories[6]
+                                    ? 'bg-blue-100'
+                                    : item.category === categories[7]
+                                      ? 'bg-gray-100'
+                                      : 'bg-white'
+                      }`}
+                  >
+                    {item.ingredient}
+                    <AiFillCloseCircle id={item.ingredient} className="absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]"
+                      onClick={removeIngredient}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+            {
+              isLoading
+                ? <></>
+                : <button
+                  className="text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-6"
+                  type="button"
+                  onClick={generateRecipe}
+                >Generate Recipe</button>
+            }
+            <div className='flex justify-center'>
+              {
+                isLoading
+                  ? <CircleSpinner />
+                  : recipe !== null && <RecipeCard recipe={recipe} isLoading={isLoading} />
+              }
+            </div>
+          </div >
+        </div >
       </div >
     </>
 

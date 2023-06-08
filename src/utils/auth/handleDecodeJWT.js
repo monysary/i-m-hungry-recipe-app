@@ -1,4 +1,4 @@
-const { User } = require('../db/model/');
+const { User } = require('../../db/model');
 const jwt = require('jsonwebtoken')
 
 export default async function handleDecodeJWT(token) {

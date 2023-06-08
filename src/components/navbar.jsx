@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import authService from "@/utils/authService";
+import authService from "@/utils/auth/authService";
 
 function Navbar() {
     const [hideMenu, setHideMenu] = useState(true)

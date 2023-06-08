@@ -1,13 +1,13 @@
-import authService from "@/utils/authService";
+import authService from "@/utils/auth/authService";
 import { useEffect, useState } from "react";
 
 function RecipeCard({ recipe, isLoading }) {
     const [isSaved, setIsSaved] = useState(false)
-    
-    async function saveRecipe()  {
-        const recipeData = recipe 
+
+    async function saveRecipe() {
+        const recipeData = recipe
         try {
-             await fetch('/api/savedRecipe', {
+            await fetch('/api/savedRecipe', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

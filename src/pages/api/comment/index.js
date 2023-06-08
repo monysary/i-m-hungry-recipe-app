@@ -1,5 +1,5 @@
 const { Comment } = require("../../../db/model/index.js");
-import handleDecodeJWT from "@/utils/handleDecodeJWT.js";
+import handleDecodeJWT from "@/utils/auth/handleDecodeJWT.js";
 
 // recipe post comments CRUD operation methods
 export default async function handler(req, res) {	

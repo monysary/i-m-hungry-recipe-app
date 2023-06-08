@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import authService from '@/utils/authService'
+import authService from '@/utils/auth/authService'
 import SavedRecipeCard from '@/components/savedRecipeCard'
 import SavedRecipesEmptyState from '@/components/emptyStates/savedRecipesEmptyState'
 

@@ -6,72 +6,72 @@ export default function Faq() {
 	return (
 		<div className='bg-gray-900 h-full pb-24 md:pb-0'>
 			<AnimatePresence>
-			<div className='mx-auto max-w-7xl px-6 pt-12 sm:py-24 lg:px-8 md:pb-48'>
-				<div className='divide-y divide-white/10'>
-					<h2 className='text-2xl font-bold leading-10 tracking-tight text-white'>
-						Frequently asked questions
-					</h2>
-					<dl className='mt-10 space-y-6 divide-y divide-white/10 '>
-						{faqs.map((faq, index) => (
-							<Disclosure as='div' key={faq.question} className='pt-6'>
-								{({ open }) => (
-									<>
-									 <m.div
-										key={faq.question}
-										initial="hidden"
-										animate="visible"
-										exit="hidden"
-										variants={cardVariantsVertical}
-										custom={index}										
-										className=''
-									>
-										<dt className='hover:bg-gray-800 p-2 rounded-md'>
-											<Disclosure.Button  className='flex w-full items-start justify-between text-left text-white'>
-												<span  className='text-base font-semibold leading-7'>
-													{faq.question}
-												</span>
-												<span className='ml-6 flex h-7 items-center'>
-													{open ? (
-														<MinusSmallIcon
-															className='h-6 w-6'
-															aria-hidden='true'
-														/>
-													) : (
-														<PlusSmallIcon
-															className='h-6 w-6'
-															aria-hidden='true'
-														/>
-													)}
-												</span>
-											</Disclosure.Button>
-										</dt>
-										</m.div>
-										<Disclosure.Panel as='dd' className='mt-2 pr-12'>
-											{faq.question ===
-											"What other features will be added in the future?" ? (
-												<ul className='list-disc pl-5'>
-													<li>Daily meal plans.</li>
-													<li>Weekly meal plans.</li>
-													<li>Monthly meal plans.</li>
-													<li>Personalized meal plans based on dietary restrictions.</li>
-													<li>Ability to scale the recipe based on the number of servings.</li>
-													<li>Chatbox so that you can ask ChatGPT any food related questions!</li>
-													<li>Ability to share via Social Media.</li>
-												</ul>
-											) : (
-												<p className='text-base leading-7 text-gray-300 pl-4'>
-													{faq.answer}
-												</p>
-											)}
-										</Disclosure.Panel>
-									</>
-								)}
-							</Disclosure>
-						))}
-					</dl>
+				<div className='mx-auto max-w-7xl px-6 pt-12 sm:py-24 lg:px-8 md:pb-48'>
+					<div className='divide-y divide-white/10'>
+						<h2 className='text-2xl font-bold leading-10 tracking-tight text-white'>
+							Frequently asked questions
+						</h2>
+						<dl className='mt-10 space-y-6 divide-y divide-white/10 '>
+							{faqs.map((faq, index) => (
+								<Disclosure as='div' key={faq.question} className='pt-6'>
+									{({ open }) => (
+										<>
+											<m.div
+												key={faq.question}
+												initial="hidden"
+												animate="visible"
+												exit="hidden"
+												variants={cardVariantsVertical}
+												custom={index}
+												className=''
+											>
+												<dt className='hover:bg-gray-800 p-2 rounded-md'>
+													<Disclosure.Button className='flex w-full items-start justify-between text-left text-white'>
+														<span className='text-base font-semibold leading-7'>
+															{faq.question}
+														</span>
+														<span className='ml-6 flex h-7 items-center'>
+															{open ? (
+																<MinusSmallIcon
+																	className='h-6 w-6'
+																	aria-hidden='true'
+																/>
+															) : (
+																<PlusSmallIcon
+																	className='h-6 w-6'
+																	aria-hidden='true'
+																/>
+															)}
+														</span>
+													</Disclosure.Button>
+												</dt>
+											</m.div>
+											<Disclosure.Panel as='dd' className='mt-2 pr-12'>
+												{faq.question ===
+													"What other features will be added in the future?" ? (
+													<ul className='list-disc pl-5'>
+														<li>Daily meal plans.</li>
+														<li>Weekly meal plans.</li>
+														<li>Monthly meal plans.</li>
+														<li>Personalized meal plans based on dietary restrictions.</li>
+														<li>Ability to scale the recipe based on the number of servings.</li>
+														<li>Chatbox so that you can ask ChatGPT any food related questions!</li>
+														<li>Ability to share via Social Media.</li>
+													</ul>
+												) : (
+													<p className='text-base leading-7 text-gray-300 pl-4'>
+														{faq.answer}
+													</p>
+												)}
+											</Disclosure.Panel>
+										</>
+									)}
+								</Disclosure>
+							))}
+						</dl>
+					</div>
 				</div>
-			</div>
-			
+
 			</AnimatePresence>
 		</div>
 	);
@@ -129,16 +129,16 @@ const faqs = [
 
 const cardVariantsVertical = {
 	hidden: {
-	  y: 150,
-	  opacity: 0,
+		y: 150,
+		opacity: 0,
 	},
 	visible: {
-	  y: 0,
-	  opacity: 1,
-	  transition: {
-		type: 'spring',
-		bounce: 0.4,
-		duration: 0.8,
-	  },
+		y: 0,
+		opacity: 1,
+		transition: {
+			type: 'spring',
+			bounce: 0.4,
+			duration: 0.8,
+		},
 	},
-  }
+}

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, Fragment } from 'react'
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { Dialog, Transition } from '@headlessui/react'
 
-import authService from '@/utils/authService'
+import authService from '@/utils/auth/authService'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')

@@ -1,5 +1,5 @@
 const { User, SavedRecipe } = require("../../../db/model");
-const { signToken } = require("../../../utils/signToken");
+const { signToken } = require("../../../utils/auth/signToken");
 const sequelize = require("../../../db/config/connections");
 
 export default async function handler(req, res) {
