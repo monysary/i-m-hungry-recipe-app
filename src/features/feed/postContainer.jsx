@@ -3,8 +3,8 @@ import { motion as m, AnimatePresence } from "framer-motion";
 
 export default function PostContainer({ recipes, comments, userId }) {
   return (
-    <section className='flex justify-center px-2 w-full pb-24'>
-      <div className='px-2 pb-24 w-full max-w-4xl'>
+    <section className='flex justify-center px-0 w-full pb-24 '>
+      <div className='pb-24 w-full max-w-4xl'>
         <AnimatePresence>
           {recipes &&
             recipes.map((recipe) => (

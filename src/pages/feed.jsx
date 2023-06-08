@@ -71,14 +71,14 @@ export default function FeedPage() {
 
   if (loading)
     return (
-      <div className='flex w-full justify-center mt-12'>
+      <div className='flex w-full h-screen justify-center mt-12'>
         {" "}
         <CircleSpinner />
       </div>
     )
 
   return (
-    <div className='flex justify-center h-full pb-24'>
+    <div className='flex justify-center h-full pb-24 bg-white'>
       <div className='max-w-[1280px] w-full h-full px-2 md:px-4 py-6 '>
         <PageHeading />
         <PostContainer recipes={recipes} comments={comments} userId={userId} />
