@@ -66,8 +66,8 @@ export default function PostContainer() {
       </div>
     );
   return (
-    <div className='flex justify-center px-2 pb-24'>
-      <div className='px-2 pb-24 max-w-4xl'>
+    <div className='flex justify-center px-2 w-full pb-24'>
+      <div className='px-2 pb-24 w-full max-w-4xl'>
         <AnimatePresence>
           {recipes &&
             recipes.map((recipe, index) => (

@@ -94,39 +94,37 @@ export default async function handler(req, res) {
     /**
      * DELETE recipe post comments where user id and saved recipe ID matches
      */
-  } else if (req.method === "DELETE") {
-    const { id } = req.query;
+   } else if (req.method === "DELETE") {
+    const { commentId } = req.query; // Use commentId instead of id
     try {
       const token = req.headers.authorization;
       if (!token) {
         return res.status(401).json({ message: "Missing token" });
       }
-
+  
       const { userId, user } = await handleDecodeJWT(token);
-
+  
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-
-      if (!id) {
-        return res.status(400).json({ message: "IDs parameter is missing" });
+  
+      if (!commentId) { // Use commentId instead of id
+        return res.status(400).json({ message: "Comment ID is missing" }); // Updated error message
       }
-
+  
       const deletedComment = await Comment.destroy({
-        where: { id: id, userId: userId },
+        where: { id: commentId, userId: userId }, // Use commentId instead of id
       });
-
+  
       if (!deletedComment) {
         return res.status(404).json({ message: "Comment not found" });
       }
-      res
-        .status(200)
-        .json({ message: `ID: ${ids} comment successfully deleted` });
+      res.status(200).json({ message: `ID: ${commentId} comment successfully deleted` }); // Use commentId instead of ids
     } catch (error) {
       console.error(error);
       res.status(400).json({ message: "Failed to delete comment" });
     }
-  }
+  } 
 }
 
 export const config = {

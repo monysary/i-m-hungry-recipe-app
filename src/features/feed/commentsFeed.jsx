@@ -1,23 +1,39 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import getTimeAgo from "@/utils/getTimeAgo";
 import authService from "@/utils/auth/authService";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import {
   FaceFrownIcon,
   FaceSmileIcon,
   FireIcon,
   HandThumbUpIcon,
   HeartIcon,
-  PaperClipIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
 import { Listbox, Transition } from "@headlessui/react";
 
-export default function CommentsFeedComponent({ comments, recipeId }) {
+export default function CommentsFeed({ comments, recipeId }) {
   const [selected, setSelected] = useState(moods[5]);
   const [comment, setComment] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    if (authService.loggedIn()) {
+      const user = authService.getProfile();
+      const userId = user.id
+      setUserId(userId)
+    }
+  }, []);
 
   async function handleSubmitComment() {
+    if (!authService.loggedIn()) {
+      alert('Please log in to comment')
+      return
+    }
+
+    if (!comment) {
+      alert('Please enter a comment')
+      return
+    }
     const response = await fetch("/api/comment", {
       method: "POST",
       headers: {
@@ -34,6 +50,21 @@ export default function CommentsFeedComponent({ comments, recipeId }) {
     }
   }
 
+  async function handleDeleteComment(commentId) {
+    const response = await fetch(`/api/comment?commentId=${commentId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authService.getToken(),
+      },
+    });
+    if (response.ok) {
+      setComment("");
+    }
+    window.location.reload();
+  }
+
+  console.log(comments)
   return (
     <>
       <ul role='list' className='space-y-6 '>
@@ -48,20 +79,21 @@ export default function CommentsFeedComponent({ comments, recipeId }) {
             </div>
 
             <div className='flex flex-row w-full items-start pt-4'>
+              {/* TODO: allow profile pictures to be uploaded */}
               {/* <img
-                src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-                alt=''
+                src='https://www.nwcopro.solutions/wp-content/uploads/2018/04/default-avatar.png'
+                alt='avatar'
                 className='relative mt-3 h-6 w-6 flex-none rounded-full bg-white'
               /> */}
               <div className='relative flex h-6 w-6 flex-none items-center justify-center '>
-                <div className='h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300' />
+                <div className='h-1.5 w-1.5 rounded-full bg-orange-500 ring-1 ring-gray-300' />
               </div>
-              <div className='flex-auto w-full rounded-md'>
+              <div className='flex flex-col w-full rounded-md'>
                 <div className='flex w-full justify-between gap-x-4'>
                   <div className=' text-xs leading-5 text-gray-500'>
-                    <span className='font-medium text-gray-900'>
+                    <span className='font-medium text-gray-900 mr-2'>
                       {comment.username}
-                    </span>{" "}
+                    </span>
                     commented
                   </div>
                   <time
@@ -70,9 +102,15 @@ export default function CommentsFeedComponent({ comments, recipeId }) {
                     {getTimeAgo(comment.updatedAt)}
                   </time>
                 </div>
-                <p className='flex flex-wrap text-sm leading-6 text-black w-full break-words'>
-                  {comment.description}
-                </p>
+                <div className='flex flex-row justify-between items-start'>
+                  <p className='flex flex-wrap text-sm leading-6 text-black w-full break-words'>
+                    {comment.description}
+                  </p>
+                  {userId === comment.userId &&
+                    <button onClick={() => handleDeleteComment(comment.id)} className='mt-2 hover:bg-gray-100 bg-gray-200 transition ease-out rounded-full'>
+                      <XMarkIcon className='w-4' />
+                    </button>}
+                </div>
               </div>
             </div>
           </li>
@@ -82,8 +120,8 @@ export default function CommentsFeedComponent({ comments, recipeId }) {
       {/* New comment form */}
       <div className='mt-6 flex gap-x-3'>
         <img
-          src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-          alt=''
+          src='https://www.nwcopro.solutions/wp-content/uploads/2018/04/default-avatar.png'
+          alt='avatar'
           className='h-6 w-6 flex-none rounded-full bg-gray-50'
         />
         <form action='#' className='relative flex-auto '>
@@ -100,7 +138,9 @@ export default function CommentsFeedComponent({ comments, recipeId }) {
               className='block w-full resize-none h-14 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6'
               placeholder='Add your comment...'
               defaultValue={""}
+              maxLength={255}
             />
+
           </div>
 
           <div className='absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2'>
@@ -188,12 +228,14 @@ export default function CommentsFeedComponent({ comments, recipeId }) {
                 </Listbox>
               </div>
             </div>
-            <button
-              type='submit'
-              onClick={handleSubmitComment}
-              className='rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'>
-              Comment
-            </button>
+            <div className='flex flex-row items-center gap-4'>
+              <div className='text-xs text-gray-500'>{255 - comment.length} characters left</div>
+              <button
+                type='submit'
+                onClick={handleSubmitComment}
+                className='rounded-md bg-orange-600  px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm  hover:bg-orange-500 transition ease-out'>
+                Comment
+              </button></div>
           </div>
         </form>
       </div>

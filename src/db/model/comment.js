@@ -16,6 +16,9 @@ Comment.init(
     description: {
       type: DataTypes.TEXT,
       allowNull: false,
+      validate: {
+        len: [1, 255], 
+      },
     },
   },
   {

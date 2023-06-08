@@ -27,5 +27,5 @@ export default function PageHeading() {
 const headerText = {
   title: "See what others are eating",
   description:
-    "Discover Culinary Inspiration: Explore the Tantalizing Creations of Fellow Food Enthusiasts",
+    "Discover culinary inspiration: Explore the tantalizing creations of fellow food enthusiasts",
 };
