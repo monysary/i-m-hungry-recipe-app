@@ -41,8 +41,8 @@ function SavedRecipes() {
         }
         return updatedObject;
       });
-
-      setMyRecipes(convertedData);
+      const reverseOrderRecipes = convertedData?.reverse();
+      setMyRecipes(reverseOrderRecipes);
     } catch (err) {
       console.log(err);
     }
@@ -57,6 +57,7 @@ function SavedRecipes() {
       </div>
     );
 
+   
   return (
     <>
       <Head>
