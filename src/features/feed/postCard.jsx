@@ -2,7 +2,7 @@ import { useState } from "react";
 import getTimeAgo from "@/utils/getTimeAgo";
 import CommentsContainer from "./comments/commentsContainer";
 
-export default function PostCard({ recipe, comments }) {
+export default function PostCard({ recipe, comments, userId }) {
     const [visible, setVisible] = useState(false);
 
     return (
@@ -133,35 +133,8 @@ export default function PostCard({ recipe, comments }) {
                     )}
                 </div>
             )}
-            {/* {!commentVisible ? (
-                <button
-                    className='p-2 text-orange-600 hover:text-orange-500 underline font-medium'
-                    onClick={() => setCommentVisible(!commentVisible)}>
-                    Add comment
-                </button>
-            ) : (
-                <form htmlFor='comment' className=' mt-4 '>
-                    <textarea
-                        htmlFor='comment'
-                        placeholder='Leave a comment'
-                        className='rounded-md w-full'
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                    />
-                    <div className='flex flex-row gap-2'>
-                        <button onClick={handleSubmitComment} className='p-2 mt-2 w-36 bg-orange-600 hover:bg-orange-500 transition ease-out text-white rounded-md font-medium'>
-                            Submit
-                        </button>
-                        <button
-                            onClick={() => setCommentVisible(false)}
-                            className='p-2 mt-2 w-36 border border-orange-500 hover:opacity-60 transition ease-out text-orange-500  rounded-md font-medium'>
-                            Cancel
-                        </button>
-                    </div>
-                </form>
-            )} */}
             <section className='px-2'>
-                <CommentsContainer comments={comments} recipeId={recipe.id} />
+                <CommentsContainer comments={comments} recipeId={recipe.id} userId={userId} />
             </section>
         </div>
     );

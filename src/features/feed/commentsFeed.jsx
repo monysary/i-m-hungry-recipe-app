@@ -11,10 +11,9 @@ import {
 } from "@heroicons/react/20/solid";
 import { Listbox, Transition } from "@headlessui/react";
 
-export default function CommentsFeed({ comments, recipeId }) {
+export default function CommentsFeed({ recipeId, comments, userId }) {
   const [selected, setSelected] = useState(moods[5]);
   const [comment, setComment] = useState("");
-  const [userId, setUserId] = useState("");
   const [commentCount, setCommentCount] = useState(2);
 
   function viewAllComments() {
@@ -24,15 +23,6 @@ export default function CommentsFeed({ comments, recipeId }) {
       setCommentCount(comments?.length);
     }
   }
-
-
-  useEffect(() => {
-    if (authService.loggedIn()) {
-      const user = authService.getProfile();
-      const userId = user.id
-      setUserId(userId)
-    }
-  }, []);
 
   async function handleSubmitComment() {
     if (!authService.loggedIn()) {
@@ -74,7 +64,8 @@ export default function CommentsFeed({ comments, recipeId }) {
     window.location.reload();
   }
 
-  console.log(comments)
+
+
   return (
     <>
       {comments.length > 2 &&
@@ -155,7 +146,6 @@ export default function CommentsFeed({ comments, recipeId }) {
               onChange={(e) => setComment(e.target.value)}
               className='block w-full resize-none h-14 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6'
               placeholder='Add your comment...'
-              defaultValue={""}
               maxLength={255}
             />
 
