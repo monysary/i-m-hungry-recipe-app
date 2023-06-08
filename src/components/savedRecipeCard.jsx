@@ -118,9 +118,31 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
     }
   }
 
+  async function handlePostToFeed(id) {
+    try {
+      const response = await fetch(`/api/savedRecipe?id=${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authService.getToken(),
+        },
+        body: JSON.stringify({
+          ...recipeModal,
+          postedToTimeline: true,
+        })
+      })
+      const data = await response.json()
+      return data
+
+    } catch (err) {
+      console.log(err);
+    } finally {
+    }
+  }
+
   return (
     <div className="px-2 sm:px-6">
-      <div className="mt-8 flow-root">
+      <div className="mt-4 flow-root">
         <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 ">
             <div className="relative">
@@ -218,6 +240,7 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                           View<span className="sr-only">{recipe.title}</span>
                         </button>
                       </td>
+
                     </tr>
                   ))}
                 </tbody>
@@ -262,7 +285,16 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                           value={recipeModal && recipeModal.title}
                           className='w-full sm:w-1/2 text-[25px] rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
                         />
-                        : <h3 className="text-[25px] font-semibold leading-7 text-gray-900">{recipeModal?.title}</h3>
+                        : <div className='flex flex-row justify-between'>
+                          <h3 className="text-[25px] font-semibold leading-7 text-gray-900">{recipeModal?.title}</h3>
+                          <button
+                            type='button'
+                            onClick={() => handlePostToFeed(recipeModal?.id)}
+                            className="rounded-md sm:ml-0 text-gray-900 bg-white shadow-sm hover:bg-gray-50 ring-1 ring-inset ring-gray-300 font-semibold text-sm px-2.5 py-1.5"
+                          >
+                            Share to feed<span className="sr-only">{recipeModal?.title}</span>
+                          </button>
+                        </div>
                       }
                       {editMode
                         ? <div className='flex items-center mt-1 max-w-2xl text-sm leading-6 text-gray-500'>

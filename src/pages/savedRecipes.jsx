@@ -14,8 +14,8 @@ function SavedRecipes() {
     } else {
       window.location.assign('/login')
     }
-  },[])
-  
+  }, [])
+
   useEffect(() => {
     fetchRecipes()
   }, [toggle])
@@ -32,12 +32,15 @@ function SavedRecipes() {
 
       const data = await response.json()
       const convertedData = data.map((object) => {
-        return ({
-          ...object,
-          ingredients: JSON.parse(object.ingredients),
-          instructions: JSON.parse(object.instructions)
-        })
-      })
+        const updatedObject = { ...object };
+        if (typeof object.ingredients === 'string') {
+          updatedObject.ingredients = JSON.parse(object.ingredients);
+        }
+        if (typeof object.instructions === 'string') {
+          updatedObject.instructions = JSON.parse(object.instructions);
+        }
+        return updatedObject;
+      });
 
       setMyRecipes(convertedData)
     } catch (err) {
@@ -45,12 +48,12 @@ function SavedRecipes() {
     }
   }
 
-  if (myRecipes < 1) 
+  if (myRecipes < 1)
     return (
       <div className="flex justify-center h-full md:h-screen pb-24 md:pb-0">
-      <div className="max-w-[1280px] w-full px-2 py-6 mt-24">    
+        <div className="max-w-[1280px] w-full px-2 py-6 mt-24">
           <SavedRecipesEmptyState />
-      </div>
+        </div>
       </div>
     )
 
@@ -60,19 +63,19 @@ function SavedRecipes() {
         <title>What am I craving?</title>
       </Head>
       {myRecipes?.length > 0 &&
-       <div className="flex justify-center h-screen">
-       <div className="max-w-[1280px] w-full px-2 py-6">
-         <div className='min-h-full  px-4 py-6 '>
-          <div>
-            <h1 className='md:text-3xl text-2xl mb-2 font-medium text-black'>
-              My Recipes
-            </h1>
-            <div className='py-4'>
-              <SavedRecipeCard myRecipes={myRecipes} setToggle={setToggle} />
+        <div className="flex justify-center h-screen">
+          <div className="max-w-[1280px] w-full px-2 py-6">
+            <div className='min-h-full  px-4 py-6 '>
+              <div>
+                <h1 className='md:text-3xl text-2xl  font-medium text-black'>
+                  My Recipes
+                </h1>
+                <div className='py-4'>
+                  <SavedRecipeCard myRecipes={myRecipes} setToggle={setToggle} />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        </div>
         </div>
       }
     </>
