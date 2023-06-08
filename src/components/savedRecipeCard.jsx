@@ -10,7 +10,9 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
   const [indeterminate, setIndeterminate] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState([]);
   const [success, setSuccess] = useState(false);
+  const [shareSuccess, setShareSuccess] = useState(false);
 
+  
   useEffect(() => {
     const isIndeterminate =
       selectedRecipe.length > 0 && selectedRecipe.length < myRecipes?.length;
@@ -66,6 +68,8 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
       setEditMode(false);
     }
   }, [open]);
+
+  console.log(recipeModal)
 
   const handleRecipeChange = ({ target: { name, value } }, item) => {
     switch (name.split(" ")[0]) {
@@ -140,7 +144,11 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
     } catch (err) {
       console.log(err);
     } finally {
-      setSuccess(true);
+      setRecipeModal((prev) => ({
+        ...prev,
+        postedToTimeline: !recipeModal.postedToTimeline, // Update the state with the new value
+      }));
+      setShareSuccess(true);
     }
   }
 
@@ -309,18 +317,31 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                             <h3 className='text-[25px] font-semibold leading-7 text-gray-900'>
                               {recipeModal?.title}
                             </h3>
-                            <button
-                              type='button'
-                              onClick={() => handlePostToFeed(recipeModal?.id)}
-                              className='rounded-md sm:ml-0 text-gray-900 bg-white shadow-sm hover:bg-gray-50 transition ease-out ring-1 ring-inset ring-gray-300 font-semibold text-sm px-2.5 py-1.5'>
-                              Share to feed
-                              <span className='sr-only'>
-                                {recipeModal?.title}
-                              </span>
-                            </button>
+                            {!recipeModal?.postedToTimeline ? (
+                              <button
+                                type='button'
+                                onClick={() => handlePostToFeed(recipeModal?.id)}
+                                className='rounded-md sm:ml-0  text-gray-900 bg-white shadow-sm hover:bg-gray-50 transition ease-out ring-1 ring-inset ring-gray-300 font-semibold text-sm px-2.5 py-1.5'>
+                                Share to feed
+                                <span className='sr-only'>
+                                  {recipeModal?.title}
+                                </span>
+                              </button>) : (
+                              <button
+                                type='button'
+                                disabled
+                                // onClick={() => handlePostToFeed(recipeModal?.id)}
+                                className='rounded-md sm:ml-0 text-gray-900 bg-white shadow-sm hover:bg-gray-50 transition ease-out ring-1 ring-inset ring-gray-300 font-semibold text-sm px-2.5 py-1.5'>
+                                Shared
+                                <span className='sr-only'>
+                                  {recipeModal?.title}
+                                </span>
+                              </button>
+                              )
+                            }
                           </div>
                           
-                          {success && <div className=''> <SuccessNotification title='Successfully shared!' message='View your publicly shared post on the feed.' btnTitle='View post' href='/feed' /> </div>}
+                          {shareSuccess && <div className=''> <SuccessNotification title='Successfully shared!' message='View your publicly shared post on the feed.' btnTitle='View post' href='/feed' /> </div>}
                         </div>
                       )}
                       {editMode ? (
