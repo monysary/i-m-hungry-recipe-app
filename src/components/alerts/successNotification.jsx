@@ -1,15 +1,14 @@
 import { Fragment, useState } from 'react'
+import Link from 'next/link'
 import { Transition } from '@headlessui/react'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import { XMarkIcon } from '@heroicons/react/20/solid'
-import Link from 'next/link'
 
 export default function SuccessNotification({title, message, btnTitle, href}) {
   const [show, setShow] = useState(true)
 
   return (
     <>
-      {/* Global notification live region, render this permanently at the end of the document */}
       <div
         aria-live="assertive"
         className="pointer-events-none fixed inset-0 flex  px-4 py-6 items-start sm:p-6 z-50"
@@ -35,11 +34,13 @@ export default function SuccessNotification({title, message, btnTitle, href}) {
                   <div className="ml-3 w-0 flex-1 pt-0.5">
                     <p className="text-sm font-medium text-gray-900">{title}</p>
                     <p className="mt-1 text-sm text-gray-500">{message}</p>
-                    <button className="mt-2 rounded-md bg-green-50 px-2 py-1.5 text-sm font-medium text-green-800 hover:bg-green-100 transition ease-out focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50">
-                        <Link href={href}>
-                    {btnTitle}
-                    </Link>
-                    </button>
+                    {btnTitle && href && 
+                      <button className="mt-2 rounded-md bg-green-50 px-2 py-1.5 text-sm font-medium text-green-800 hover:bg-green-100 transition ease-out focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50">
+                          <Link href={href}>
+                            {btnTitle}
+                          </Link>
+                      </button>
+                    }
                   </div>
                   <div className="ml-4 flex flex-shrink-0">
                     <button

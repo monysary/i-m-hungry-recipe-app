@@ -14,7 +14,7 @@ export default function PostCard({ recipe, comments, userId }) {
                 <article className='overflow-hidden shadow rounded-md bg-neutral-50'>
                     {recipe && (
                         <div key={recipe.id}>
-                            <div className='flex flex-row justify-between '>
+                            <div className='flex flex-row justify-between px-2 '>
                                 <div className='flex flex-col gap-2 px-2 md:px-4 py-2 sm:px-6 rounded-md'>
                                     <p className='text-gray-500 text-sm italic'>
                                         {getTimeAgo(recipe.updatedAt)}
@@ -94,6 +94,18 @@ export default function PostCard({ recipe, comments, userId }) {
                                             ))}
                                         </div>
                                     </div>
+                                   {recipe.notes &&  <div className='px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'>
+                                        <dt className='text-sm font-medium text-gray-900'>
+                                            Notes
+                                        </dt>
+                                        <div className='col-span-2'>
+                                            <dd className='mt-1 text-sm leading-6 w-full text-gray-700 sm:mt-0'>
+                                                <div className='flex flex-row w-full gap-2'>
+                                                    <p>{recipe.notes} </p>
+                                                </div>
+                                            </dd>
+                                        </div>
+                                    </div>}
                                 </dl>
                             </div>
                         </div>
@@ -103,7 +115,7 @@ export default function PostCard({ recipe, comments, userId }) {
                 <article className='overflow-hidden bg-neutral-100 shadow rounded-md cursor-pointer hover:bg-neutral-50 transition ease-out' onClick={() => setVisible(!visible)}>
                     {recipe && (
                         <div key={recipe.id}>
-                            <div className='flex flex-row justify-between'>
+                            <div className='flex flex-row justify-between px-2'>
                                 <div className='flex flex-col gap-2 px-2 md:px-4 py-2 sm:px-6 rounded-md'>
                                     <p className='text-gray-500 text-sm italic'>
                                         {getTimeAgo(recipe.updatedAt)}
