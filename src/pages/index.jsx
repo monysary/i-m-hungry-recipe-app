@@ -1,7 +1,7 @@
-import Image from 'next/image'
-import { motion as m, AnimatePresence } from 'framer-motion'
-import pantry from '../../public/images/pantry.png'
-import kitchen from '../../public/images/kitchen.png'
+import Image from "next/image";
+import { motion as m, AnimatePresence } from "framer-motion";
+import pantry from "../../public/images/pantry.png";
+import kitchen from "../../public/images/kitchen.png";
 import {
   ArrowPathIcon,
   BanknotesIcon,
@@ -9,13 +9,12 @@ import {
   CursorArrowRaysIcon,
   GlobeAmericasIcon,
   CloudArrowUpIcon,
-} from '@heroicons/react/20/solid'
+} from "@heroicons/react/20/solid";
 import {
   BoltIcon,
   CalendarDaysIcon,
   UsersIcon,
-} from '@heroicons/react/24/outline'
-
+} from "@heroicons/react/24/outline";
 
 export default function LandingPage() {
   return (
@@ -26,8 +25,7 @@ export default function LandingPage() {
           <div className='relative isolate overflow-hidden'>
             <svg
               className='absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]'
-              aria-hidden='true'
-            >
+              aria-hidden='true'>
               <defs>
                 <pattern
                   id='983e3e4c-de6d-4c3f-8d64-b9761d1534cc'
@@ -35,8 +33,7 @@ export default function LandingPage() {
                   height={200}
                   x='50%'
                   y={-1}
-                  patternUnits='userSpaceOnUse'
-                >
+                  patternUnits='userSpaceOnUse'>
                   <path d='M.5 200V.5H200' fill='none' />
                 </pattern>
               </defs>
@@ -55,13 +52,12 @@ export default function LandingPage() {
             </svg>
             <div
               className='absolute left-[calc(50%-4rem)]  -z-10 transform-gpu blur-3xl sm:left-[calc(50%-18rem)] lg:left-48 lg:top-[calc(50%-30rem)] xl:left-[calc(50%-24rem)]'
-              aria-hidden='true'
-            >
+              aria-hidden='true'>
               <div
                 className='aspect-[1108/632] w-[69.25rem] bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-20'
                 style={{
                   clipPath:
-                    'polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)',
+                    "polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)",
                 }}
               />
             </div>
@@ -70,10 +66,10 @@ export default function LandingPage() {
                 initial='hidden'
                 animate='visible'
                 viewport={{ once: true, amount: 0.8 }}
-                className='flex flex-col md:flex-row'
-              >
+                className='flex flex-col md:flex-row'>
                 <m.div
-                  variants={cardVariantsVertical} className='mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8'>
+                  variants={cardVariantsVertical}
+                  className='mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8'>
                   <div className='mt-12 sm:mt-32 lg:mt-16'>
                     <div className='inline-flex space-x-6'>
                       <span className='rounded-full bg-orange-500/10 px-3 py-1 text-sm font-semibold leading-6 text-orange-400 ring-1 ring-inset ring-orange-500/20'>
@@ -86,26 +82,25 @@ export default function LandingPage() {
                     harder
                   </h1>
                   <p className='mt-6 text-lg leading-8 text-gray-300'>
-                    Say goodbye to home meal planning stress with tasty recipes at
-                    your fingertips!
+                    Say goodbye to home meal planning stress with tasty recipes
+                    at your fingertips!
                   </p>
                   <div className='mt-10 flex items-center gap-x-6'>
                     <a
                       href='/signup'
-                      className='rounded-md bg-orange-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400'
-                    >
+                      className='rounded-md bg-orange-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400'>
                       Get started
                     </a>
                     <a
                       href='/signup'
-                      className='text-sm font-semibold leading-6 text-white'
-                    >
+                      className='text-sm font-semibold leading-6 text-white'>
                       Sign up <span aria-hidden='true'>→</span>
                     </a>
                   </div>
                 </m.div>
                 <m.div
-                  variants={cardVariantsHorizontal} className='mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32'>
+                  variants={cardVariantsHorizontal}
+                  className='mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32'>
                   <div className='max-w-3xl flex-none sm:max-w-5xl lg:max-w-none'>
                     <Image
                       src={kitchen}
@@ -117,7 +112,6 @@ export default function LandingPage() {
                   </div>
                 </m.div>
               </m.div>
-
             </div>
           </div>
 
@@ -127,9 +121,10 @@ export default function LandingPage() {
             initial='offscreen'
             whileInView='onscreen'
             viewport={{ once: true, amount: 0.8 }}
-            className='mx-auto max-w-7xl px-6 mb-24 md:mb-0 sm:mt-12 lg:px-8'
-          >
-            <m.div variants={cardVariantsChildren} className='mx-auto max-w-2xl text-center'>
+            className='mx-auto max-w-7xl px-6 mb-24 md:mb-0 sm:mt-12 lg:px-8'>
+            <m.div
+              variants={cardVariantsChildren}
+              className='mx-auto max-w-2xl text-center'>
               <h2 className='text-base font-semibold leading-7 text-orange-400'>
                 Effortless planning
               </h2>
@@ -144,7 +139,10 @@ export default function LandingPage() {
             <div className='mx-auto my-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none'>
               <dl className='grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3'>
                 {primaryFeatures.map((feature) => (
-                  <m.div variants={cardVariantsChildren} key={feature.name} className='flex flex-col'>
+                  <m.div
+                    variants={cardVariantsChildren}
+                    key={feature.name}
+                    className='flex flex-col'>
                     <dt className='text-base font-semibold leading-7 text-white'>
                       <div className='mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500'>
                         <feature.icon
@@ -159,8 +157,7 @@ export default function LandingPage() {
                       <p className='mt-6'>
                         <a
                           href={feature.href}
-                          className='text-sm font-semibold leading-6 text-orange-400'
-                        >
+                          className='text-sm font-semibold leading-6 text-orange-400'>
                           Learn more <span aria-hidden='true'>→</span>
                         </a>
                       </p>
@@ -169,7 +166,6 @@ export default function LandingPage() {
                 ))}
               </dl>
             </div>
-
           </m.div>
 
           {/* Feature section */}
@@ -183,8 +179,8 @@ export default function LandingPage() {
                   No food ideas? No problem.
                 </p>
                 <p className='mt-6 text-lg leading-8 text-gray-300'>
-                  Let us take the lead on meal planning by helping you decide what
-                  to cook based on ingredients you already have.
+                  Let us take the lead on meal planning by helping you decide
+                  what to cook based on ingredients you already have.
                 </p>
               </div>
             </div>
@@ -212,7 +208,7 @@ export default function LandingPage() {
                         aria-hidden='true'
                       />
                       {feature.name}
-                    </dt>{' '}
+                    </dt>{" "}
                     <dd className='inline'>{feature.description}</dd>
                   </div>
                 ))}
@@ -230,16 +226,15 @@ export default function LandingPage() {
                 Trusted by thousands of developers&nbsp;worldwide
               </p>
               <p className='mt-6 text-lg leading-8 text-gray-300'>
-                Your next dinner party is in good hands with the most powerful and
-                popular AI tool in the world at your fingertips.
+                Your next dinner party is in good hands with the most powerful
+                and popular AI tool in the world at your fingertips.
               </p>
             </div>
             <dl className='mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 text-white sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-4'>
               {stats.map((stat) => (
                 <div
                   key={stat.id}
-                  className='flex flex-col gap-y-3 border-l border-white/10 pl-6'
-                >
+                  className='flex flex-col gap-y-3 border-l border-white/10 pl-6'>
                   <dt className='text-sm leading-6'>{stat.name}</dt>
                   <dd className='order-first text-3xl font-semibold tracking-tight'>
                     {stat.value}
@@ -253,8 +248,7 @@ export default function LandingPage() {
           <div className='relative isolate mt-0 px-6 py-24 sm:mt-24 sm:py-40 lg:px-8'>
             <svg
               className='absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]'
-              aria-hidden='true'
-            >
+              aria-hidden='true'>
               <defs>
                 <pattern
                   id='1d4240dd-898f-445f-932d-e2872fd12de3'
@@ -262,8 +256,7 @@ export default function LandingPage() {
                   height={200}
                   x='50%'
                   y={0}
-                  patternUnits='userSpaceOnUse'
-                >
+                  patternUnits='userSpaceOnUse'>
                   <path d='M.5 200V.5H200' fill='none' />
                 </pattern>
               </defs>
@@ -282,13 +275,12 @@ export default function LandingPage() {
             </svg>
             <div
               className='absolute inset-x-0 top-10 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl'
-              aria-hidden='true'
-            >
+              aria-hidden='true'>
               <div
                 className='aspect-[1108/632] w-[69.25rem] flex-none bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-20'
                 style={{
                   clipPath:
-                    'polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)',
+                    "polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)",
                 }}
               />
             </div>
@@ -305,14 +297,12 @@ export default function LandingPage() {
               <div className='mt-10 flex items-center justify-center gap-x-6'>
                 <a
                   href='/signup'
-                  className='rounded-md bg-orange-600  px-3.5 py-2.5 text-sm font-semibold text-white-900 shadow-sm hover:bg-orange-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
-                >
+                  className='rounded-md bg-orange-600  px-3.5 py-2.5 text-sm font-semibold text-white-900 shadow-sm hover:bg-orange-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'>
                   Get started
                 </a>
                 <a
                   href='/signup'
-                  className='text-sm font-semibold leading-6 text-white'
-                >
+                  className='text-sm font-semibold leading-6 text-white'>
                   Learn more <span aria-hidden='true'>→</span>
                 </a>
               </div>
@@ -321,74 +311,74 @@ export default function LandingPage() {
         </main>
       </AnimatePresence>
     </div>
-  )
+  );
 }
 
 const primaryFeatures = [
   {
-    name: 'Instant meal planning',
+    name: "Instant meal planning",
     description:
       "Unlock the magic of your pantry with I'm Hungry, a revolutionary web app designed to transform your cooking experience. Say goodbye to meal planning struggles and unleash your culinary creativity effortlessly.",
-    href: '/signup',
+    href: "/signup",
     icon: BoltIcon,
   },
   {
-    name: 'Powerful Algorithm',
+    name: "Powerful Algorithm",
     description:
       "How does I'm Hungry work? It's simple! All you need to do is input the recipes you have in your pantry, and our powerful ChatGPT algorithm will generate unique, delicious recipes tailored to your ingredients.",
-    href: '/signup',
+    href: "/signup",
     icon: UsersIcon,
   },
   {
-    name: 'No more waste',
+    name: "No more waste",
     description:
       "No more wasting food or wondering what to cook – I'm Hungry has got you covered. Whether you have a handful of basics or a diverse range of items, I'm Hungry makes the most of what you already have.",
-    href: '/signup',
+    href: "/signup",
     icon: CalendarDaysIcon,
   },
-]
+];
 const secondaryFeatures = [
   {
-    name: 'Save money',
+    name: "Save money",
     description:
-      'No need to overstock on groceries when you can make delicious meals with what you have.',
+      "No need to overstock on groceries when you can make delicious meals with what you have.",
     icon: BanknotesIcon,
   },
   {
-    name: 'Reduce waste',
+    name: "Reduce waste",
     description:
-      'Stop throwing away food and use your ingredients in ways you never imagined.',
+      "Stop throwing away food and use your ingredients in ways you never imagined.",
     icon: GlobeAmericasIcon,
   },
   {
-    name: 'Fast results',
-    description: 'Instant meal generation backed by the power of AI.',
+    name: "Fast results",
+    description: "Instant meal generation backed by the power of AI.",
     icon: ArrowPathIcon,
   },
   {
-    name: 'Delicious recipes',
+    name: "Delicious recipes",
     description:
-      'Become a chef and discover new mouthwatering flavors at the click of a button.',
+      "Become a chef and discover new mouthwatering flavors at the click of a button.",
     icon: CursorArrowRaysIcon,
   },
   {
-    name: 'Powerful AI.',
-    description: 'Leverage the most popular AI tool in the world.',
+    name: "Powerful AI.",
+    description: "Leverage the most popular AI tool in the world.",
     icon: CpuChipIcon,
   },
   {
-    name: 'Save your favorites',
+    name: "Save your favorites",
     description:
-      'Never lose your favorite recipes ever again by saving them in the cloud.',
+      "Never lose your favorite recipes ever again by saving them in the cloud.",
     icon: CloudArrowUpIcon,
   },
-]
+];
 const stats = [
-  { id: 1, name: 'Different food recipes', value: '8,000+' },
-  { id: 2, name: 'Unlimited requests', value: '900m+' },
-  { id: 3, name: 'Uptime guarantee', value: '99.9%' },
-  { id: 4, name: 'Happy customers', value: '100%' },
-]
+  { id: 1, name: "Different food recipes", value: "8,000+" },
+  { id: 2, name: "Unlimited requests", value: "900m+" },
+  { id: 3, name: "Uptime guarantee", value: "99.9%" },
+  { id: 4, name: "Happy customers", value: "100%" },
+];
 
 const cardVariantsVertical = {
   hidden: {
@@ -399,12 +389,12 @@ const cardVariantsVertical = {
     y: 0,
     opacity: 1,
     transition: {
-      type: 'spring',
+      type: "spring",
       bounce: 0.4,
       duration: 0.8,
     },
   },
-}
+};
 
 const cardVariantsHorizontal = {
   hidden: {
@@ -415,12 +405,12 @@ const cardVariantsHorizontal = {
     x: 0,
     opacity: 1,
     transition: {
-      type: 'spring',
+      type: "spring",
       bounce: 0.4,
       duration: 0.8,
     },
   },
-}
+};
 
 const cardVariantsChildren = {
   offscreen: {
@@ -430,10 +420,9 @@ const cardVariantsChildren = {
     y: 0,
 
     transition: {
-      type: 'spring',
+      type: "spring",
       bounce: 0.4,
       duration: 0.8,
-
     },
   },
-}
+};

@@ -1,0 +1,6 @@
+dist 
+build
+.md
+node_modules
+.next
+.vscode

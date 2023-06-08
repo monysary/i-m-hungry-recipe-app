@@ -1,33 +1,32 @@
-import { useEffect, useState } from 'react'
-import Head from 'next/head'
-import authService from '@/utils/auth/authService'
-import { motion as m, AnimatePresence } from 'framer-motion'
-import { AiFillCloseCircle } from 'react-icons/ai'
+import { useEffect, useState } from "react";
+import Head from "next/head";
+import authService from "@/utils/auth/authService";
+import { motion as m, AnimatePresence } from "framer-motion";
+import { AiFillCloseCircle } from "react-icons/ai";
 import {
   QuestionMarkCircleIcon,
   ChevronRightIcon,
-} from '@heroicons/react/24/outline'
-
+} from "@heroicons/react/24/outline";
 
 function Pantry() {
   useEffect(() => {
     if (authService.loggedIn() && !authService.tokenExpired()) {
-      return
+      return;
     } else {
-      window.location.assign('/login')
+      window.location.assign("/login");
     }
-  })
+  });
 
-  const [toggle, setToggle] = useState(true)
-  const [updateState, setUpdateState] = useState(false)
-  const [pantryItems, setPantryItems] = useState([])
+  const [toggle, setToggle] = useState(true);
+  const [updateState, setUpdateState] = useState(false);
+  const [pantryItems, setPantryItems] = useState([]);
 
   useEffect(() => {
     const getItems = async () => {
       try {
-        const response = await fetch('/api/pantry', {
+        const response = await fetch("/api/pantry", {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `${authService.getToken()}`,
           },
         });
@@ -37,21 +36,21 @@ function Pantry() {
       } catch (err) {
         console.log(err);
       }
-    }
+    };
 
-    getItems()
-  }, [toggle])
+    getItems();
+  }, [toggle]);
 
   // Add items to pantry
   const addToPantry = async (event) => {
-    event.preventDefault()
-    const ingredient = event.target[0].value
-    const category = event.target[1].value
+    event.preventDefault();
+    const ingredient = event.target[0].value;
+    const category = event.target[1].value;
     try {
-      await fetch('/api/pantry', {
-        method: 'POST',
+      await fetch("/api/pantry", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `${authService.getToken()}`,
         },
         body: JSON.stringify({
@@ -63,57 +62,60 @@ function Pantry() {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   // Delete items from pantry
   const handleDeleteItem = async (event) => {
-    const ingredient = event.target.parentElement.id.split(' ')
+    const ingredient = event.target.parentElement.id.split(" ");
     try {
-      await fetch(`/api/pantry?ingredient=${ingredient[0]}&category=${ingredient[1]}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${authService.getToken()}`,
-        },
-      });
+      await fetch(
+        `/api/pantry?ingredient=${ingredient[0]}&category=${ingredient[1]}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${authService.getToken()}`,
+          },
+        }
+      );
 
       setToggle((prev) => !prev);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   // Handle Next button
   const handleNextButton = () => {
-    window.location.assign('/kitchen')
-  }
+    window.location.assign("/kitchen");
+  };
 
   // Handle instructions dialog
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false);
   const handleDialogOpen = () => {
-    setDialogOpen(!dialogOpen)
-  }
+    setDialogOpen(!dialogOpen);
+  };
 
   const handleUpdateButton = () => {
-    setUpdateState((prev) => !prev)
-  }
+    setUpdateState((prev) => !prev);
+  };
 
   return (
     <>
       <Head>
         <title>Checking out the pantry...</title>
       </Head>
-      <div className="flex justify-center h-full pb-24">
-        <div className="max-w-[1280px] w-full px-2 py-6">
+      <div className='flex justify-center h-full pb-24'>
+        <div className='max-w-[1280px] w-full px-2 py-6'>
           <div className='min-h-full px-4 py-8'>
             <AnimatePresence>
               <m.div
                 initial='hidden'
                 animate='visible'
-                viewport={{ once: true, amount: 0.8 }}
-
-              >
-                <m.div variants={cardVariantsVertical} className='relative flex items-start gap-1'>
+                viewport={{ once: true, amount: 0.8 }}>
+                <m.div
+                  variants={cardVariantsVertical}
+                  className='relative flex items-start gap-1'>
                   <div className='md:text-3xl text-2xl  md:mb-4 text-black font-medium'>
                     Add To Pantry
                   </div>
@@ -122,19 +124,26 @@ function Pantry() {
                   </button>
                   <div
                     onClick={handleDialogOpen}
-                    className={`fixed z-10 top-0 left-0 w-screen h-screen ${dialogOpen === false && 'hidden'}`}
-                  ></div>
-                  <dialog open={dialogOpen}
-                    className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'
-                  >
-                    <p className='text-gray-900 font-semibold'>
-                      Instructions:
-                    </p>
+                    className={`fixed z-10 top-0 left-0 w-screen h-screen ${
+                      dialogOpen === false && "hidden"
+                    }`}></div>
+                  <dialog
+                    open={dialogOpen}
+                    className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'>
+                    <p className='text-gray-900 font-semibold'>Instructions:</p>
                     <ol className='font-normal'>
-                      <li className='mt-4 md:mt-2'>1. Enter an Ingredient and select a Category</li>
-                      <li className='mt-4 md:mt-2'>2. Click Add to add the ingredient into the pantry </li>
-                      <li className='mt-4 md:mt-2'>3. Click Update to remove an ingredients</li>
-                      <li className='mt-4 md:mt-2'>4. Select Next to proceed to the Kitchen</li>
+                      <li className='mt-4 md:mt-2'>
+                        1. Enter an Ingredient and select a Category
+                      </li>
+                      <li className='mt-4 md:mt-2'>
+                        2. Click Add to add the ingredient into the pantry{" "}
+                      </li>
+                      <li className='mt-4 md:mt-2'>
+                        3. Click Update to remove an ingredients
+                      </li>
+                      <li className='mt-4 md:mt-2'>
+                        4. Select Next to proceed to the Kitchen
+                      </li>
                     </ol>
                   </dialog>
                 </m.div>
@@ -143,8 +152,7 @@ function Pantry() {
                 <form
                   className='sm:flex items-end'
                   id='pantry-form'
-                  onSubmit={addToPantry}
-                >
+                  onSubmit={addToPantry}>
                   <div>
                     <label className='block text-sm font-medium leading-6 text-gray-900 mt-2 sm:mt-0'>
                       Ingredient
@@ -167,10 +175,9 @@ function Pantry() {
                       <select
                         name='category'
                         placeholder='Select category'
-                        className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
-                      >
+                        className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'>
                         {categories.map((category) => {
-                          return <option key={category}>{category}</option>
+                          return <option key={category}>{category}</option>;
                         })}
                       </select>
                     </div>
@@ -182,20 +189,18 @@ function Pantry() {
                     <button
                       className='text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
                       type='submit'
-                      form='pantry-form'
-                    >
+                      form='pantry-form'>
                       Add
                     </button>
                     <button
                       className='ml-[10px] text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2'
-                      onClick={handleUpdateButton}
-                    >
+                      onClick={handleUpdateButton}>
                       Update
                     </button>
                   </div>
-                  <button className='font-semibold inline-flex items-center gap-1 text-gray-900'
-                    onClick={handleNextButton}
-                  >
+                  <button
+                    className='font-semibold inline-flex items-center gap-1 text-gray-900'
+                    onClick={handleNextButton}>
                     Next
                     <ChevronRightIcon className='w-5' />
                   </button>
@@ -208,112 +213,118 @@ function Pantry() {
                       return (
                         <div
                           key={category}
-                          className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'
-                        >
+                          className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                           <dt className='text-sm font-medium leading-6 text-gray-900'>
                             {category}
                           </dt>
                           <div className='mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0'>
                             <div className='flex flex-wrap gap-[10px]'>
-                              {pantryItems && pantryItems
-                                .filter((item) => item.category === category)
-                                .map((item) => {
-                                  return (
-                                    <div
-                                      className={`relative text-gray-900 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 ${category === categories[0]
-                                        ? 'bg-rose-100'
-                                        : category === categories[1]
-                                          ? 'bg-green-100'
-                                          : category === categories[2]
-                                            ? 'bg-orange-100'
+                              {pantryItems &&
+                                pantryItems
+                                  .filter((item) => item.category === category)
+                                  .map((item) => {
+                                    return (
+                                      <div
+                                        className={`relative text-gray-900 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 ${
+                                          category === categories[0]
+                                            ? "bg-rose-100"
+                                            : category === categories[1]
+                                            ? "bg-green-100"
+                                            : category === categories[2]
+                                            ? "bg-orange-100"
                                             : category === categories[3]
-                                              ? 'bg-slate-100'
-                                              : category === categories[4]
-                                                ? 'bg-yellow-100'
-                                                : category === categories[5]
-                                                  ? 'bg-lime-100'
-                                                  : category === categories[6]
-                                                    ? 'bg-blue-100'
-                                                    : category === categories[7]
-                                                      ? 'bg-gray-100'
-                                                      : 'bg-white'
+                                            ? "bg-slate-100"
+                                            : category === categories[4]
+                                            ? "bg-yellow-100"
+                                            : category === categories[5]
+                                            ? "bg-lime-100"
+                                            : category === categories[6]
+                                            ? "bg-blue-100"
+                                            : category === categories[7]
+                                            ? "bg-gray-100"
+                                            : "bg-white"
                                         }`}
-                                      key={item.ingredient}
-                                      id={`${item.ingredient} ${category === categories[0]
-                                        ? categories[0]
-                                        : category === categories[1]
-                                          ? categories[1]
-                                          : category === categories[2]
-                                            ? categories[2]
-                                            : category === categories[3]
-                                              ? categories[3]
-                                              : category === categories[4]
-                                                ? categories[4]
-                                                : category === categories[5]
-                                                  ? categories[5]
-                                                  : category === categories[6]
-                                                    ? categories[6]
-                                                    : category === categories[7]
-                                                      ? categories[7]
-                                                      : undefined
-                                        }`}
-                                    >
-                                      {item.ingredient}
-                                      <AiFillCloseCircle
-                                        id={`${item.ingredient} ${category === categories[0]
-                                          ? categories[0]
-                                          : category === categories[1]
+                                        key={item.ingredient}
+                                        id={`${item.ingredient} ${
+                                          category === categories[0]
+                                            ? categories[0]
+                                            : category === categories[1]
                                             ? categories[1]
                                             : category === categories[2]
+                                            ? categories[2]
+                                            : category === categories[3]
+                                            ? categories[3]
+                                            : category === categories[4]
+                                            ? categories[4]
+                                            : category === categories[5]
+                                            ? categories[5]
+                                            : category === categories[6]
+                                            ? categories[6]
+                                            : category === categories[7]
+                                            ? categories[7]
+                                            : undefined
+                                        }`}>
+                                        {item.ingredient}
+                                        <AiFillCloseCircle
+                                          id={`${item.ingredient} ${
+                                            category === categories[0]
+                                              ? categories[0]
+                                              : category === categories[1]
+                                              ? categories[1]
+                                              : category === categories[2]
                                               ? categories[2]
                                               : category === categories[3]
-                                                ? categories[3]
-                                                : category === categories[4]
-                                                  ? categories[4]
-                                                  : category === categories[5]
-                                                    ? categories[5]
-                                                    : category === categories[6]
-                                                      ? categories[6]
-                                                      : category === categories[7]
-                                                        ? categories[7]
-                                                        : undefined
+                                              ? categories[3]
+                                              : category === categories[4]
+                                              ? categories[4]
+                                              : category === categories[5]
+                                              ? categories[5]
+                                              : category === categories[6]
+                                              ? categories[6]
+                                              : category === categories[7]
+                                              ? categories[7]
+                                              : undefined
                                           }`}
-                                        className={`absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]
-                                    ${!updateState && 'hidden absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]'}
+                                          className={`absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]
+                                    ${
+                                      !updateState &&
+                                      "hidden absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]"
+                                    }
                                     `}
-                                        onClick={handleDeleteItem}
-                                      />
-                                    </div>
-                                  )
-                                })}
+                                          onClick={handleDeleteItem}
+                                        />
+                                      </div>
+                                    );
+                                  })}
                             </div>
                           </div>
                         </div>
-                      )
+                      );
                     })}
                   </dl>
                 </div>
-              </div ></AnimatePresence>
-          </div >
-        </div >
-      </div >
+              </div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default Pantry
+export default Pantry;
 
 const categories = [
-  'Protein',
-  'Vegetables',
-  'Fruits',
-  'Grain',
-  'Dairy',
-  'Butter/Oil',
-  'Spice',
-  'Seasoning',
-  'Other',
-]
+  "Protein",
+  "Vegetables",
+  "Fruits",
+  "Grain",
+  "Dairy",
+  "Butter/Oil",
+  "Spice",
+  "Seasoning",
+  "Other",
+];
 
 const cardVariantsVertical = {
   hidden: {
@@ -324,10 +335,9 @@ const cardVariantsVertical = {
     y: 0,
     opacity: 1,
     transition: {
-      type: 'spring',
+      type: "spring",
       bounce: 0.4,
       duration: 0.8,
     },
   },
-}
-
+};
