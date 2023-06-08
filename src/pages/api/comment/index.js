@@ -27,10 +27,8 @@ export default async function handler(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
     try {
-      // Get the recipe ID and comment from the request body
       const { recipeId, description } = req.body;
 
-      // Validate the inputs
       if (!recipeId || !description) {
         return res
           .status(400)
@@ -44,7 +42,6 @@ export default async function handler(req, res) {
         username,
       });
 
-      // Check if the comment was created successfully
       if (comment) {
         return res
           .status(200)
@@ -95,7 +92,7 @@ export default async function handler(req, res) {
      * DELETE recipe post comments where user id and saved recipe ID matches
      */
    } else if (req.method === "DELETE") {
-    const { commentId } = req.query; // Use commentId instead of id
+    const { commentId } = req.query; 
     try {
       const token = req.headers.authorization;
       if (!token) {
@@ -108,18 +105,18 @@ export default async function handler(req, res) {
         return res.status(404).json({ message: "User not found" });
       }
   
-      if (!commentId) { // Use commentId instead of id
-        return res.status(400).json({ message: "Comment ID is missing" }); // Updated error message
+      if (!commentId) { 
+        return res.status(400).json({ message: "Comment ID is missing" })
       }
   
       const deletedComment = await Comment.destroy({
-        where: { id: commentId, userId: userId }, // Use commentId instead of id
+        where: { id: commentId, userId: userId }, 
       });
   
       if (!deletedComment) {
         return res.status(404).json({ message: "Comment not found" });
       }
-      res.status(200).json({ message: `ID: ${commentId} comment successfully deleted` }); // Use commentId instead of ids
+      res.status(200).json({ message: `ID: ${commentId} comment successfully deleted` }); 
     } catch (error) {
       console.error(error);
       res.status(400).json({ message: "Failed to delete comment" });
@@ -165,7 +162,7 @@ export default async function handler(req, res) {
         return res.status(401).json({ message: "Missing token" });
       }
 
-      const { userId, user } = await handleDecodeJWT(token);
+      const { user } = await handleDecodeJWT(token);
 
       if (!user) {
         return res.status(404).json({ message: "User not found" });

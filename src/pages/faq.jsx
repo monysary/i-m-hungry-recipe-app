@@ -24,7 +24,7 @@ export default function Faq() {
                         variants={cardVariantsVertical}
                         custom={index}
                         className=''>
-                        <dt className='hover:bg-gray-800 p-2 rounded-md'>
+                        <dt className='hover:bg-gray-800 transition ease-out p-2 rounded-md'>
                           <Disclosure.Button className='flex w-full items-start justify-between text-left text-white'>
                             <span className='text-base font-semibold leading-7'>
                               {faq.question}
@@ -47,7 +47,7 @@ export default function Faq() {
                       </m.div>
                       <Disclosure.Panel as='dd' className='mt-2 pr-12'>
                         {faq.question ===
-                        "What other features will be added in the future?" ? (
+                          "What other features will be added in the future?" ? (
                           <ul className='list-disc pl-5'>
                             <li>Daily meal plans.</li>
                             <li>Weekly meal plans.</li>

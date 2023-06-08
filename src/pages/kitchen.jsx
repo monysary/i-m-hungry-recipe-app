@@ -161,9 +161,8 @@ function Kitchen() {
               </button>
               <div
                 onClick={handleDialogOpen}
-                className={`fixed z-10 top-0 left-0 w-screen h-screen ${
-                  dialogOpen === false && "hidden"
-                }`}></div>
+                className={`fixed z-10 top-0 left-0 w-screen h-screen ${dialogOpen === false && "hidden"
+                  }`}></div>
               <dialog
                 open={dialogOpen}
                 className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'>
@@ -245,11 +244,11 @@ function Kitchen() {
               <div className='grow mt-4 md:mt-0 md:ml-[20px] flex justify-between'>
                 <button
                   type='submit'
-                  className='text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'>
+                  className='text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2 transition ease-out'>
                   Add
                 </button>
                 <button
-                  className='font-semibold inline-flex items-center gap-1 text-gray-900'
+                  className='font-semibold inline-flex items-center gap-1 text-gray-900 hover:text-gray-500 transition ease-out'
                   onClick={handleNextButton}>
                   Next
                   <ChevronRightIcon className='w-5' />
@@ -263,25 +262,24 @@ function Kitchen() {
                     key={item.ingredient}
                     id={item.ingredient}
                     className={`relative text-gray-900 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5
-                  ${
-                    item.category === categories[0]
-                      ? "bg-rose-100"
-                      : item.category === categories[1]
-                      ? "bg-green-100"
-                      : item.category === categories[2]
-                      ? "bg-orange-100"
-                      : item.category === categories[3]
-                      ? "bg-slate-100"
-                      : item.category === categories[4]
-                      ? "bg-yellow-100"
-                      : item.category === categories[5]
-                      ? "bg-lime-100"
-                      : item.category === categories[6]
-                      ? "bg-blue-100"
-                      : item.category === categories[7]
-                      ? "bg-gray-100"
-                      : "bg-white"
-                  }`}>
+                  ${item.category === categories[0]
+                        ? "bg-rose-100"
+                        : item.category === categories[1]
+                          ? "bg-green-100"
+                          : item.category === categories[2]
+                            ? "bg-orange-100"
+                            : item.category === categories[3]
+                              ? "bg-slate-100"
+                              : item.category === categories[4]
+                                ? "bg-yellow-100"
+                                : item.category === categories[5]
+                                  ? "bg-lime-100"
+                                  : item.category === categories[6]
+                                    ? "bg-blue-100"
+                                    : item.category === categories[7]
+                                      ? "bg-gray-100"
+                                      : "bg-white"
+                      }`}>
                     {item.ingredient}
                     <AiFillCloseCircle
                       id={item.ingredient}
@@ -296,7 +294,7 @@ function Kitchen() {
               <></>
             ) : (
               <button
-                className='text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-6'
+                className='text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-6 transition ease-out'
                 type='button'
                 onClick={generateRecipe}>
                 Generate Recipe
