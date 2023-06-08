@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { motion as m, AnimatePresence } from "framer-motion";
+import { motion as m, AnimatePresence, useAnimation } from "framer-motion";
 import pantry from "../../public/images/pantry.png";
 import kitchen from "../../public/images/kitchen.png";
 import {
@@ -15,7 +15,6 @@ import {
   CalendarDaysIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline'
-import { motion as m, AnimatePresence, useAnimation } from 'framer-motion'
 
 export default function LandingPage() {
   const mainControls = useAnimation()
