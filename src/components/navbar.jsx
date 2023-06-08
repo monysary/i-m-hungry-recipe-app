@@ -30,7 +30,7 @@ function Navbar() {
             {/* <!-- Mobile menu button--> */}
             <button
               type='button'
-              className='inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white'
+              className='inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white  transition ease-out focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white'
               onClick={handleHideMenu}>
               {/* <!--Icon when menu is closed--> */}
               <svg
@@ -93,7 +93,7 @@ function Navbar() {
           <div className='inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
             <Link
               href='/login'
-              className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium'
+              className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium transition ease-out'
               style={{
                 display: isLoggedIn ? "none" : "block",
               }}>
@@ -101,7 +101,7 @@ function Navbar() {
             </Link>
             <Link
               href='/signup'
-              className='text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium ml-2'
+              className='text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium ml-2 transition ease-out'
               style={{
                 display: isLoggedIn ? "none" : "block",
               }}>
@@ -109,7 +109,7 @@ function Navbar() {
             </Link>
             <button
               href='/'
-              className='text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium ml-2'
+              className='text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium ml-2 transition ease-out'
               style={{
                 display: isLoggedIn ? "block" : "none",
               }}
@@ -126,32 +126,32 @@ function Navbar() {
           {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
           <Link
             href='/'
-            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium'>
+            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition ease-out'>
             Home
           </Link>
           <Link
             href='/feed'
-            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium'>
+            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition ease-out'>
             Feed
           </Link>
           <Link
             href='/pantry'
-            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium'>
+            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition ease-out'>
             Pantry
           </Link>
           <Link
             href='/kitchen'
-            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium'>
+            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition ease-out'>
             Kitchen
           </Link>
           <Link
             href='/savedRecipes'
-            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium'>
+            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition ease-out'>
             Saved Recipes
           </Link>
           <Link
             href='/faq'
-            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium'>
+            className='text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition ease-out'>
             Faq
           </Link>
         </div>

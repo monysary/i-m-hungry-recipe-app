@@ -9,7 +9,7 @@ export default function Footer() {
             <div key={item.name} className='pb-6'>
               <a
                 href={item.href}
-                className='text-sm leading-6 text-white hover:text-gray-400 transition ease-out'>
+                className='text-sm leading-6 text-white hover:text-gray-400 transition ease-out hover:underline'>
                 {item.name}
               </a>
             </div>
