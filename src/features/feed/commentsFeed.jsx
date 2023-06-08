@@ -15,6 +15,16 @@ export default function CommentsFeed({ comments, recipeId }) {
   const [selected, setSelected] = useState(moods[5]);
   const [comment, setComment] = useState("");
   const [userId, setUserId] = useState("");
+  const [commentCount, setCommentCount] = useState(2);
+
+  function viewAllComments() {
+    if (commentCount === comments?.length) {
+      setCommentCount(2);
+    } else {
+      setCommentCount(comments?.length);
+    }
+  }
+
 
   useEffect(() => {
     if (authService.loggedIn()) {
@@ -67,9 +77,16 @@ export default function CommentsFeed({ comments, recipeId }) {
   console.log(comments)
   return (
     <>
+      {comments.length > 2 &&
+        <div className='flex flex-row items-center gap-2'>
+          <p className='bg-gray-100 mt-2 p-2 rounded-md w-max text-sm'>{comments?.length} comments</p>
+          <button onClick={viewAllComments} className='text-sm mt-2 text-blue-600 underline hover:text-blue-500 transition ease-out'>{commentCount === comments?.length ? "view less" : "view all"}</button>
+        </div>
+      }
       <ul role='list' className='space-y-6 '>
-        {comments.map((comment, commentIdx) => (
-          <li key={comment.id} className='relative flex gap-x-4'>
+        {comments?.slice(0, commentCount).map((comment, commentIdx) => (
+
+          <li key={comment.id} className='relative flex gap-x-4' >
             <div
               className={classNames(
                 commentIdx === comments.length - 1 ? "h-6" : "-bottom-6",
@@ -85,6 +102,7 @@ export default function CommentsFeed({ comments, recipeId }) {
                 alt='avatar'
                 className='relative mt-3 h-6 w-6 flex-none rounded-full bg-white'
               /> */}
+
               <div className='relative flex h-6 w-6 flex-none items-center justify-center '>
                 <div className='h-1.5 w-1.5 rounded-full bg-orange-500 ring-1 ring-gray-300' />
               </div>
