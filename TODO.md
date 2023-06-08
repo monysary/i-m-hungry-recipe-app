@@ -3,7 +3,8 @@
 - add AWS S3
 - create profile page displaying all public posted recipes that any user can view
 - allow users to edit comments
-- add like counter
+- allow users to favorite recipes on the feed
+- add # of favorites column to saved Recipes table
 # Project ideas
 - set up AWS S3 bucket to store profile images 
 - add like counter for comments 

@@ -9,6 +9,7 @@ import {
   HeartIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
+import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline"
 import { Listbox, Transition } from "@headlessui/react";
 
 export default function CommentsFeed({ recipeId, comments, userId }) {
@@ -97,7 +98,7 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
               <div className='w-px bg-gray-200' />
             </div>
 
-            <div className='flex flex-row w-full items-start pt-4'>
+            <div className='flex flex-row w-full items-start pt-2'>
               {/* TODO: allow profile pictures to be uploaded */}
               {/* <img
                 src='https://www.nwcopro.solutions/wp-content/uploads/2018/04/default-avatar.png'
@@ -133,9 +134,9 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
                 </div>
               </div>
             </div>
-            <div className='ml-2 mt-2 flex flex-row gap-2 text-sm items-center justify-end'>
+            <div className='ml-2 mt-2 flex flex-row gap-2 text-xs items-center justify-end'>
               <button onClick={() => handleAddLike(comment.id)}>
-                {<HeartIcon className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />}
+                {comment.likes === 0 ? <HeartOutline className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' /> : <HeartIcon className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />}
               </button>
               <p> {comment.likes} likes</p>
             </div>
@@ -144,7 +145,7 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
       </ul>
 
       {/* New comment form */}
-      <div className='mt-6 flex gap-x-3'>
+      <div className='mt-4 flex gap-x-3'>
         <img
           src='https://www.nwcopro.solutions/wp-content/uploads/2018/04/default-avatar.png'
           alt='avatar'
