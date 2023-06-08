@@ -1,12 +1,15 @@
 import authService from "@/utils/auth/authService";
 import { useEffect, useState } from "react";
+import SuccessNotification from "./alerts/successNotification";
 
 function RecipeCard({ recipe, isLoading }) {
   const [isSaved, setIsSaved] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   async function saveRecipe() {
     const recipeData = recipe;
     try {
+      setSuccess(false)
       await fetch("/api/savedRecipe", {
         method: "POST",
         headers: {
@@ -19,6 +22,9 @@ function RecipeCard({ recipe, isLoading }) {
     } catch (err) {
       console.log(err);
     }
+    finally{
+      setSuccess(true)
+    }
   }
 
   useEffect(() => {
@@ -29,6 +35,7 @@ function RecipeCard({ recipe, isLoading }) {
 
   return (
     <div>
+       {success && <div className=''> <SuccessNotification title='Successfully saved recipe!' message='' btnTitle='View recipes' href='/savedRecipes' /> </div>}
       <div className='px-4 sm:px-0'>
         <h3 className='text-[25px] font-semibold leading-7 text-gray-900'>
           {recipe?.title}
