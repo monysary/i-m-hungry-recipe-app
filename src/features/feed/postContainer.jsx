@@ -3,7 +3,7 @@ import { motion as m, AnimatePresence } from "framer-motion";
 
 export default function PostContainer({ recipes, comments, userId }) {
   return (
-    <div className='flex justify-center px-2 w-full pb-24'>
+    <section className='flex justify-center px-2 w-full pb-24'>
       <div className='px-2 pb-24 w-full max-w-4xl'>
         <AnimatePresence>
           {recipes &&
@@ -21,7 +21,7 @@ export default function PostContainer({ recipes, comments, userId }) {
             ))}
         </AnimatePresence>
       </div>
-    </div>
+    </section>
   );
 }
 

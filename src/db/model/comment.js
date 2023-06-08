@@ -20,6 +20,10 @@ Comment.init(
         len: [1, 255], 
       },
     },
+    likes: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     sequelize,

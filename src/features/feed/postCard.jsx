@@ -7,8 +7,9 @@ export default function PostCard({ recipe, comments, userId }) {
 
     return (
         <div className='w-full mb-12'>
+            {/* Post section */}
             {visible ? (
-                <div className='overflow-hidden bg-white shadow rounded-md'>
+                <article className='overflow-hidden bg-white shadow rounded-md'>
                     {recipe && (
                         <div key={recipe.id}>
                             <div className='flex flex-row justify-between '>
@@ -95,7 +96,7 @@ export default function PostCard({ recipe, comments, userId }) {
                             </div>
                         </div>
                     )}
-                </div>
+                </article>
             ) : (
                 <div className='overflow-hidden bg-white shadow rounded-md'>
                     {recipe && (
@@ -133,6 +134,7 @@ export default function PostCard({ recipe, comments, userId }) {
                     )}
                 </div>
             )}
+            {/* Comment section */}
             <section className='px-2'>
                 <CommentsContainer comments={comments} recipeId={recipe.id} userId={userId} />
             </section>

@@ -34,7 +34,7 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
       alert('Please enter a comment')
       return
     }
-    const response = await fetch("/api/comment", {
+    const response = await fetch('/api/comment?action=comment', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,8 +64,19 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
     window.location.reload();
   }
 
-
-
+  async function handleAddLike(commentId) {
+    const response = await fetch(`/api/comment?action=like&commentId=${commentId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authService.getToken(),
+      },
+    });
+    if (response.ok) {
+      setComment("");
+    }
+    window.location.reload();
+  }
   return (
     <>
       {comments.length > 2 &&
@@ -77,7 +88,7 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
       <ul role='list' className='space-y-6 '>
         {comments?.slice(0, commentCount).map((comment, commentIdx) => (
 
-          <li key={comment.id} className='relative flex gap-x-4' >
+          <li key={comment.id} className='relative flex flex-col gap-x-4' >
             <div
               className={classNames(
                 commentIdx === comments.length - 1 ? "h-6" : "-bottom-6",
@@ -116,11 +127,17 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
                     {comment.description}
                   </p>
                   {userId === comment.userId &&
-                    <button onClick={() => handleDeleteComment(comment.id)} className='mt-2 hover:bg-gray-100 bg-gray-200 transition ease-out rounded-full'>
-                      <XMarkIcon className='w-4' />
+                    <button onClick={() => handleDeleteComment(comment.id)} className='mt-2 hover:bg-gray-200 bg-gray-300 transition ease-out rounded-full hover:scale-95 '>
+                      <XMarkIcon className='w-4 ' />
                     </button>}
                 </div>
               </div>
+            </div>
+            <div className='ml-2 mt-2 flex flex-row gap-2 text-sm items-center justify-end'>
+              <button onClick={() => handleAddLike(comment.id)}>
+                {<HeartIcon className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />}
+              </button>
+              <p> {comment.likes} likes</p>
             </div>
           </li>
         ))}

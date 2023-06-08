@@ -1,4 +1,4 @@
-import CommentsFeedComponent from "../commentsFeed";
+import CommentsFeedComponent from "./commentsFeed";
 
 export default function CommentsContainer({ comments, recipeId, userId }) {
     const filteredComments = comments?.filter(
@@ -6,10 +6,11 @@ export default function CommentsContainer({ comments, recipeId, userId }) {
     )
 
     const reversedComments = filteredComments?.reverse();
+
     return (
         <>
             {comments && (
-                <article className=''>
+                <article>
                     <CommentsFeedComponent
                         comments={reversedComments}
                         recipeId={recipeId}
