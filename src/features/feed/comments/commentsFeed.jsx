@@ -60,9 +60,11 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
       },
     });
     if (response.ok) {
-      setComment("");
+      // Remove the deleted comment from the comments state
+      const updatedComments = comments.filter((comment) => comment.id !== commentId);
+      setComment(updatedComments);
     }
-    window.location.reload();
+
   }
 
   async function handleAddLike(commentId) {
@@ -80,12 +82,12 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
   }
   return (
     <>
-      {comments.length > 2 &&
-        <div className='flex flex-row items-center gap-2'>
-          <p className='bg-gray-100 mt-2 p-2 rounded-md w-max text-sm'>{comments?.length} comments</p>
+      <div className='flex flex-row items-center gap-2'>
+        <p className='mt-2 p-2 rounded-md w-max text-sm'>{comments?.length} comments</p>
+        {comments.length > 2 &&
           <button onClick={viewAllComments} className='text-sm mt-2 text-blue-600 underline hover:text-blue-500 transition ease-out'>{commentCount === comments?.length ? "view less" : "view all"}</button>
-        </div>
-      }
+        }
+      </div>
       <ul role='list' className='space-y-6 '>
         {comments?.slice(0, commentCount).map((comment, commentIdx) => (
 
