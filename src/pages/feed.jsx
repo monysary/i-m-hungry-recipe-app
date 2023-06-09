@@ -3,6 +3,7 @@ import PageHeading from "@/features/feed/headings/pageHeading";
 import PostContainer from "@/features/feed/postContainer";
 import authService from "@/utils/auth/authService";
 import CircleSpinner from "@/components/spinners/circle";
+import FeedSkeleton from "@/components/skeletons/feedSkeleton";
 
 export default function FeedPage() {
   const [userId, setUserId] = useState("");
@@ -71,9 +72,11 @@ export default function FeedPage() {
 
   if (loading)
     return (
-      <div className='flex w-full h-screen justify-center mt-12'>
-        {" "}
-        <CircleSpinner />
+      <div className='flex w-full h-screen justify-center '>
+      <div className='flex flex-col w-full'>
+        <FeedSkeleton />
+        <FeedSkeleton />
+      </div>
       </div>
     )
 
@@ -81,6 +84,7 @@ export default function FeedPage() {
     <div className='flex justify-center h-full min-h-[70vh] pb-24 bg-white'>
       <div className='max-w-[1280px] w-full h-full px-2 md:px-4 py-6 '>
         <PageHeading />
+        
         <PostContainer recipes={recipes} comments={comments} userId={userId} />
       </div>
     </div>
