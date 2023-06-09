@@ -9,6 +9,7 @@ import {
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/outline";
 import GenerateRecipeSkeleton from "@/components/skeletons/generateRecipeSkeleton.jsx";
+import ProgressBar from "@/components/spinners/progressBar.jsx";
 
 function Kitchen() {
   useEffect(() => {
@@ -303,14 +304,10 @@ function Kitchen() {
             )}
             <div className='flex justify-center'>
               {isLoading ? (
-                // <CircleSpinner />
-                <GenerateRecipeSkeleton />
-                
+                  <GenerateRecipeSkeleton finishedLoading={isLoading}/>
               ) : (
                 recipe !== null && (
-                
                   <RecipeCard recipe={recipe} isLoading={isLoading} />
-                
                 )
               )}
             </div>
