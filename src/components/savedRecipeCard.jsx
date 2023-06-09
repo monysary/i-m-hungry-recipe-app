@@ -305,13 +305,16 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                   <div>
                     <div className='px-4 sm:px-0'>
                       {editMode ? (
-                        <input
-                          placeholder='Recipe Name'
-                          name='title'
-                          onChange={handleRecipeChange}
-                          value={recipeModal && recipeModal.title}
-                          className='w-full sm:w-1/2 text-[25px] rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
-                        />
+                        <>
+                          {recipeModal?.createdAt != recipeModal?.updatedAt && <p className='italic text-sm text-gray-600 mb-2'>last edited {getTimeAgo(recipeModal?.updatedAt)}</p>}
+                          <input
+                            placeholder='Recipe Name'
+                            name='title'
+                            onChange={handleRecipeChange}
+                            value={recipeModal && recipeModal.title}
+                            className='w-full sm:w-1/2 text-[25px] rounded-md outline-0 border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600'
+                          />
+                        </>
                       ) : (
                         <div className='flex flex-col gap-2 mb-2 md:mb-0'>
                           <p className='italic text-sm text-gray-600'> added {getTimeAgo(recipeModal?.createdAt)}</p>
