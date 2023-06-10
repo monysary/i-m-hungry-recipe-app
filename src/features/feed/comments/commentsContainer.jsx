@@ -1,23 +1,23 @@
-import CommentsFeedComponent from "./commentsFeed";
+import CommentsFeedComponent from "./commentsFeed"
 
 export default function CommentsContainer({ comments, recipeId, userId }) {
-    const filteredComments = comments?.filter(
-        (comment) => comment.recipeId === recipeId
-    )
+  const filteredComments = comments?.filter(
+    (comment) => comment.recipeId === recipeId
+  )
 
-    const reversedComments = filteredComments?.reverse();
+  const reversedComments = filteredComments?.reverse()
 
-    return (
-        <>
-            {comments && (
-                <article>
-                    <CommentsFeedComponent
-                        comments={reversedComments}
-                        recipeId={recipeId}
-                        userId={userId}
-                    />
-                </article>
-            )}
-        </>
-    );
+  return (
+    <>
+      {comments && (
+        <article>
+          <CommentsFeedComponent
+            comments={reversedComments}
+            recipeId={recipeId}
+            userId={userId}
+          />
+        </article>
+      )}
+    </>
+  )
 }

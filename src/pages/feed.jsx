@@ -1,71 +1,71 @@
-import React, { useState, useEffect } from "react";
-import PageHeading from "@/features/feed/headings/pageHeading";
-import PostContainer from "@/features/feed/postContainer";
-import authService from "@/utils/auth/authService";
-import FeedSkeleton from "@/components/skeletons/feedSkeleton";
+import React, { useState, useEffect } from "react"
+import PageHeading from "@/features/feed/headings/pageHeading"
+import PostContainer from "@/features/feed/postContainer"
+import authService from "@/utils/auth/authService"
+import FeedSkeleton from "@/components/skeletons/feedSkeleton"
 
 export default function FeedPage() {
-  const [userId, setUserId] = useState("");
-  const [recipes, setRecipes] = useState([]);
-  const [comments, setComments] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState("")
+  const [recipes, setRecipes] = useState([])
+  const [comments, setComments] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (authService.loggedIn()) {
-      const user = authService.getProfile();
+      const user = authService.getProfile()
       const userId = user.id
       setUserId(userId)
     }
-    fetchTimelineRecipes();
-    fetchAllComments();
-  }, []);
+    fetchTimelineRecipes()
+    fetchAllComments()
+  }, [])
 
   // Fetch all timeline recipes
   const fetchTimelineRecipes = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await fetch("/api/savedRecipe/timeline", {
         headers: {
           "Content-Type": "application/json",
         },
-      });
-      const data = await response.json();
+      })
+      const data = await response.json()
       const convertedData = data.map((object) => {
-        const updatedObject = { ...object };
+        const updatedObject = { ...object }
         if (typeof object.ingredients === "string") {
-          updatedObject.ingredients = JSON.parse(object.ingredients);
+          updatedObject.ingredients = JSON.parse(object.ingredients)
         }
         if (typeof object.instructions === "string") {
-          updatedObject.instructions = JSON.parse(object.instructions);
+          updatedObject.instructions = JSON.parse(object.instructions)
         }
-        return updatedObject;
-      });
-      setRecipes(convertedData.reverse());
+        return updatedObject
+      })
+      setRecipes(convertedData.reverse())
     } catch (err) {
-      console.log(err);
+      console.log(err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   // fetch all comments
   async function fetchAllComments() {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await fetch("/api/comment", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-      });
-      const comments = await response.json();
+      })
+      const comments = await response.json()
       if (response.ok) {
-        setComments(comments);
+        setComments(comments)
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
@@ -81,7 +81,7 @@ export default function FeedPage() {
             <FeedSkeleton />
             <FeedSkeleton />
             <FeedSkeleton />
-        </div>
+          </div>
         </div>
       </div>
     )
@@ -90,7 +90,7 @@ export default function FeedPage() {
     <div className='flex justify-center h-full min-h-[70vh] pb-24 bg-white md:mt-6'>
       <div className='max-w-[1280px] w-full h-full px-2 md:px-0 py-6 '>
         <PageHeading />
-        <PostContainer recipes={recipes} comments={comments} userId={userId}/>
+        <PostContainer recipes={recipes} comments={comments} userId={userId} />
       </div>
     </div>
   )

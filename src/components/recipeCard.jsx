@@ -1,13 +1,13 @@
-import authService from "@/utils/auth/authService";
-import { useEffect, useState } from "react";
-import SuccessNotification from "./alerts/successNotification";
+import authService from "@/utils/auth/authService"
+import { useEffect, useState } from "react"
+import SuccessNotification from "./alerts/successNotification"
 
 function RecipeCard({ recipe, isLoading }) {
-  const [isSaved, setIsSaved] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [isSaved, setIsSaved] = useState(false)
+  const [success, setSuccess] = useState(false)
 
   async function saveRecipe() {
-    const recipeData = recipe;
+    const recipeData = recipe
     try {
       setSuccess(false)
       await fetch("/api/savedRecipe", {
@@ -17,26 +17,35 @@ function RecipeCard({ recipe, isLoading }) {
           Authorization: authService.getToken(),
         },
         body: JSON.stringify(recipeData),
-      });
-      setIsSaved(true);
-      console.log('recipe: ', recipeData)
+      })
+      setIsSaved(true)
+      console.log("recipe: ", recipeData)
     } catch (err) {
-      console.log(err);
-    }
-    finally{
+      console.log(err)
+    } finally {
       setSuccess(true)
     }
   }
 
   useEffect(() => {
     if (isLoading) {
-      setIsSaved(false);
+      setIsSaved(false)
     }
-  }, [isLoading]);
+  }, [isLoading])
 
   return (
     <div>
-       {success && <div className=''> <SuccessNotification title='Successfully saved recipe!' message='' btnTitle='View recipes' href='/savedRecipes' /> </div>}
+      {success && (
+        <div className=''>
+          {" "}
+          <SuccessNotification
+            title='Successfully saved recipe!'
+            message=''
+            btnTitle='View recipes'
+            href='/savedRecipes'
+          />{" "}
+        </div>
+      )}
       <div className='px-4 sm:px-0'>
         <h3 className='text-[25px] font-semibold leading-7 text-gray-900'>
           {recipe?.title}
@@ -52,17 +61,29 @@ function RecipeCard({ recipe, isLoading }) {
               Nutritional facts
             </dt>
             <dd className='mt-1 text-sm leading-6 text-gray-700  md:w-full sm:mt-0'>
-              <div className="grid grid-cols-2 md:flex md:flex-row gap-2  bg-white/5 ">
-                {recipe.nutritional_facts && Object.entries(recipe?.nutritional_facts)?.map(([factName, factValue]) => {
-                  return (
-                    <div key={factName} className="bg-stone-200 px-4 py-2 sm:px-6  rounded-md">
-                      <p className="text-sm font-medium leading-6 text-gray-500">{factName}</p>
-                      <p className="mt-2 flex items-baseline gap-x-2">
-                        <span className="text-2xl font-semibold tracking-tight text-black">{factValue}</span>
-                        <span className="text-md font-semibold">{factName === 'calories' ? ' kcal' : ' g'}</span>
-                      </p>
-                    </div>
-                  )})}
+              <div className='grid grid-cols-2 md:flex md:flex-row gap-2  bg-white/5 '>
+                {recipe.nutritional_facts &&
+                  Object.entries(recipe?.nutritional_facts)?.map(
+                    ([factName, factValue]) => {
+                      return (
+                        <div
+                          key={factName}
+                          className='bg-stone-200 px-4 py-2 sm:px-6  rounded-md'>
+                          <p className='text-sm font-medium leading-6 text-gray-500'>
+                            {factName}
+                          </p>
+                          <p className='mt-2 flex items-baseline gap-x-2'>
+                            <span className='text-2xl font-semibold tracking-tight text-black'>
+                              {factValue}
+                            </span>
+                            <span className='text-md font-semibold'>
+                              {factName === "calories" ? " kcal" : " g"}
+                            </span>
+                          </p>
+                        </div>
+                      )
+                    }
+                  )}
               </div>
             </dd>
           </div>
@@ -77,7 +98,7 @@ function RecipeCard({ recipe, isLoading }) {
                     - {`${item.name} (${item.amount} ${item.unit})`}
                     <br />
                   </div>
-                );
+                )
               })}
             </dd>
           </div>
@@ -92,7 +113,7 @@ function RecipeCard({ recipe, isLoading }) {
                     {recipe?.instructions.indexOf(item) + 1}. {item}
                     <br />
                   </div>
-                );
+                )
               })}
             </dd>
           </div>
@@ -113,7 +134,7 @@ function RecipeCard({ recipe, isLoading }) {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default RecipeCard;
+export default RecipeCard

@@ -31,7 +31,7 @@ export default function Footer() {
         </p>
       </div>
     </footer>
-  );
+  )
 }
 
 const navigation = {
@@ -58,4 +58,4 @@ const navigation = {
       ),
     },
   ],
-};
+}

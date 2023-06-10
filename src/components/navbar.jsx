@@ -1,26 +1,26 @@
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import Link from "next/link"
+import { useEffect, useState } from "react"
 
-import authService from "@/utils/auth/authService";
+import authService from "@/utils/auth/authService"
 
 function Navbar() {
-  const [hideMenu, setHideMenu] = useState(true);
+  const [hideMenu, setHideMenu] = useState(true)
   const handleHideMenu = () => {
-    setHideMenu((prev) => !prev);
-  };
+    setHideMenu((prev) => !prev)
+  }
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   useEffect(() => {
     if (authService.loggedIn() && !authService.tokenExpired()) {
-      setIsLoggedIn(true);
+      setIsLoggedIn(true)
     } else {
-      setIsLoggedIn(false);
+      setIsLoggedIn(false)
     }
-  });
+  })
 
   const userLogout = () => {
-    authService.logout();
-  };
+    authService.logout()
+  }
 
   return (
     <nav className='bg-gray-800'>
@@ -157,7 +157,7 @@ function Navbar() {
         </div>
       </div>
     </nav>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

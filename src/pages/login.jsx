@@ -1,47 +1,47 @@
-import { useEffect, useState } from "react";
-import authService from "@/utils/auth/authService";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { useEffect, useState } from "react"
+import authService from "@/utils/auth/authService"
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
 
 function Login() {
   const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
-  });
+  })
 
   const handleInputChange = ({ target: { name, value } }) => {
-    setLoginForm({ ...loginForm, [name]: value });
-  };
+    setLoginForm({ ...loginForm, [name]: value })
+  }
 
-  const [buttonActive, setButtonActive] = useState(false);
+  const [buttonActive, setButtonActive] = useState(false)
 
   // if user is logged in already, redirect to pantry page
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (authService.loggedIn() && !authService.tokenExpired()) {
-        window.location.assign("/pantry");
+        window.location.assign("/pantry")
       }
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (loginForm.username !== "" && loginForm.password !== "") {
-      setButtonActive(true);
+      setButtonActive(true)
     } else {
-      setButtonActive(false);
+      setButtonActive(false)
     }
-  }, [loginForm]);
+  }, [loginForm])
 
   const handleFormSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    userLogin();
-  };
+    userLogin()
+  }
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
   const userLogin = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await fetch("/api/user/login", {
         method: "POST",
@@ -49,23 +49,23 @@ function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(loginForm),
-      });
+      })
 
       if (response.ok) {
-        const data = await response.json();
-        authService.login(data.token);
+        const data = await response.json()
+        authService.login(data.token)
       } else {
-        const errorData = await response.json();
-        console.log(errorData.message);
-        alert(errorData.message);
+        const errorData = await response.json()
+        console.log(errorData.message)
+        alert(errorData.message)
       }
     } catch (err) {
-      console.log(err);
-      alert("An error occurred during login.");
+      console.log(err)
+      alert("An error occurred during login.")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <div className='flex h-full md:h-screen flex-col my-12 mb-24 md:mb-0 md:mt-36 px-6  lg:px-8'>
@@ -166,7 +166,7 @@ function Login() {
         </p>
       </div>
     </div>
-  );
+  )
 }
 
-export default Login;
+export default Login

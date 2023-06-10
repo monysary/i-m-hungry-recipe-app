@@ -1,24 +1,24 @@
-import Head from "next/head";
-import { useEffect, useState } from "react";
-import authService from "@/utils/auth/authService";
-import SavedRecipeCard from "@/components/savedRecipeCard";
-import SavedRecipesEmptyState from "@/components/emptyStates/savedRecipesEmptyState";
+import Head from "next/head"
+import { useEffect, useState } from "react"
+import authService from "@/utils/auth/authService"
+import SavedRecipeCard from "@/components/savedRecipeCard"
+import SavedRecipesEmptyState from "@/components/emptyStates/savedRecipesEmptyState"
 
 function SavedRecipes() {
-  const [toggle, setToggle] = useState(true);
-  const [myRecipes, setMyRecipes] = useState();
+  const [toggle, setToggle] = useState(true)
+  const [myRecipes, setMyRecipes] = useState()
 
   useEffect(() => {
     if (authService.loggedIn() && !authService.tokenExpired()) {
-      return;
+      return
     } else {
-      window.location.assign("/login");
+      window.location.assign("/login")
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    fetchRecipes();
-  }, [toggle]);
+    fetchRecipes()
+  }, [toggle])
 
   // Fetch user's saved recipes from DB
   const fetchRecipes = async () => {
@@ -28,25 +28,25 @@ function SavedRecipes() {
           "Content-Type": "application/json",
           Authorization: authService.getToken(),
         },
-      });
+      })
 
-      const data = await response.json();
+      const data = await response.json()
       const convertedData = data.map((object) => {
-        const updatedObject = { ...object };
+        const updatedObject = { ...object }
         if (typeof object.ingredients === "string") {
-          updatedObject.ingredients = JSON.parse(object.ingredients);
+          updatedObject.ingredients = JSON.parse(object.ingredients)
         }
         if (typeof object.instructions === "string") {
-          updatedObject.instructions = JSON.parse(object.instructions);
+          updatedObject.instructions = JSON.parse(object.instructions)
         }
-        return updatedObject;
-      });
-      const reverseOrderRecipes = convertedData?.reverse();
-      setMyRecipes(reverseOrderRecipes);
+        return updatedObject
+      })
+      const reverseOrderRecipes = convertedData?.reverse()
+      setMyRecipes(reverseOrderRecipes)
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   if (myRecipes < 1)
     return (
@@ -55,9 +55,8 @@ function SavedRecipes() {
           <SavedRecipesEmptyState />
         </div>
       </div>
-    );
+    )
 
-   
   return (
     <>
       <Head>
@@ -83,7 +82,7 @@ function SavedRecipes() {
         </div>
       )}
     </>
-  );
+  )
 }
 
-export default SavedRecipes;
+export default SavedRecipes

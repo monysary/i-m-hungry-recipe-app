@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../config/connections.js");
+const { Model, DataTypes } = require("sequelize")
+const sequelize = require("../config/connections.js")
 
 class RecipeLikes extends Model {}
 RecipeLikes.init(
@@ -22,6 +22,6 @@ RecipeLikes.init(
     sequelize,
     modelName: "RecipeLikes",
   }
-);
+)
 
-module.exports = RecipeLikes;
+module.exports = RecipeLikes

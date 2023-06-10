@@ -1,6 +1,6 @@
-import { Disclosure } from "@headlessui/react";
-import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
-import { motion as m, AnimatePresence } from "framer-motion";
+import { Disclosure } from "@headlessui/react"
+import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline"
+import { motion as m, AnimatePresence } from "framer-motion"
 
 export default function Faq() {
   return (
@@ -47,7 +47,7 @@ export default function Faq() {
                       </m.div>
                       <Disclosure.Panel as='dd' className='mt-2 pr-12'>
                         {faq.question ===
-                          "What other features will be added in the future?" ? (
+                        "What other features will be added in the future?" ? (
                           <ul className='list-disc pl-5 text-gray-300'>
                             <li>Daily meal plans.</li>
                             <li>Weekly meal plans.</li>
@@ -81,7 +81,7 @@ export default function Faq() {
         </div>
       </AnimatePresence>
     </div>
-  );
+  )
 }
 
 const faqs = [
@@ -132,7 +132,7 @@ const faqs = [
     answer:
       "You can send an email to info@imhungry.com! We will gladly accept your feedback.",
   },
-];
+]
 
 const cardVariantsVertical = {
   hidden: {
@@ -148,4 +148,4 @@ const cardVariantsVertical = {
       duration: 0.8,
     },
   },
-};
+}

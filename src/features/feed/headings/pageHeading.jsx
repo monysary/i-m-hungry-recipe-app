@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link"
 
 export default function PageHeading() {
   return (
@@ -9,7 +9,9 @@ export default function PageHeading() {
             <h3 className='text-3xl font-semibold leading-6 text-gray-900'>
               {headerText.title}
             </h3>
-            <p className='mb-6 px-2 md:px-0  text-black'>{headerText.description}</p>
+            <p className='mb-6 px-2 md:px-0  text-black'>
+              {headerText.description}
+            </p>
           </div>
           <div className='mt-3 sm:mt-0 w-full md:w-max'>
             <Link
@@ -21,11 +23,11 @@ export default function PageHeading() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 const headerText = {
   title: "See what others are eating",
   description:
     "Discover culinary inspiration: Explore the tantalizing creations of fellow food enthusiasts",
-};
+}
