@@ -19,6 +19,7 @@ function RecipeCard({ recipe, isLoading }) {
         body: JSON.stringify(recipeData),
       });
       setIsSaved(true);
+      console.log('recipe: ', recipeData)
     } catch (err) {
       console.log(err);
     }
@@ -46,6 +47,25 @@ function RecipeCard({ recipe, isLoading }) {
       </div>
       <div className='mt-6 border-t border-gray-200'>
         <dl className='divide-y divide-gray-200'>
+          <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
+            <dt className='text-sm font-medium leading-6 text-gray-900'>
+              Nutritional facts
+            </dt>
+            <dd className='mt-1 text-sm leading-6 text-gray-700  md:w-full sm:mt-0'>
+              <div className="grid grid-cols-2 md:flex md:flex-row gap-2  bg-white/5 ">
+                {recipe.nutritional_facts && Object.entries(recipe?.nutritional_facts)?.map(([factName, factValue]) => {
+                  return (
+                    <div key={factName} className="bg-stone-200 px-4 py-2 sm:px-6  rounded-md">
+                      <p className="text-sm font-medium leading-6 text-gray-500">{factName}</p>
+                      <p className="mt-2 flex items-baseline gap-x-2">
+                        <span className="text-2xl font-semibold tracking-tight text-black">{factValue}</span>
+                        <span className="text-md font-semibold">{factName === 'calories' ? ' kcal' : ' g'}</span>
+                      </p>
+                    </div>
+                  )})}
+              </div>
+            </dd>
+          </div>
           <div className='px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
             <dt className='text-sm font-medium leading-6 text-gray-900'>
               Ingredients

@@ -10,9 +10,8 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState([]);
-  const [success, setSuccess] = useState(false);
   const [shareSuccess, setShareSuccess] = useState(false);
-
+  const [success, setSuccess] = useState(false);
   
   useEffect(() => {
     const isIndeterminate =
@@ -43,9 +42,10 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
         }
       );
       const data = await response.json();
-      console.log(data.message);
+      return data
     } catch (err) {
       console.log(err);
+      throw new Error(err);
     } finally {
       setToggle((prev) => !prev);
       toggleAll();
@@ -69,8 +69,6 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
       setEditMode(false);
     }
   }, [open]);
-
-  console.log(recipeModal)
 
   const handleRecipeChange = ({ target: { name, value } }, item) => {
     switch (name.split(" ")[0]) {
@@ -119,6 +117,7 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
       return data;
     } catch (err) {
       console.log(err);
+      throw new Error(err);
     } finally {
       setEditMode(false);
       setToggle((prev) => !prev);
@@ -128,7 +127,6 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
   // post recipe to feed timeline
   async function handlePostToFeed(id) {
     try {
-      setSuccess(false)
       const response = await fetch(`/api/savedRecipe?id=${id}`, {
         method: "PUT",
         headers: {
@@ -153,8 +151,8 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
     }
   }
 
+  console.log(recipeModal)
   return (<>
-
     <div className='px-2 sm:px-6'>
       <div className='mt-4 flow-root'>
         <div className='-mx-4 -my-2 sm:-mx-6 lg:-mx-8'>
@@ -369,6 +367,22 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                     </div>
                     <div className='mt-6 border-t border-gray-200'>
                       <dl className='divide-y divide-gray-200'>
+                       <div className='px-4 py-4 sm:px-0'>
+                          <dd className='mt-1 text-sm leading-6 text-gray-700 w-full sm:mt-0'>
+                              <div className="grid grid-cols-2 md:flex md:flex-row gap-2 bg-white/5 ">
+                                {recipeModal?.nutritional_facts && Object?.entries(recipeModal?.nutritional_facts)?.map(([factName, factValue]) => {
+                                  return (
+                                    <div key={factName} className="bg-stone-200 px-4 py-2 sm:px-6 w-full rounded-md">
+                                      <p className="text-sm font-medium leading-6 text-gray-500">{factName}</p>
+                                      <p className="md:mt-2 flex items-baseline gap-x-2">
+                                        <span className="text-lg md:text-2xl font-semibold tracking-tight text-black">{factValue}</span>
+                                        <span className="text-md font-semibold">{factName === 'calories' ? ' kcal' : ' g'}</span>
+                                      </p>
+                                    </div>
+                                  )})}
+                              </div>
+                            </dd>
+                        </div>
                         <div className='px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                           <dt className='text-sm font-medium leading-6 text-gray-900'>
                             Ingredients
@@ -428,6 +442,7 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                               })}
                           </dd>
                         </div>
+                       
                         <div className='px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0'>
                           <dt className='text-sm font-medium leading-6 text-gray-900'>
                             Instructions
