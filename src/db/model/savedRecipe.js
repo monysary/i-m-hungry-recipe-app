@@ -41,6 +41,10 @@ SavedRecipe.init(
         return this.setDataValue("instructions", JSON.stringify(value));
       },
     },
+    nutritional_facts: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
     notes: {
       type: DataTypes.TEXT,
       allowNull: true,
@@ -48,7 +52,7 @@ SavedRecipe.init(
     postedToTimeline: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
-    },
+    },  
   },
   {
     sequelize,
@@ -60,13 +64,7 @@ SavedRecipe.init(
       },
       beforeUpdate: (recipe) => {
         recipe.ingredients = JSON.stringify(recipe.ingredients);
-        recipe.instructions = JSON.stringify(recipe.instructions);
-        // if (Array.isArray(recipe.ingredients)) {
-        // 	recipe.ingredients = JSON.stringify(recipe.ingredients);
-        // }
-        // if (Array.isArray(recipe.instructions)) {
-        // 	recipe.instructions = JSON.stringify(recipe.instructions);
-        // }
+        recipe.instructions = JSON.stringify(recipe.instructions);    
       },
       afterFind: (recipe) => {
         if (typeof recipe.ingredients === "string") {

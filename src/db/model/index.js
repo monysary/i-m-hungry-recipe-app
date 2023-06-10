@@ -2,6 +2,7 @@ const User = require("./user");
 const Pantry = require("./pantry");
 const SavedRecipe = require("./savedRecipe");
 const Comment = require("./comment");
+const RecipeLikes = require("./recipeLikes");
 
 User.hasMany(SavedRecipe, {
   foreignKey: "userId",
@@ -35,9 +36,19 @@ Comment.belongsTo(SavedRecipe, {
   foreignKey: "recipeId",
 });
 
+SavedRecipe.hasMany(RecipeLikes, {
+  foreignKey: "recipeId",
+});
+
+RecipeLikes.belongsTo(SavedRecipe, {
+  foreignKey: "recipeId",
+});
+
+
 module.exports = {
   User,
   Pantry,
   SavedRecipe,
   Comment,
+  RecipeLikes
 };
