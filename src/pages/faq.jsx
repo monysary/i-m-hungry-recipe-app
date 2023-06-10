@@ -48,7 +48,7 @@ export default function Faq() {
                       <Disclosure.Panel as='dd' className='mt-2 pr-12'>
                         {faq.question ===
                           "What other features will be added in the future?" ? (
-                          <ul className='list-disc pl-5'>
+                          <ul className='list-disc pl-5 text-gray-300'>
                             <li>Daily meal plans.</li>
                             <li>Weekly meal plans.</li>
                             <li>Monthly meal plans.</li>

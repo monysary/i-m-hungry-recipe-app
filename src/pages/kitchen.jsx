@@ -3,23 +3,13 @@ import { useEffect, useState } from "react";
 import authService from "@/utils/auth/authService";
 import RecipeCard from "../components/recipeCard.jsx";
 import { AiFillCloseCircle } from "react-icons/ai";
-import CircleSpinner from "@/components/spinners/circle";
 import {
   ChevronRightIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/outline";
 import GenerateRecipeSkeleton from "@/components/skeletons/generateRecipeSkeleton.jsx";
-import ProgressBar from "@/components/spinners/progressBar.jsx";
 
 function Kitchen() {
-  useEffect(() => {
-    if (authService.loggedIn() && !authService.tokenExpired()) {
-      return;
-    } else {
-      window.location.assign("/login");
-    }
-  }, []);
-
   // Setting ingredient choices
   const [pantryItems, setPantryItems] = useState([]); // Data stored from GET request
   const [ingredientsArr, setIngredientsArr] = useState([]);
@@ -32,24 +22,27 @@ function Kitchen() {
   });
 
   useEffect(() => {
-    const getItems = async () => {
-      try {
-        const response = await fetch("/api/pantry", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${authService.getToken()}`,
-          },
-        });
-
-        const data = await response.json();
-        setPantryItems(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    getItems();
+    if (authService.loggedIn() && !authService.tokenExpired()) {
+      getItems();
+    } else {
+      window.location.assign("/login");
+    }
   }, []);
+
+  const getItems = async () => {
+    try {
+      const response = await fetch("/api/pantry", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${authService.getToken()}`,
+        },
+      });
+
+      const data = await response.json();
+      setPantryItems(data);
+    } catch (err) {
+      console.log(err);
+    }}
 
   // Check local storage if a recipe was recently generated
   useEffect(() => {
@@ -152,7 +145,7 @@ function Kitchen() {
         <title>Chefing it up!</title>
       </Head>
       <div className='flex justify-center h-full min-h-[70vh] pb-24 mb-24 '>
-        <div className='max-w-[1280px] w-full px-4 py-6'>
+        <div className='max-w-[1280px] w-full px-4 md:px-0 py-6'>
           <div className='min-h-full px-2 py-6'>
             <div className='relative flex items-start gap-1'>
               <div className='md:text-3xl text-2xl mb-2 md:mb-6 text-black font-medium'>

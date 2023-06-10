@@ -65,10 +65,10 @@ function SavedRecipes() {
       </Head>
       {myRecipes?.length > 0 && (
         <div className='flex justify-center h-screen'>
-          <div className='max-w-[1280px] w-full px-2 py-6'>
-            <div className='min-h-full  px-4 py-6 '>
+          <div className='max-w-[1280px] w-full px-2 md:px-0 py-6'>
+            <div className='min-h-full px-4 md:px-2 py-6 '>
               <div>
-                <h1 className='md:text-3xl text-2xl  font-medium text-black'>
+                <h1 className='md:text-3xl text-2xl font-medium text-black'>
                   My Recipes
                 </h1>
                 <div className='py-4'>
