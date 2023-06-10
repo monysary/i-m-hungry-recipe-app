@@ -30,7 +30,7 @@ export default async function handler(req, res) {
      * POST new saved recipe where user id matches
      */
   } else if (req.method === "POST") {
-    const { title, servings, ingredients, instructions, notes } = req.body;
+    const { title, servings, ingredients, instructions, notes, nutritional_facts } = req.body;
     try {
       const token = req.headers.authorization;
       if (!token) {
@@ -47,6 +47,7 @@ export default async function handler(req, res) {
         servings,
         ingredients,
         instructions,
+        nutritional_facts,
         notes,
         username,
       });
