@@ -4,12 +4,12 @@ export default function PageHeading() {
   return (
     <div className='flex justify-center h-full mb-2'>
       <div className='max-w-[1280px] w-full  py-2'>
-        <div className='border-b border-gray-200 w-full pb-5 flex flex-col md:flex-row justify-between items-start'>
-          <div className='flex flex-col gap-4 w-full pl-3'>
+        <div className='border-b border-gray-200 w-full pb-5 px-4 md:px-0 flex flex-col md:flex-row justify-between items-start'>
+          <div className='flex flex-col gap-4 w-full md:pl-2'>
             <h3 className='text-3xl font-semibold leading-6 text-gray-900'>
               {headerText.title}
             </h3>
-            <p className='mb-6  text-black'>{headerText.description}</p>
+            <p className='mb-6 px-2 md:px-0  text-black'>{headerText.description}</p>
           </div>
           <div className='mt-3 sm:mt-0 w-full md:w-max'>
             <Link

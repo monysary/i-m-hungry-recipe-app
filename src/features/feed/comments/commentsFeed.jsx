@@ -111,37 +111,41 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
               <div className='relative flex h-6 w-6 flex-none items-center justify-center '>
                 <div className='h-1.5 w-1.5 rounded-full bg-orange-500 ring-1 ring-gray-300' />
               </div>
-              <div className='flex flex-col w-full rounded-md'>
-                <div className='flex w-full justify-between gap-x-4'>
+              <div className='flex flex-row w-full rounded-md'>
+                <div className='flex flex-col w-full justify-between gap-x-4'>
                   <div className=' text-xs leading-5 text-gray-500'>
-                    <span className='font-medium text-gray-900 mr-2'>
-                      {comment.username}
-                    </span>
-                    commented
+                      <span className='font-medium text-gray-900 mr-2'>
+                        {comment.username}
+                      </span>
+                      commented 
+                        <time
+                        dateTime={comment.dateTime}
+                        className='flex-none py-0.5 ml-1 text-xs leading-5 text-gray-500'>
+                        {getTimeAgo(comment.updatedAt)}
+                      </time>
+                    </div>
+                    <div className='flex flex-row justify-between items-start'>
+                      <p className='flex flex-wrap text-sm leading-6 text-black w-full break-words'>
+                        {comment.description}
+                      </p>
+                    </div>
+                </div>
+                  <div className='text-end'>
+                    {userId === comment.userId &&
+                      <button onClick={() => handleDeleteComment(comment.id)} className='mt-2 hover:bg-gray-200 bg-gray-300 transition ease-out rounded-full hover:scale-95 '>
+                        <XMarkIcon className='w-4 ' />
+                      </button>
+                        }
+                      <div className=' mt-2 flex flex-row gap-1 text-xs items-center justify-end'>
+                        <button onClick={() => handleAddLike(comment.id)}>
+                          {comment.likes === 0 ? <HeartOutline className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' /> : <HeartIcon className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />}
+                        </button>
+                        <p> {comment.likes}</p>
+                      </div>
                   </div>
-                  <time
-                    dateTime={comment.dateTime}
-                    className='flex-none py-0.5 text-xs leading-5 text-gray-500'>
-                    {getTimeAgo(comment.updatedAt)}
-                  </time>
+                  
                 </div>
-                <div className='flex flex-row justify-between items-start'>
-                  <p className='flex flex-wrap text-sm leading-6 text-black w-full break-words'>
-                    {comment.description}
-                  </p>
-                  {userId === comment.userId &&
-                    <button onClick={() => handleDeleteComment(comment.id)} className='mt-2 hover:bg-gray-200 bg-gray-300 transition ease-out rounded-full hover:scale-95 '>
-                      <XMarkIcon className='w-4 ' />
-                    </button>}
                 </div>
-              </div>
-            </div>
-            <div className='ml-2 mt-2 flex flex-row gap-2 text-xs items-center justify-end'>
-              <button onClick={() => handleAddLike(comment.id)}>
-                {comment.likes === 0 ? <HeartOutline className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' /> : <HeartIcon className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />}
-              </button>
-              <p> {comment.likes} likes</p>
-            </div>
           </li>
         ))}
       </ul>
