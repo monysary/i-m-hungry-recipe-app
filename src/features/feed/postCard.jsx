@@ -69,10 +69,10 @@ export default function PostCard({ recipe, comments, userId, recipeLikes, setTog
                                             <dd className='mt-1 text-xl leading-6 text-black font-medium sm:col-span-2 sm:mt-0'>
                                                 {recipe.title}
                                             </dd>
-                                            {recipeLikes && 
+                                            {
                                                 <div className='ml-2 mt-2 flex flex-row gap-2 text-xs items-center justify-end'>
                                                 <button onClick={() => handleAddLike(recipe.id)}>
-                                                    {!recipeLikes ? <HeartOutline className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' /> : <HeartIcon className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />}
+                                                    {!recipeLikes?.likes ? <HeartOutline className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' /> : <HeartIcon className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />}
                                                 </button>
                                                 <p> {recipeLikes?.likes ? recipeLikes.likes : 0}</p>
                                                 </div>
@@ -197,15 +197,13 @@ export default function PostCard({ recipe, comments, userId, recipeLikes, setTog
                                         <div className="flex flex-row justify-between items-start w-full">
                                             <dd className='mt-1 text-xl leading-6 text-black font-medium sm:col-span-2 sm:mt-0'>
                                                 {recipe.title}
-                                            </dd>
-                                            {recipeLikes && 
+                                            </dd> 
                                                 <div className='ml-2 mt-2 flex flex-row gap-2 text-xs items-center justify-end'>
                                                 <button onClick={() => handleAddLike(recipe.id)}>
-                                                    {!recipeLikes ? <HeartOutline className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' /> : <HeartIcon className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />}
+                                                    {!recipeLikes?.likes ? <HeartOutline className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' /> : <HeartIcon className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />}
                                                 </button>
                                                 <p> {recipeLikes?.likes ? recipeLikes.likes : 0}</p>
                                                 </div>
-                                            }
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-2 md:flex md:flex-row px-4 gap-2 mb-4  bg-white/5 ">
