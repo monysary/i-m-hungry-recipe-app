@@ -1,8 +1,8 @@
 const { Model, DataTypes } = require("sequelize")
 const sequelize = require("../config/connections.js")
 
-class Comment extends Model {}
-Comment.init(
+class RecipeLikes extends Model {}
+RecipeLikes.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,14 +11,7 @@ Comment.init(
     },
     username: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      validate: {
-        len: [1, 255],
-      },
+      allowNull: true,
     },
     likes: {
       type: DataTypes.INTEGER,
@@ -27,8 +20,8 @@ Comment.init(
   },
   {
     sequelize,
-    modelName: "Comment",
+    modelName: "RecipeLikes",
   }
 )
 
-module.exports = Comment
+module.exports = RecipeLikes

@@ -1,24 +1,24 @@
-import Head from "next/head";
-import { useEffect, useState } from "react";
-import authService from "@/utils/auth/authService";
-import SavedRecipeCard from "@/components/savedRecipeCard";
-import SavedRecipesEmptyState from "@/components/emptyStates/savedRecipesEmptyState";
+import Head from "next/head"
+import { useEffect, useState } from "react"
+import authService from "@/utils/auth/authService"
+import SavedRecipeCard from "@/components/savedRecipeCard"
+import SavedRecipesEmptyState from "@/components/emptyStates/savedRecipesEmptyState"
 
 function SavedRecipes() {
-  const [toggle, setToggle] = useState(true);
-  const [myRecipes, setMyRecipes] = useState();
+  const [toggle, setToggle] = useState(true)
+  const [myRecipes, setMyRecipes] = useState()
 
   useEffect(() => {
     if (authService.loggedIn() && !authService.tokenExpired()) {
-      return;
+      return
     } else {
-      window.location.assign("/login");
+      window.location.assign("/login")
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    fetchRecipes();
-  }, [toggle]);
+    fetchRecipes()
+  }, [toggle])
 
   // Fetch user's saved recipes from DB
   const fetchRecipes = async () => {
@@ -28,25 +28,25 @@ function SavedRecipes() {
           "Content-Type": "application/json",
           Authorization: authService.getToken(),
         },
-      });
+      })
 
-      const data = await response.json();
+      const data = await response.json()
       const convertedData = data.map((object) => {
-        const updatedObject = { ...object };
+        const updatedObject = { ...object }
         if (typeof object.ingredients === "string") {
-          updatedObject.ingredients = JSON.parse(object.ingredients);
+          updatedObject.ingredients = JSON.parse(object.ingredients)
         }
         if (typeof object.instructions === "string") {
-          updatedObject.instructions = JSON.parse(object.instructions);
+          updatedObject.instructions = JSON.parse(object.instructions)
         }
-        return updatedObject;
-      });
-
-      setMyRecipes(convertedData);
+        return updatedObject
+      })
+      const reverseOrderRecipes = convertedData?.reverse()
+      setMyRecipes(reverseOrderRecipes)
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   if (myRecipes < 1)
     return (
@@ -55,7 +55,7 @@ function SavedRecipes() {
           <SavedRecipesEmptyState />
         </div>
       </div>
-    );
+    )
 
   return (
     <>
@@ -64,10 +64,10 @@ function SavedRecipes() {
       </Head>
       {myRecipes?.length > 0 && (
         <div className='flex justify-center h-screen'>
-          <div className='max-w-[1280px] w-full px-2 py-6'>
-            <div className='min-h-full  px-4 py-6 '>
+          <div className='max-w-[1280px] w-full px-2 md:px-0 py-6'>
+            <div className='min-h-full px-4 md:px-2 py-6 '>
               <div>
-                <h1 className='md:text-3xl text-2xl  font-medium text-black'>
+                <h1 className='md:text-3xl text-2xl font-medium text-black'>
                   My Recipes
                 </h1>
                 <div className='py-4'>
@@ -82,7 +82,7 @@ function SavedRecipes() {
         </div>
       )}
     </>
-  );
+  )
 }
 
-export default SavedRecipes;
+export default SavedRecipes

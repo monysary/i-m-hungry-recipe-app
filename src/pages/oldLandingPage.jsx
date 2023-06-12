@@ -1,6 +1,6 @@
-import Head from "next/head";
-import Link from "next/link";
-import { HiArrowRight, HiArrowLeft } from "react-icons/hi";
+import Head from "next/head"
+import Link from "next/link"
+import { HiArrowRight, HiArrowLeft } from "react-icons/hi"
 
 export default function Home() {
   return (
@@ -35,5 +35,5 @@ export default function Home() {
         </div>
       </div>
     </>
-  );
+  )
 }

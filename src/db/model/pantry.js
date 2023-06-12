@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../config/connections.js");
+const { Model, DataTypes } = require("sequelize")
+const sequelize = require("../config/connections.js")
 
 class Pantry extends Model {}
 
@@ -39,6 +39,6 @@ Pantry.init(
     underscored: true,
     modelName: "pantry",
   }
-);
+)
 
-module.exports = Pantry;
+module.exports = Pantry
