@@ -278,7 +278,7 @@ export default function PostCard({
                             </p>
                             <p className='flex items-baseline gap-x-2'>
                               <span className='text-lg font-semibold tracking-tight text-black'>
-                                {recipe.nutritional_facts.carbohydrates ||
+                                {recipe.nutritional_facts.carbohydrates || recipe.nutritional_facts.carbohydrate ||
                                   recipe.nutritional_facts.carbs}
                               </span>
                             </p>
@@ -291,7 +291,7 @@ export default function PostCard({
                             </p>
                             <p className='flex items-baseline gap-x-2'>
                               <span className='text-lg font-semibold tracking-tight text-black'>
-                                {recipe.nutritional_facts.fat}
+                                {recipe.nutritional_facts.fat || recipe.nutritional_facts.fats || recipe.nutritional_facts['total fat']}
                               </span>
                             </p>
                           </div>
