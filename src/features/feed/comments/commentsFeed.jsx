@@ -52,21 +52,18 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
   }
 
   async function handleDeleteComment(commentId) {
-    const response = await fetch(`/api/comment?commentId=${commentId}`, {
+    try {
+     await fetch(`/api/comment?commentId=${commentId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: authService.getToken(),
       },
-    })
-    if (response.ok) {
-      // Remove the deleted comment from the comments state
-      const updatedComments = comments.filter(
-        (comment) => comment.id !== commentId
-      )
-      setComment(updatedComments)
-    }
+    }    
+    )} catch (err) {
+      throw new Error(err)
   }
+}
 
   async function handleAddLike(commentId) {
     const response = await fetch(

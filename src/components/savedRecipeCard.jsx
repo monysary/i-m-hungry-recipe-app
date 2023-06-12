@@ -10,7 +10,7 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
   const [selectedRecipe, setSelectedRecipe] = useState([])
-  const [shareSuccess, setShareSuccess] = useState(false)
+  const [shareSuccess, setShareSuccess] = useState()
   const [success, setSuccess] = useState(false)
 
   useEffect(() => {
@@ -139,15 +139,20 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
         }),
       })
       const data = await response.json()
-      return data
-    } catch (err) {
-      console.log(err)
-    } finally {
       setRecipeModal((prev) => ({
         ...prev,
         postedToTimeline: !recipeModal.postedToTimeline, // Update the state with the new value
       }))
       setShareSuccess(true)
+      setTimeout(() => {
+      setOpen(false)
+    window.location.assign("/feed")
+    }, 1000)
+      return data
+    } catch (err) {
+      console.log(err)
+    } finally {
+     
     }
   }
 
@@ -401,7 +406,7 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                         <dl className='divide-y divide-gray-200'>
                           <div className='px-4 py-4 sm:px-0'>
                             <dd className='mt-1 text-sm leading-6 text-gray-700 w-full sm:mt-0'>
-                              <div className='grid grid-cols-2 md:flex md:flex-row gap-2 bg-white/5 '>
+                              <div className='grid grid-cols-4 text-center gap-2 bg-white/5 '>
                                 {recipeModal?.nutritional_facts &&
                                   Object?.entries(
                                     recipeModal?.nutritional_facts
@@ -409,12 +414,12 @@ export default function SavedRecipeCard({ myRecipes, setToggle }) {
                                     return (
                                       <div
                                         key={factName}
-                                        className='bg-stone-200 px-4 py-2 sm:px-6 w-full rounded-md'>
+                                        className='bg-stone-200 px-4 py-2 flex flex-col items-center sm:px-6 w-full rounded-md'>
                                         <p className='text-sm font-medium leading-6 text-gray-500'>
                                           {factName}
                                         </p>
                                         <p className='md:mt-2 flex items-baseline gap-x-2'>
-                                          <span className='text-lg md:text-2xl font-semibold tracking-tight text-black'>
+                                          <span className='text-lg md:text-xl font-semibold tracking-tight text-black'>
                                             {factValue}
                                           </span>
                                           <span className='text-md font-semibold'>

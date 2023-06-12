@@ -71,7 +71,7 @@ export default function FeedPage() {
 
   if (loading)
     return (
-      <div className='flex w-full min-h-screen h-full pb-12 md:pb-0 md:min-h-[80vh] md:h-[80vh] justify-center md:mt-6 mt-4'>
+      <div className='flex w-full min-h-screen h-full pb-12 md:pb-0 md:min-h-[80vh] md:h-[80vh] justify-center md:mt-6 mt-4 md:mx-4'>
         <div className='flex flex-col w-full md:max-w-7xl gap-8 md:gap-16 md:my-0 '>
           <div className='flex flex-col w-full justify-between md:max-w-7xl gap-8 md:gap-16  md:my-0 md:px-0 px-2 mt-4  md:mt-6'>
             <PageHeading />
@@ -87,7 +87,7 @@ export default function FeedPage() {
     )
 
   return (
-    <div className='flex justify-center h-full min-h-[70vh] pb-24 bg-white md:mt-6'>
+    <div className='flex justify-center h-full min-h-[70vh] pb-24 bg-white md:mt-6 md:mx-4'>
       <div className='max-w-[1280px] w-full h-full px-2 md:px-0 py-6 '>
         <PageHeading />
         <PostContainer recipes={recipes} comments={comments} userId={userId} />

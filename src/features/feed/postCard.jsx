@@ -109,7 +109,7 @@ export default function PostCard({
                       <dt className=' text-sm font-medium mb-4 md:mb-0 text-gray-900'>
                         Nutritional facts
                       </dt>
-                      <div className='grid grid-cols-2 w-full col-span-2 gap-2 mb-4  bg-white/5 '>
+                      <div className='grid grid-cols-3 w-full col-span-2 gap-2 mb-4  bg-white/5 '>
                         {recipe.nutritional_facts &&
                           Object.entries(recipe?.nutritional_facts)?.map(
                             ([factName, factValue]) => {
@@ -278,7 +278,7 @@ export default function PostCard({
                             </p>
                             <p className='flex items-baseline gap-x-2'>
                               <span className='text-lg font-semibold tracking-tight text-black'>
-                                {recipe.nutritional_facts.carbohydrates ||
+                                {recipe.nutritional_facts.carbohydrates || recipe.nutritional_facts.carbohydrate ||
                                   recipe.nutritional_facts.carbs}
                               </span>
                             </p>
@@ -291,7 +291,7 @@ export default function PostCard({
                             </p>
                             <p className='flex items-baseline gap-x-2'>
                               <span className='text-lg font-semibold tracking-tight text-black'>
-                                {recipe.nutritional_facts.fat}
+                                {recipe.nutritional_facts.fat || recipe.nutritional_facts.fats || recipe.nutritional_facts['total fat']}
                               </span>
                             </p>
                           </div>

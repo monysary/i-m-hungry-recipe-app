@@ -23,7 +23,7 @@ function Navbar() {
   }
 
   return (
-    <nav className='bg-gray-800'>
+    <nav className='bg-gray-800 md:px-4'>
       <div className='mx-auto max-w-7xl px-4 md:px-0'>
         <div className='relative flex h-16 items-center justify-between'>
           <div className='inset-y-0 left-0 flex items-center md:hidden'>
