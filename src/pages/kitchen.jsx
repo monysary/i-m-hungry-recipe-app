@@ -1,102 +1,98 @@
-import Head from "next/head";
-import { useEffect, useState } from "react";
-import authService from "@/utils/auth/authService";
-import RecipeCard from "../components/recipeCard.jsx";
-import { AiFillCloseCircle } from "react-icons/ai";
-import CircleSpinner from "@/components/spinners/circle";
+import Head from "next/head"
+import { useEffect, useState } from "react"
+import authService from "@/utils/auth/authService"
+import RecipeCard from "../components/recipeCard.jsx"
+import { AiFillCloseCircle } from "react-icons/ai"
 import {
   ChevronRightIcon,
   QuestionMarkCircleIcon,
-} from "@heroicons/react/24/outline";
+} from "@heroicons/react/24/outline"
+import GenerateRecipeSkeleton from "@/components/skeletons/generateRecipeSkeleton.jsx"
 
 function Kitchen() {
-  useEffect(() => {
-    if (authService.loggedIn() && !authService.tokenExpired()) {
-      return;
-    } else {
-      window.location.assign("/login");
-    }
-  }, []);
-
   // Setting ingredient choices
-  const [pantryItems, setPantryItems] = useState([]); // Data stored from GET request
-  const [ingredientsArr, setIngredientsArr] = useState([]);
-  const [recipe, setRecipe] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [pantryItems, setPantryItems] = useState([]) // Data stored from GET request
+  const [ingredientsArr, setIngredientsArr] = useState([])
+  const [recipe, setRecipe] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [recipeForm, setRecipeForm] = useState({
     category: "",
     ingredient: "",
-  });
+  })
 
   useEffect(() => {
-    const getItems = async () => {
-      try {
-        const response = await fetch("/api/pantry", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${authService.getToken()}`,
-          },
-        });
+    if (authService.loggedIn() && !authService.tokenExpired()) {
+      getItems()
+    } else {
+      window.location.assign("/login")
+    }
+  }, [])
 
-        const data = await response.json();
-        setPantryItems(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  const getItems = async () => {
+    try {
+      const response = await fetch("/api/pantry", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${authService.getToken()}`,
+        },
+      })
 
-    getItems();
-  }, []);
+      const data = await response.json()
+      setPantryItems(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   // Check local storage if a recipe was recently generated
   useEffect(() => {
-    let prevRecipe;
+    let prevRecipe
     if (localStorage.getItem("kitchen")) {
-      prevRecipe = JSON.parse(localStorage.getItem("kitchen"));
+      prevRecipe = JSON.parse(localStorage.getItem("kitchen"))
       if (Date.now() < prevRecipe.expire) {
-        setRecipe(JSON.parse(prevRecipe.recipe));
+        setRecipe(JSON.parse(prevRecipe.recipe))
       }
     }
-  }, []);
+  }, [])
 
   const handleRecipeForm = ({ target: { name, value } }) => {
     setRecipeForm({
       ...recipeForm,
       [name]: value,
-    });
-  };
+    })
+  }
 
   // Selecting ingredients for recipe
   const addIngredient = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const alreadyAdded = ingredientsArr.find(
       (item) => item.ingredient === recipeForm.ingredient
-    );
+    )
 
     if (
       recipeForm.ingredient !== "" &&
       alreadyAdded?.ingredient !== recipeForm.ingredient
     ) {
-      setIngredientsArr([...ingredientsArr, recipeForm]);
+      setIngredientsArr([...ingredientsArr, recipeForm])
     }
-    return;
-  };
+    return
+  }
 
   // handle remove a selected ingredient
   const removeIngredient = (event) => {
     setIngredientsArr((prev) =>
       prev.filter((item) => item.ingredient !== event.target.parentElement.id)
-    );
-  };
+    )
+  }
 
   // Generating recipe
   const generateRecipe = async () => {
-    const justIngredients = [];
+    const justIngredients = []
     try {
-      if (!ingredientsArr) return null;
-      setIsLoading(true);
-      ingredientsArr.map((object) => justIngredients.push(object.ingredient));
+      if (!ingredientsArr) return null
+      setIsLoading(true)
+      ingredientsArr.map((object) => justIngredients.push(object.ingredient))
 
       await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -117,32 +113,32 @@ function Kitchen() {
       })
         .then((res) => res.json())
         .then((data) => {
-          const finalResponse = data.choices[0].message.content;
+          const finalResponse = data.choices[0].message.content
           localStorage.setItem(
             "kitchen",
             JSON.stringify({
               recipe: finalResponse,
               expire: Date.now() + 1000 * 60 * 60,
             })
-          );
-          setRecipe(JSON.parse(finalResponse));
-        });
+          )
+          setRecipe(JSON.parse(finalResponse))
+        })
     } catch (err) {
-      console.log(err);
+      console.log(err)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   // Handle Next button
   const handleNextButton = () => {
-    window.location.assign("/savedRecipes");
-  };
+    window.location.assign("/savedRecipes")
+  }
 
   // Handle instructions dialog
   const handleDialogOpen = () => {
-    setDialogOpen(!dialogOpen);
-  };
+    setDialogOpen(!dialogOpen)
+  }
 
   return (
     <>
@@ -161,8 +157,9 @@ function Kitchen() {
               </button>
               <div
                 onClick={handleDialogOpen}
-                className={`fixed z-10 top-0 left-0 w-screen h-screen ${dialogOpen === false && "hidden"
-                  }`}></div>
+                className={`fixed z-10 top-0 left-0 w-screen h-screen ${
+                  dialogOpen === false && "hidden"
+                }`}></div>
               <dialog
                 open={dialogOpen}
                 className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'>
@@ -209,7 +206,7 @@ function Kitchen() {
                           <option key={category} value={category}>
                             {category}
                           </option>
-                        );
+                        )
                       })}
                     </select>
                   </div>
@@ -234,7 +231,7 @@ function Kitchen() {
                               value={item.ingredient}>
                               {item.ingredient}
                             </option>
-                          );
+                          )
                         })}
                     </select>
                   </div>
@@ -262,24 +259,25 @@ function Kitchen() {
                     key={item.ingredient}
                     id={item.ingredient}
                     className={`relative text-gray-900 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5
-                  ${item.category === categories[0]
-                        ? "bg-rose-100"
-                        : item.category === categories[1]
-                          ? "bg-green-100"
-                          : item.category === categories[2]
-                            ? "bg-orange-100"
-                            : item.category === categories[3]
-                              ? "bg-slate-100"
-                              : item.category === categories[4]
-                                ? "bg-yellow-100"
-                                : item.category === categories[5]
-                                  ? "bg-lime-100"
-                                  : item.category === categories[6]
-                                    ? "bg-blue-100"
-                                    : item.category === categories[7]
-                                      ? "bg-gray-100"
-                                      : "bg-white"
-                      }`}>
+                  ${
+                    item.category === categories[0]
+                      ? "bg-rose-100"
+                      : item.category === categories[1]
+                      ? "bg-green-100"
+                      : item.category === categories[2]
+                      ? "bg-orange-100"
+                      : item.category === categories[3]
+                      ? "bg-slate-100"
+                      : item.category === categories[4]
+                      ? "bg-yellow-100"
+                      : item.category === categories[5]
+                      ? "bg-lime-100"
+                      : item.category === categories[6]
+                      ? "bg-blue-100"
+                      : item.category === categories[7]
+                      ? "bg-gray-100"
+                      : "bg-white"
+                  }`}>
                     {item.ingredient}
                     <AiFillCloseCircle
                       id={item.ingredient}
@@ -287,7 +285,7 @@ function Kitchen() {
                       onClick={removeIngredient}
                     />
                   </div>
-                );
+                )
               })}
             </div>
             {isLoading ? (
@@ -302,7 +300,7 @@ function Kitchen() {
             )}
             <div className='flex justify-center'>
               {isLoading ? (
-                <CircleSpinner />
+                <GenerateRecipeSkeleton finishedLoading={isLoading} />
               ) : (
                 recipe !== null && (
                   <RecipeCard recipe={recipe} isLoading={isLoading} />
@@ -313,10 +311,10 @@ function Kitchen() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default Kitchen;
+export default Kitchen
 
 const categories = [
   "Protein",
@@ -328,4 +326,4 @@ const categories = [
   "Spice",
   "Seasoning",
   "Other",
-];
+]

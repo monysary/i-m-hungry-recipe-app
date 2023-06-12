@@ -1,6 +1,6 @@
-import { Fragment, useState, useEffect } from "react";
-import getTimeAgo from "@/utils/getTimeAgo";
-import authService from "@/utils/auth/authService";
+import { Fragment, useState, useEffect } from "react"
+import getTimeAgo from "@/utils/getTimeAgo"
+import authService from "@/utils/auth/authService"
 import {
   FaceFrownIcon,
   FaceSmileIcon,
@@ -8,34 +8,34 @@ import {
   HandThumbUpIcon,
   HeartIcon,
   XMarkIcon,
-} from "@heroicons/react/20/solid";
+} from "@heroicons/react/20/solid"
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline"
-import { Listbox, Transition } from "@headlessui/react";
+import { Listbox, Transition } from "@headlessui/react"
 
 export default function CommentsFeed({ recipeId, comments, userId }) {
-  const [selected, setSelected] = useState(moods[5]);
-  const [comment, setComment] = useState("");
-  const [commentCount, setCommentCount] = useState(2);
+  const [selected, setSelected] = useState(moods[5])
+  const [comment, setComment] = useState("")
+  const [commentCount, setCommentCount] = useState(2)
 
   function viewAllComments() {
     if (commentCount === comments?.length) {
-      setCommentCount(2);
+      setCommentCount(2)
     } else {
-      setCommentCount(comments?.length);
+      setCommentCount(comments?.length)
     }
   }
 
   async function handleSubmitComment() {
     if (!authService.loggedIn()) {
-      alert('Please log in to comment')
+      alert("Please log in to comment")
       return
     }
 
     if (!comment) {
-      alert('Please enter a comment')
+      alert("Please enter a comment")
       return
     }
-    const response = await fetch('/api/comment?action=comment', {
+    const response = await fetch("/api/comment?action=comment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,9 +45,9 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
         description: comment,
         recipeId: recipeId,
       }),
-    });
+    })
     if (response.ok) {
-      setComment("");
+      setComment("")
     }
   }
 
@@ -58,40 +58,49 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
         "Content-Type": "application/json",
         Authorization: authService.getToken(),
       },
-    });
+    })
     if (response.ok) {
       // Remove the deleted comment from the comments state
-      const updatedComments = comments.filter((comment) => comment.id !== commentId);
-      setComment(updatedComments);
+      const updatedComments = comments.filter(
+        (comment) => comment.id !== commentId
+      )
+      setComment(updatedComments)
     }
-
   }
 
   async function handleAddLike(commentId) {
-    const response = await fetch(`/api/comment?action=like&commentId=${commentId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authService.getToken(),
-      },
-    });
+    const response = await fetch(
+      `/api/comment?action=like&commentId=${commentId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authService.getToken(),
+        },
+      }
+    )
     if (response.ok) {
-      setComment("");
+      setComment("")
     }
-    window.location.reload();
+    window.location.reload()
   }
   return (
     <>
       <div className='flex flex-row items-center gap-2'>
-        <p className='mt-2 p-2 rounded-md w-max text-sm'>{comments?.length} comments</p>
-        {comments.length > 2 &&
-          <button onClick={viewAllComments} className='text-sm mt-2 text-blue-600 underline hover:text-blue-500 transition ease-out'>{commentCount === comments?.length ? "view less" : "view all"}</button>
-        }
+        <p className='mt-2 p-2 rounded-md w-max text-sm'>
+          {comments?.length} comments
+        </p>
+        {comments.length > 2 && (
+          <button
+            onClick={viewAllComments}
+            className='text-sm mt-2 text-blue-600 underline hover:text-blue-500 transition ease-out'>
+            {commentCount === comments?.length ? "view less" : "view all"}
+          </button>
+        )}
       </div>
       <ul role='list' className='space-y-6 '>
         {comments?.slice(0, commentCount).map((comment, commentIdx) => (
-
-          <li key={comment.id} className='relative flex flex-col gap-x-4' >
+          <li key={comment.id} className='relative flex flex-col gap-x-4'>
             <div
               className={classNames(
                 commentIdx === comments.length - 1 ? "h-6" : "-bottom-6",
@@ -111,36 +120,45 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
               <div className='relative flex h-6 w-6 flex-none items-center justify-center '>
                 <div className='h-1.5 w-1.5 rounded-full bg-orange-500 ring-1 ring-gray-300' />
               </div>
-              <div className='flex flex-col w-full rounded-md'>
-                <div className='flex w-full justify-between gap-x-4'>
+              <div className='flex flex-row w-full rounded-md'>
+                <div className='flex flex-col w-full justify-between gap-x-4'>
                   <div className=' text-xs leading-5 text-gray-500'>
                     <span className='font-medium text-gray-900 mr-2'>
                       {comment.username}
                     </span>
                     commented
+                    <time
+                      dateTime={comment.dateTime}
+                      className='flex-none py-0.5 ml-1 text-xs leading-5 text-gray-500'>
+                      {getTimeAgo(comment.updatedAt)}
+                    </time>
                   </div>
-                  <time
-                    dateTime={comment.dateTime}
-                    className='flex-none py-0.5 text-xs leading-5 text-gray-500'>
-                    {getTimeAgo(comment.updatedAt)}
-                  </time>
+                  <div className='flex flex-row justify-between items-start'>
+                    <p className='flex flex-wrap text-sm leading-6 text-black w-full break-words'>
+                      {comment.description}
+                    </p>
+                  </div>
                 </div>
-                <div className='flex flex-row justify-between items-start'>
-                  <p className='flex flex-wrap text-sm leading-6 text-black w-full break-words'>
-                    {comment.description}
-                  </p>
-                  {userId === comment.userId &&
-                    <button onClick={() => handleDeleteComment(comment.id)} className='mt-2 hover:bg-gray-200 bg-gray-300 transition ease-out rounded-full hover:scale-95 '>
+                <div className='text-end'>
+                  {userId === comment.userId && (
+                    <button
+                      onClick={() => handleDeleteComment(comment.id)}
+                      className='mt-2 hover:bg-gray-200 bg-gray-300 transition ease-out rounded-full hover:scale-95 '>
                       <XMarkIcon className='w-4 ' />
-                    </button>}
+                    </button>
+                  )}
+                  <div className=' mt-2 flex flex-row gap-1 text-xs items-center justify-end'>
+                    <button onClick={() => handleAddLike(comment.id)}>
+                      {comment.likes === 0 ? (
+                        <HeartOutline className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />
+                      ) : (
+                        <HeartIcon className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />
+                      )}
+                    </button>
+                    <p> {comment.likes}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className='ml-2 mt-2 flex flex-row gap-2 text-xs items-center justify-end'>
-              <button onClick={() => handleAddLike(comment.id)}>
-                {comment.likes === 0 ? <HeartOutline className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' /> : <HeartIcon className='w-6 text-red-500 hover:text-red-400 transition ease-out hover:scale-105' />}
-              </button>
-              <p> {comment.likes} likes</p>
             </div>
           </li>
         ))}
@@ -168,7 +186,6 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
               placeholder='Add your comment...'
               maxLength={255}
             />
-
           </div>
 
           <div className='absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2'>
@@ -257,18 +274,21 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
               </div>
             </div>
             <div className='flex flex-row items-center gap-4'>
-              <div className='text-xs text-gray-500'>{255 - comment.length} characters left</div>
+              <div className='text-xs text-gray-500'>
+                {255 - comment.length} characters left
+              </div>
               <button
                 type='submit'
                 onClick={handleSubmitComment}
                 className='rounded-md bg-orange-600  px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm  hover:bg-orange-500 transition ease-out'>
                 Comment
-              </button></div>
+              </button>
+            </div>
           </div>
         </form>
       </div>
     </>
-  );
+  )
 }
 
 const moods = [
@@ -314,8 +334,8 @@ const moods = [
     iconColor: "text-gray-400",
     bgColor: "bg-transparent",
   },
-];
+]
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(" ")
 }

@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className='bg-gray-800 w-full'>
+    <footer className='bg-gray-800 w-full relative '>
       <div className='mx-auto max-w-7xl overflow-hidden px-6 py-20 lg:px-8'>
         <nav
           className='-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12'
@@ -31,7 +31,7 @@ export default function Footer() {
         </p>
       </div>
     </footer>
-  );
+  )
 }
 
 const navigation = {
@@ -58,4 +58,4 @@ const navigation = {
       ),
     },
   ],
-};
+}

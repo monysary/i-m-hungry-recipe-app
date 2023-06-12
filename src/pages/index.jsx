@@ -9,12 +9,12 @@ import {
   CursorArrowRaysIcon,
   GlobeAmericasIcon,
   CloudArrowUpIcon,
-} from "@heroicons/react/20/solid";
+} from "@heroicons/react/20/solid"
 import {
   BoltIcon,
   CalendarDaysIcon,
   UsersIcon,
-} from '@heroicons/react/24/outline'
+} from "@heroicons/react/24/outline"
 
 export default function LandingPage() {
   const mainControls = useAnimation()
@@ -314,7 +314,7 @@ export default function LandingPage() {
         </main>
       </AnimatePresence>
     </div>
-  );
+  )
 }
 
 const primaryFeatures = [
@@ -339,7 +339,7 @@ const primaryFeatures = [
     href: "/signup",
     icon: CalendarDaysIcon,
   },
-];
+]
 const secondaryFeatures = [
   {
     name: "Save money",
@@ -375,13 +375,13 @@ const secondaryFeatures = [
       "Never lose your favorite recipes ever again by saving them in the cloud.",
     icon: CloudArrowUpIcon,
   },
-];
+]
 const stats = [
   { id: 1, name: "Different food recipes", value: "8,000+" },
   { id: 2, name: "Unlimited requests", value: "900m+" },
   { id: 3, name: "Uptime guarantee", value: "99.9%" },
   { id: 4, name: "Happy customers", value: "100%" },
-];
+]
 
 const cardVariantsVertical = {
   hidden: {
@@ -397,7 +397,7 @@ const cardVariantsVertical = {
       duration: 0.8,
     },
   },
-};
+}
 
 const cardVariantsHorizontal = {
   hidden: {
@@ -413,7 +413,7 @@ const cardVariantsHorizontal = {
       duration: 0.8,
     },
   },
-};
+}
 
 const cardVariantsChildren = {
   offscreen: {
@@ -428,4 +428,4 @@ const cardVariantsChildren = {
       duration: 0.8,
     },
   },
-};
+}

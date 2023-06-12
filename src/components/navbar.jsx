@@ -1,30 +1,30 @@
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import Link from "next/link"
+import { useEffect, useState } from "react"
 
-import authService from "@/utils/auth/authService";
+import authService from "@/utils/auth/authService"
 
 function Navbar() {
-  const [hideMenu, setHideMenu] = useState(true);
+  const [hideMenu, setHideMenu] = useState(true)
   const handleHideMenu = () => {
-    setHideMenu((prev) => !prev);
-  };
+    setHideMenu((prev) => !prev)
+  }
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   useEffect(() => {
     if (authService.loggedIn() && !authService.tokenExpired()) {
-      setIsLoggedIn(true);
+      setIsLoggedIn(true)
     } else {
-      setIsLoggedIn(false);
+      setIsLoggedIn(false)
     }
-  });
+  })
 
   const userLogout = () => {
-    authService.logout();
-  };
+    authService.logout()
+  }
 
   return (
     <nav className='bg-gray-800'>
-      <div className='mx-auto max-w-7xl px-4'>
+      <div className='mx-auto max-w-7xl px-4 md:px-0'>
         <div className='relative flex h-16 items-center justify-between'>
           <div className='inset-y-0 left-0 flex items-center md:hidden'>
             {/* <!-- Mobile menu button--> */}
@@ -101,7 +101,7 @@ function Navbar() {
             </Link>
             <Link
               href='/signup'
-              className='text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium ml-2 transition ease-out'
+              className='text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium transition ease-out'
               style={{
                 display: isLoggedIn ? "none" : "block",
               }}>
@@ -109,7 +109,7 @@ function Navbar() {
             </Link>
             <button
               href='/'
-              className='text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium ml-2 transition ease-out'
+              className='text-gray-300 bg-orange-600 hover:bg-orange-500 hover:text-white rounded-md px-3 py-2 text-sm md:text-[16px] font-medium transition ease-out'
               style={{
                 display: isLoggedIn ? "block" : "none",
               }}
@@ -157,7 +157,7 @@ function Navbar() {
         </div>
       </div>
     </nav>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

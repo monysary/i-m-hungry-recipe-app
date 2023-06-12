@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import authService from "@/utils/auth/authService";
+import { useEffect, useState } from "react"
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
+import authService from "@/utils/auth/authService"
 
 function SignUp() {
   useEffect(() => {
     if (authService.loggedIn() && !authService.tokenExpired()) {
-      window.location.assign("/pantry");
+      window.location.assign("/pantry")
     }
-  });
+  })
 
   const [signUpForm, setSignUpForm] = useState({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
-  });
+  })
 
   const handleInputChange = ({ target: { name, value } }) => {
-    setSignUpForm({ ...signUpForm, [name]: value });
-  };
+    setSignUpForm({ ...signUpForm, [name]: value })
+  }
 
-  const [buttonActive, setButtonActive] = useState(false);
+  const [buttonActive, setButtonActive] = useState(false)
 
   useEffect(() => {
     if (
@@ -30,24 +30,24 @@ function SignUp() {
       signUpForm.confirmPassword !== "" &&
       signUpForm.password === signUpForm.confirmPassword
     ) {
-      setButtonActive(true);
+      setButtonActive(true)
     } else {
-      setButtonActive(false);
+      setButtonActive(false)
     }
-  }, [signUpForm]);
+  }, [signUpForm])
 
   const handleFormSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    userSignup();
-  };
+    userSignup()
+  }
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPass, setShowConfirmPass] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPass, setShowConfirmPass] = useState(false)
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
   const userSignup = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await fetch("/api/user/signup", {
         method: "POST",
@@ -59,23 +59,23 @@ function SignUp() {
           email: signUpForm.email,
           password: signUpForm.password,
         }),
-      });
+      })
 
       if (response.ok) {
-        const data = await response.json();
-        authService.login(data.token);
+        const data = await response.json()
+        authService.login(data.token)
       } else {
-        const errorData = await response.json();
-        console.log(errorData.message);
-        alert(errorData.message);
+        const errorData = await response.json()
+        console.log(errorData.message)
+        alert(errorData.message)
       }
     } catch (err) {
-      console.log(err);
-      alert("An error occurred during signup.");
+      console.log(err)
+      alert("An error occurred during signup.")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <div className='flex h-full md:h-screen flex-col my-12 mb-24 md:mb-0 md:mt-36 px-6  lg:px-8'>
@@ -232,7 +232,7 @@ function SignUp() {
         </p>
       </div>
     </div>
-  );
+  )
 }
 
-export default SignUp;
+export default SignUp

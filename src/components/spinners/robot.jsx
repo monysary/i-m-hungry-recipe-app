@@ -1,4 +1,4 @@
-import { GiCampCookingPot } from "react-icons/gi";
+import { GiCampCookingPot } from "react-icons/gi"
 
 const RobotCookingLoader = () => {
   return (
@@ -16,7 +16,7 @@ const RobotCookingLoader = () => {
         <div className='eye2'></div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RobotCookingLoader;
+export default RobotCookingLoader
