@@ -145,8 +145,8 @@ function Kitchen() {
       <Head>
         <title>Chefing it up!</title>
       </Head>
-      <div className='flex justify-center h-full min-h-[70vh] pb-24 mb-24 '>
-        <div className='max-w-[1280px] w-full px-4 md:px-0 py-6'>
+      <div className='flex justify-center h-full pb-24 '>
+        <div className='max-w-[1280px] w-full px-4 py-6'>
           <div className='min-h-full px-2 py-6'>
             <div className='relative flex items-start gap-1'>
               <div className='md:text-3xl text-2xl mb-2 md:mb-6 text-black font-medium'>

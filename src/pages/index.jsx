@@ -1,7 +1,7 @@
-import Image from "next/image"
-import { motion as m, AnimatePresence } from "framer-motion"
-import pantry from "../../public/images/pantry.png"
-import kitchen from "../../public/images/kitchen.png"
+import Image from "next/image";
+import { motion as m, AnimatePresence, useAnimation } from "framer-motion";
+import pantry from "../../public/images/pantry.png";
+import kitchen from "../../public/images/kitchen.png";
 import {
   ArrowPathIcon,
   BanknotesIcon,
@@ -17,6 +17,8 @@ import {
 } from "@heroicons/react/24/outline"
 
 export default function LandingPage() {
+  const mainControls = useAnimation()
+  const featuresControls = useAnimation()
   return (
     <div className='bg-gray-800 h-full'>
       <AnimatePresence>
@@ -117,13 +119,12 @@ export default function LandingPage() {
 
           {/* Feature section */}
 
-          <m.div
-            initial='offscreen'
-            whileInView='onscreen'
-            viewport={{ once: true, amount: 0.8 }}
-            className='mx-auto max-w-7xl px-6 mb-24 md:mb-0 sm:mt-12 lg:px-8'>
+          <m.div className='mx-auto max-w-7xl px-6 mb-24 md:mb-0 sm:mt-12 lg:px-8' >
             <m.div
-              variants={cardVariantsChildren}
+              initial={{ opacity: 0, y: 150 }}
+              animate={mainControls}
+              onViewportEnter={() => { mainControls.start({ opacity: 1, y: 0 }) }}
+              transition={{ type: 'spring', bounce: 0.4, duration: 0.8 }}
               className='mx-auto max-w-2xl text-center'>
               <h2 className='text-base font-semibold leading-7 text-orange-400'>
                 Effortless planning
@@ -140,9 +141,11 @@ export default function LandingPage() {
               <dl className='grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3'>
                 {primaryFeatures.map((feature) => (
                   <m.div
-                    variants={cardVariantsChildren}
-                    key={feature.name}
-                    className='flex flex-col'>
+                    initial={{ opacity: 0, y: 150 }}
+                    animate={featuresControls}
+                    onViewportEnter={() => { featuresControls.start({ opacity: 1, y: 0 }) }}
+                    transition={{ type: 'spring', bounce: 0.4, duration: 0.8 }}
+                    key={feature.name} className='flex flex-col'>
                     <dt className='text-base font-semibold leading-7 text-white'>
                       <div className='mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500'>
                         <feature.icon
