@@ -6,7 +6,7 @@ export default function Faq() {
   return (
     <div className='bg-gray-900 h-full pb-24 md:pb-0'>
       <AnimatePresence>
-        <div className='mx-auto max-w-7xl px-6 pt-12 sm:py-24 lg:px-8 md:pb-48'>
+        <div className='mx-auto max-w-7xl px-6 pt-12 sm:py-12 md:px-8 md:pb-48'>
           <div className='divide-y divide-white/10'>
             <h2 className='text-2xl font-bold leading-10 tracking-tight text-white'>
               Frequently asked questions

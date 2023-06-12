@@ -109,7 +109,7 @@ export default function PostCard({
                       <dt className=' text-sm font-medium mb-4 md:mb-0 text-gray-900'>
                         Nutritional facts
                       </dt>
-                      <div className='grid grid-cols-2 w-full col-span-2 gap-2 mb-4  bg-white/5 '>
+                      <div className='grid grid-cols-3 w-full col-span-2 gap-2 mb-4  bg-white/5 '>
                         {recipe.nutritional_facts &&
                           Object.entries(recipe?.nutritional_facts)?.map(
                             ([factName, factValue]) => {
