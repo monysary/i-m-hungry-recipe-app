@@ -110,6 +110,7 @@ function Pantry() {
           <div className='min-h-full px-4 md:px-2  py-8'>
             <AnimatePresence>
               <m.div
+                key='container'
                 initial='hidden'
                 animate='visible'
                 viewport={{ once: true, amount: 0.8 }}>
@@ -148,7 +149,7 @@ function Pantry() {
                   </dialog>
                 </m.div>
               </m.div>
-              <div className='md:flex items-end'>
+              <div className='md:flex items-end' key='form'>
                 <form
                   className='sm:flex items-end'
                   id='pantry-form'
@@ -206,7 +207,7 @@ function Pantry() {
                   </button>
                 </div>
               </div>
-              <div>
+              <div key='ingredients'>
                 <div className='mt-6 border-t border-gray-200'>
                   <dl className='divide-y divide-gray-200'>
                     {categories.map((category, index) => {
