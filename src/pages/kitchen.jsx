@@ -140,12 +140,17 @@ function Kitchen() {
     setDialogOpen(!dialogOpen)
   }
 
+  function handleClearRecipe() {
+    setRecipe(null)
+    localStorage.removeItem("kitchen")
+  }
+
   return (
     <>
       <Head>
         <title>Chefing it up!</title>
       </Head>
-      <div className='flex justify-center h-full pb-24 '>
+      <div className='flex justify-center min-h-[80vh] h-full pb-24 '>
         <div className='max-w-[1280px] w-full px-4 py-6'>
           <div className='min-h-full px-2 py-6'>
             <div className='relative flex items-start gap-1'>
@@ -291,12 +296,20 @@ function Kitchen() {
             {isLoading ? (
               <></>
             ) : (
-              <button
-                className='text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-6 transition ease-out'
-                type='button'
-                onClick={generateRecipe}>
-                Generate Recipe
-              </button>
+             <div className="flex flex-col gap-2 w-max">
+                <button
+                  className='text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 transition ease-out'
+                  type='button'
+                  onClick={generateRecipe}>
+                  Generate Recipe
+                </button>
+                <button
+                  className='text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-6 transition ease-out'
+                  type='button'
+                  onClick={handleClearRecipe}>
+                 Clear
+                </button>
+              </div>
             )}
             <div className='flex justify-center'>
               {isLoading ? (

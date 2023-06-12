@@ -105,7 +105,7 @@ function Pantry() {
       <Head>
         <title>Checking out the pantry...</title>
       </Head>
-      <div className='flex justify-center h-full min-h-[70vh] pb-24'>
+      <div className='flex justify-center h-full min-h-[70vh] pb-24 md:mx-4'>
         <div className='max-w-[1280px] w-full px-2 md:px-0 py-4'>
           <div className='min-h-full px-4 md:px-2  py-8'>
             <AnimatePresence>

@@ -119,7 +119,7 @@ export default function LandingPage() {
 
           {/* Feature section */}
 
-          <m.div className='mx-auto max-w-7xl px-6 mb-24 md:mb-0 sm:mt-12 lg:px-8' >
+          <m.div className='mx-auto max-w-7xl px-6 mb-24 md:mb-0 mt-24 sm:mt-12 lg:px-8' >
             <m.div
               initial={{ opacity: 0, y: 150 }}
               animate={mainControls}
@@ -172,7 +172,7 @@ export default function LandingPage() {
           </m.div>
 
           {/* Feature section */}
-          <div className='mt-56 sm:mt-36'>
+          <div className='mt-36'>
             <div className='mx-auto max-w-7xl px-6 lg:px-8'>
               <div className='mx-auto max-w-2xl sm:text-center'>
                 <h2 className='text-base font-semibold leading-7 text-orange-400'>
