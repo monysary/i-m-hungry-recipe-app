@@ -16,13 +16,14 @@
   }
 }
 
-html, body {
+html,
+body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
   background-color: #fafafa;
+  color: black;
 }

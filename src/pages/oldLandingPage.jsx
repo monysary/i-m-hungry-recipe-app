@@ -1,6 +1,6 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import { HiArrowRight, HiArrowLeft } from 'react-icons/hi'
+import Head from "next/head"
+import Link from "next/link"
+import { HiArrowRight, HiArrowLeft } from "react-icons/hi"
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
       <div className='flex min-h-full flex-col justify-left items-center px-6 py-12 md:px-[200px] mt-[100px]'>
         <div className='font-bold'>
           <div className='text-[50px] text-black'>
-            Cook <span className='text-orange-600'>smarter,</span> not harder.{' '}
+            Cook <span className='text-orange-600'>smarter,</span> not harder.{" "}
             <br />
           </div>
           <div className='text-gray-600 text-[30px]'>

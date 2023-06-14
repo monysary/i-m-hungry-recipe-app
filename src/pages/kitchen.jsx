@@ -1,47 +1,59 @@
-import Head from 'next/head'
-import { useEffect, useState } from 'react'
-import authService from '@/utils/authService'
-import RecipeCard from '../components/recipeCard.jsx'
-import { AiFillCloseCircle } from 'react-icons/ai'
-import CircleSpinner from '@/components/spinners/circle'
-import { ChevronRightIcon, QuestionMarkCircleIcon } from 
-'@heroicons/react/24/outline'
-import jwt_decode from "jwt-decode";
+import Head from "next/head"
+import { useEffect, useState } from "react"
+import authService from "@/utils/auth/authService"
+import RecipeCard from "../components/recipeCard.jsx"
+import { AiFillCloseCircle } from "react-icons/ai"
+import {
+  ChevronRightIcon,
+  QuestionMarkCircleIcon,
+} from "@heroicons/react/24/outline"
+import GenerateRecipeSkeleton from "@/components/skeletons/generateRecipeSkeleton.jsx"
 
 function Kitchen() {
-  useEffect(() => {
-    if (authService.loggedIn() && !authService.tokenExpired()) {
-      return
-    } else {
-      window.location.assign('/login')
-    }
-  }, [])
-
   // Setting ingredient choices
   const [pantryItems, setPantryItems] = useState([]) // Data stored from GET request
+  const [ingredientsArr, setIngredientsArr] = useState([])
+  const [recipe, setRecipe] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [recipeForm, setRecipeForm] = useState({
-    category: '',
-    ingredient: '',
+    category: "",
+    ingredient: "",
   })
 
   useEffect(() => {
-    const getItems = async () => {
-      try {
-        const response = await fetch('/api/pantry', {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `${authService.getToken()}`,
-          },
-        });
+    if (authService.loggedIn() && !authService.tokenExpired()) {
+      getItems()
+    } else {
+      window.location.assign("/login")
+    }
+  }, [])
 
-        const data = await response.json();
-        setPantryItems(data);
-      } catch (err) {
-        console.log(err)
+  const getItems = async () => {
+    try {
+      const response = await fetch("/api/pantry", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${authService.getToken()}`,
+        },
+      })
+
+      const data = await response.json()
+      setPantryItems(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // Check local storage if a recipe was recently generated
+  useEffect(() => {
+    let prevRecipe
+    if (localStorage.getItem("kitchen")) {
+      prevRecipe = JSON.parse(localStorage.getItem("kitchen"))
+      if (Date.now() < prevRecipe.expire) {
+        setRecipe(JSON.parse(prevRecipe.recipe))
       }
     }
-
-    getItems()
   }, [])
 
   const handleRecipeForm = ({ target: { name, value } }) => {
@@ -52,22 +64,22 @@ function Kitchen() {
   }
 
   // Selecting ingredients for recipe
-  const [ingredientsArr, setIngredientsArr] = useState([])
   const addIngredient = (event) => {
     event.preventDefault()
-    const alreadyAdded = ingredientsArr.find((item) => item.ingredient === recipeForm.ingredient)
+    const alreadyAdded = ingredientsArr.find(
+      (item) => item.ingredient === recipeForm.ingredient
+    )
 
     if (
-      recipeForm.ingredient !== '' &&
+      recipeForm.ingredient !== "" &&
       alreadyAdded?.ingredient !== recipeForm.ingredient
     ) {
       setIngredientsArr([...ingredientsArr, recipeForm])
     }
-
     return
   }
 
-  // Removing a selected ingredient
+  // handle remove a selected ingredient
   const removeIngredient = (event) => {
     setIngredientsArr((prev) =>
       prev.filter((item) => item.ingredient !== event.target.parentElement.id)
@@ -75,8 +87,6 @@ function Kitchen() {
   }
 
   // Generating recipe
-  const [recipe, setRecipe] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
   const generateRecipe = async () => {
     const justIngredients = []
     try {
@@ -84,37 +94,43 @@ function Kitchen() {
       setIsLoading(true)
       ingredientsArr.map((object) => justIngredients.push(object.ingredient))
 
-      await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        cache: 'no-store',
+      await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        cache: "no-store",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.API_KEY}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.API_KEY}`,
         },
         body: JSON.stringify({
           model: process.env.API_MODEL,
-          messages: [{
-            role: process.env.API_ROLE,
-            content: process.env.API_PROMPT + justIngredients.join(', ')
-          }]
-        })
+          messages: [
+            {
+              role: process.env.API_ROLE,
+              content: process.env.API_PROMPT + justIngredients.join(", "),
+            },
+          ],
+        }),
       })
         .then((res) => res.json())
         .then((data) => {
           const finalResponse = data.choices[0].message.content
-          localStorage.setItem('kitchen', JSON.stringify({
-            recipe: finalResponse,
-            expire: Date.now() + (1000 * 60 * 60)
-          }))
+          localStorage.setItem(
+            "kitchen",
+            JSON.stringify({
+              recipe: finalResponse,
+              expire: Date.now() + 1000 * 60 * 60,
+            })
+          )
           setRecipe(JSON.parse(finalResponse))
         })
     } catch (err) {
-      console.log(err);
+      console.log(err)
     } finally {
       setIsLoading(false)
     }
   }
 
+<<<<<<< HEAD
   // Check local storage if a recipe was recently generated
   // useEffect(() => {
   //   let prevRecipe;
@@ -179,15 +195,21 @@ const Kitchen = () => {
 }
 
 
+=======
+>>>>>>> cc3c6bea0e6a5b4391ad732451776cada113d7c4
   // Handle Next button
   const handleNextButton = () => {
-    window.location.assign('/savedRecipes')
+    window.location.assign("/savedRecipes")
   }
 
   // Handle instructions dialog
-  const [dialogOpen, setDialogOpen] = useState(false)
   const handleDialogOpen = () => {
     setDialogOpen(!dialogOpen)
+  }
+
+  function handleClearRecipe() {
+    setRecipe(null)
+    localStorage.removeItem("kitchen")
   }
 
   return (
@@ -195,165 +217,193 @@ const Kitchen = () => {
       <Head>
         <title>Chefing it up!</title>
       </Head>
-      <div className='min-h-full lg:px-[200px] px-6 py-12'>
-        <div className='relative flex items-start gap-1'>
-          <div className='md:text-[30px] text-[16px] mb-[10px] text-black'>
-            Select Ingredients
-          </div>
-          <button onClick={handleDialogOpen}>
-            <QuestionMarkCircleIcon className='w-4 md:w-6 text-gray-900' />
-          </button>
-          <div
-            onClick={handleDialogOpen}
-            className={`fixed z-10 top-0 left-0 w-screen h-screen ${dialogOpen === false && 'hidden'}`}
-          ></div>
-          <dialog open={dialogOpen}
-            className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'
-          >
-            <p className='text-gray-900 font-semibold'>
-              Instructions:
-            </p>
-            <ol className='font-normal'>
-              <li className='mt-4 md:mt-2'>1. Select a Category then an Ingredient</li>
-              <li className='mt-4 md:mt-2'>2. Add as many ingredients as you want to cook with</li>
-              <li className='mt-4 md:mt-2'>3. Click Generate Recipe to generate your recipe</li>
-              <li className='mt-4 md:mt-2'>4. Click Save Recipe to save your new recipe</li>
-              <li className='mt-4 md:mt-2'>5. Clicking Generate Recipe again will generate another recipe</li>
-              <li className='mt-4 md:mt-2'>6. Select Next to proceed to your Saved Recipes</li>
-            </ol>
-          </dialog>
-        </div>
-        <form className='md:flex items-end mb-[20px]' onSubmit={addIngredient}>
-          <div className='flex items-end'>
-            <div>
-              <label className='block text-sm font-medium leading-6 text-gray-900'>
-                Category
-              </label>
-              <div className='sm:mt-2'>
-                <select
-                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
-                  name='category'
-                  onChange={handleRecipeForm}
-                >
-                  <option value=''>- select category -</option>
-                  {categories.map((category) => {
-                    return (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    )
-                  })}
-                </select>
+      <div className='flex justify-center min-h-[80vh] h-full pb-24 '>
+        <div className='max-w-[1280px] w-full px-4 py-6'>
+          <div className='min-h-full px-2 py-6'>
+            <div className='relative flex items-start gap-1'>
+              <div className='md:text-3xl text-2xl mb-2 md:mb-6 text-black font-medium'>
+                Select Ingredients
               </div>
-            </div>
-
-            <div className='sm:ml-[20px] mt-2 sm:mt-0'>
-              <label className='block text-sm font-medium leading-6 text-gray-900'>
-                Ingredient
-              </label>
-              <div className='sm:mt-2'>
-                <select
-                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
-                  name='ingredient'
-                  onChange={handleRecipeForm}
-                >
-                  <option value=''>- select ingredient -</option>
-                  {pantryItems
-                    .filter((item) => item.category === recipeForm.category)
-                    .map((item) => {
-                      return (
-                        <option key={item.ingredient} value={item.ingredient}>
-                          {item.ingredient}
-                        </option>
-                      )
-                    })}
-                </select>
-              </div>
-            </div>
-          </div>
-
-
-          <div className='grow mt-4 md:mt-0 md:ml-[20px] flex justify-between'>
-            <button
-              type='submit'
-              className='text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2'
-            >
-              Add
-            </button>
-            <button className='font-semibold inline-flex items-center gap-1 text-gray-900'
-              onClick={handleNextButton}
-            >
-              Next
-              <ChevronRightIcon className='w-5' />
-            </button>
-          </div>
-        </form >
-        <div className="flex flex-wrap gap-[10px] mb-[20px] py-6 border-t border-b border-gray-200">
-          {ingredientsArr.map((item) => {
-            return (
+              <button onClick={handleDialogOpen}>
+                <QuestionMarkCircleIcon className='w-4 md:w-6 text-gray-900' />
+              </button>
               <div
-                key={item.ingredient}
-                id={item.ingredient}
-                className={`relative text-gray-900 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5
-                  ${item.category === categories[0]
-                    ? 'bg-rose-100'
-                    : item.category === categories[1]
-                      ? 'bg-green-100'
-                      : item.category === categories[2]
-                        ? 'bg-orange-100'
-                        : item.category === categories[3]
-                          ? 'bg-slate-100'
-                          : item.category === categories[4]
-                            ? 'bg-yellow-100'
-                            : item.category === categories[5]
-                              ? 'bg-lime-100'
-                              : item.category === categories[6]
-                                ? 'bg-blue-100'
-                                : item.category === categories[7]
-                                  ? 'bg-gray-100'
-                                  : 'bg-white'
-                  }`}
-              >
-                {item.ingredient}
-                <AiFillCloseCircle id={item.ingredient} className="absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]"
-                  onClick={removeIngredient}
-                />
-              </div>
-            )
-          })}
-        </div>
-        {
-          isLoading
-            ? <></>
-            : <button
-              className="text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-6"
-              type="button"
-              onClick={generateRecipe}
-            >Generate Recipe</button>
-        }
-        <div className='flex justify-center'>
-          {
-            isLoading
-              ? <CircleSpinner />
-              : recipe !== null && <RecipeCard recipe={recipe} isLoading={isLoading}/>
-          }
-        </div>
-      </div >
-    </>
+                onClick={handleDialogOpen}
+                className={`fixed z-10 top-0 left-0 w-screen h-screen ${
+                  dialogOpen === false && "hidden"
+                }`}></div>
+              <dialog
+                open={dialogOpen}
+                className='absolute z-10 drop-shadow-xl rounded-lg border-2 border-gray-300'>
+                <p className='text-gray-900 font-semibold'>Instructions:</p>
+                <ol className='font-normal'>
+                  <li className='mt-4 md:mt-2'>
+                    1. Select a Category then an Ingredient
+                  </li>
+                  <li className='mt-4 md:mt-2'>
+                    2. Add as many ingredients as you want to cook with
+                  </li>
+                  <li className='mt-4 md:mt-2'>
+                    3. Click Generate Recipe to generate your recipe
+                  </li>
+                  <li className='mt-4 md:mt-2'>
+                    4. Click Save Recipe to save your new recipe
+                  </li>
+                  <li className='mt-4 md:mt-2'>
+                    5. Clicking Generate Recipe again will generate another
+                    recipe
+                  </li>
+                  <li className='mt-4 md:mt-2'>
+                    6. Select Next to proceed to your Saved Recipes
+                  </li>
+                </ol>
+              </dialog>
+            </div>
+            <form
+              className='md:flex items-end mb-[20px]'
+              onSubmit={addIngredient}>
+              <div className='flex gap-2 items-end'>
+                <div>
+                  <label className='block text-sm font-medium leading-6 text-gray-900'>
+                    Category
+                  </label>
+                  <div className='sm:mt-2'>
+                    <select
+                      className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
+                      name='category'
+                      onChange={handleRecipeForm}>
+                      <option value=''>- select category -</option>
+                      {categories.map((category) => {
+                        return (
+                          <option key={category} value={category}>
+                            {category}
+                          </option>
+                        )
+                      })}
+                    </select>
+                  </div>
+                </div>
 
+                <div className='sm:ml-[20px] mt-2 sm:mt-0'>
+                  <label className='block text-sm font-medium leading-6 text-gray-900'>
+                    Ingredient
+                  </label>
+                  <div className='sm:mt-2'>
+                    <select
+                      className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs sm:text-sm sm:leading-6'
+                      name='ingredient'
+                      onChange={handleRecipeForm}>
+                      <option value=''>- select ingredient -</option>
+                      {pantryItems
+                        .filter((item) => item.category === recipeForm.category)
+                        .map((item) => {
+                          return (
+                            <option
+                              key={item.ingredient}
+                              value={item.ingredient}>
+                              {item.ingredient}
+                            </option>
+                          )
+                        })}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className='grow mt-4 md:mt-0 md:ml-[20px] flex justify-between'>
+                <button
+                  type='submit'
+                  className='text-white bg-teal-500 hover:bg-teal-600 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-4 py-2 transition ease-out'>
+                  Add
+                </button>
+                <button
+                  className='font-semibold inline-flex items-center gap-1 text-gray-900 hover:text-gray-500 transition ease-out'
+                  onClick={handleNextButton}>
+                  Next
+                  <ChevronRightIcon className='w-5' />
+                </button>
+              </div>
+            </form>
+            <div className='flex flex-wrap gap-[10px] mb-[20px] py-6 border-t border-b border-gray-200'>
+              {ingredientsArr.map((item) => {
+                return (
+                  <div
+                    key={item.ingredient}
+                    id={item.ingredient}
+                    className={`relative text-gray-900 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5
+                  ${
+                    item.category === categories[0]
+                      ? "bg-rose-100"
+                      : item.category === categories[1]
+                      ? "bg-green-100"
+                      : item.category === categories[2]
+                      ? "bg-orange-100"
+                      : item.category === categories[3]
+                      ? "bg-slate-100"
+                      : item.category === categories[4]
+                      ? "bg-yellow-100"
+                      : item.category === categories[5]
+                      ? "bg-lime-100"
+                      : item.category === categories[6]
+                      ? "bg-blue-100"
+                      : item.category === categories[7]
+                      ? "bg-gray-100"
+                      : "bg-white"
+                  }`}>
+                    {item.ingredient}
+                    <AiFillCloseCircle
+                      id={item.ingredient}
+                      className='absolute right-[-10px] top-[-10px] cursor-pointer text-[20px]'
+                      onClick={removeIngredient}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+            {isLoading ? (
+              <></>
+            ) : (
+             <div className="flex flex-col gap-2 w-max">
+                <button
+                  className='text-white bg-cyan-500 hover:bg-cyan-600 focus:ring-4 focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 transition ease-out'
+                  type='button'
+                  onClick={generateRecipe}>
+                  Generate Recipe
+                </button>
+                <button
+                  className='text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-6 transition ease-out'
+                  type='button'
+                  onClick={handleClearRecipe}>
+                 Clear
+                </button>
+              </div>
+            )}
+            <div className='flex justify-center min-h-[30vh]'>
+              {isLoading ? (
+                <GenerateRecipeSkeleton finishedLoading={isLoading} />
+              ) : (
+                recipe !== null && (
+                  <RecipeCard recipe={recipe} isLoading={isLoading} />
+                )
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
 
 export default Kitchen
 
 const categories = [
-  'Protein',
-  'Vegetables',
-  'Fruits',
-  'Grain',
-  'Dairy',
-  'Butter/Oil',
-  'Spice',
-  'Seasoning',
-  'Other',
+  "Protein",
+  "Vegetables",
+  "Fruits",
+  "Grain",
+  "Dairy",
+  "Butter/Oil",
+  "Spice",
+  "Seasoning",
+  "Other",
 ]

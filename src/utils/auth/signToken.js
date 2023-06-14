@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken")
 
 module.exports = {
   signToken: ({ id, username, email, password }) => {

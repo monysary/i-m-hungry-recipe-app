@@ -1,80 +1,86 @@
-import Head from 'next/head'
-import { useEffect, useState } from 'react'
-import { FaceFrownIcon } from '@heroicons/react/24/outline'
-
-import authService from '@/utils/authService'
-
-import SavedRecipeCard from '@/components/savedRecipeCard'
-import SavedRecipesEmptyState from '@/components/emptyStates/savedRecipesEmptyState'
+import Head from "next/head"
+import { useEffect, useState } from "react"
+import authService from "@/utils/auth/authService"
+import SavedRecipeCard from "@/components/savedRecipeCard"
+import SavedRecipesEmptyState from "@/components/emptyStates/savedRecipesEmptyState"
 
 function SavedRecipes() {
+  const [toggle, setToggle] = useState(true)
+  const [myRecipes, setMyRecipes] = useState()
+
   useEffect(() => {
     if (authService.loggedIn() && !authService.tokenExpired()) {
       return
     } else {
-      window.location.assign('/login')
+      window.location.assign("/login")
     }
-  })
+  }, [])
 
-  // Fetch user recipes from db
-  const [toggle, setToggle] = useState(true)
-  const [myRecipes, setMyRecipes] = useState()
+  useEffect(() => {
+    fetchRecipes()
+  }, [toggle])
+
+  // Fetch user's saved recipes from DB
   const fetchRecipes = async () => {
     try {
-      const response = await fetch('/api/savedRecipe', {
+      const response = await fetch("/api/savedRecipe", {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': authService.getToken()
-        }
+          "Content-Type": "application/json",
+          Authorization: authService.getToken(),
+        },
       })
 
       const data = await response.json()
       const convertedData = data.map((object) => {
-        return ({
-          ...object,
-          ingredients: JSON.parse(object.ingredients),
-          instructions: JSON.parse(object.instructions)
-        })
+        const updatedObject = { ...object }
+        if (typeof object.ingredients === "string") {
+          updatedObject.ingredients = JSON.parse(object.ingredients)
+        }
+        if (typeof object.instructions === "string") {
+          updatedObject.instructions = JSON.parse(object.instructions)
+        }
+        return updatedObject
       })
-
-      setMyRecipes(convertedData)
-
+      const reverseOrderRecipes = convertedData?.reverse()
+      setMyRecipes(reverseOrderRecipes)
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
   }
 
-  useEffect(() => {
-    fetchRecipes()
-
-  }, [toggle])
+  if (myRecipes < 1)
+    return (
+      <div className='flex justify-center h-full md:h-screen pb-24 md:pb-0'>
+        <div className='max-w-[1280px] w-full px-2 py-6 mt-24'>
+          <SavedRecipesEmptyState />
+        </div>
+      </div>
+    )
 
   return (
     <>
       <Head>
         <title>What am I craving?</title>
       </Head>
-      {myRecipes?.length > 0
-        ? <div className='min-h-full lg:px-[100px] px-6 py-12'>
-          <h1 className='md:text-[30px] text-[16px] mb-[10px] text-black'>
-            My Recipes
-          </h1>
-          <div className='mx-auto max-w-7xl py-4'>
-            <SavedRecipeCard myRecipes={myRecipes} setToggle={setToggle} />
+      {myRecipes?.length > 0 && (
+        <div className='flex justify-center h-screen md:mx-4'>
+          <div className='max-w-[1280px] w-full px-2 md:px-0 py-6'>
+            <div className='min-h-full px-4 md:px-2 py-6 '>
+              <div>
+                <h1 className='md:text-3xl text-2xl font-medium text-black'>
+                  My Recipes
+                </h1>
+                <div className='py-4'>
+                  <SavedRecipeCard
+                    myRecipes={myRecipes}
+                    setToggle={setToggle}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        : myRecipes?.length < 1
-          ? <section className='flex flex-col justify-center items-center w-full'>
-            <article className='min-h-full lg:px-[100px] px-6 pt-36 md:text-[30px] text-center align-center'>
-            <FaceFrownIcon className='w-14 md:w-36 mx-auto text-black' />
-            <p className='text-black'>You have no saved recipes</p>
-          </article>
-          <article className='w-full px-2 md:px-96 mt-8'>
-            <SavedRecipesEmptyState />
-            </article>
-          </section>
-          : <div></div>
-      }
+      )}
     </>
   )
 }
