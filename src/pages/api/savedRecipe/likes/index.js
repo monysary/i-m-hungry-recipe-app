@@ -58,7 +58,7 @@ export default async function handler(req, res) {
         return res
           .status(400)
           .json({ message: "You have already liked this recipe" });
-      }
+        }
 
       // Add a like to the comment
       savedRecipe.likes += 1;
@@ -104,6 +104,8 @@ export default async function handler(req, res) {
       if (!savedRecipe) {
         return res.status(404).json({ message: "savedRecipe not found" })
       }
+
+
 
       // Remove a like from the comment
       if (savedRecipe.likes > 0) {
