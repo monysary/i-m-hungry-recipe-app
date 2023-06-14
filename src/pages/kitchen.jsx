@@ -6,7 +6,7 @@ import { AiFillCloseCircle } from 'react-icons/ai'
 import CircleSpinner from '@/components/spinners/circle'
 import { ChevronRightIcon, QuestionMarkCircleIcon } from 
 '@heroicons/react/24/outline'
-
+import jwt_decode from "jwt-decode";
 
 function Kitchen() {
   useEffect(() => {
@@ -116,16 +116,67 @@ function Kitchen() {
   }
 
   // Check local storage if a recipe was recently generated
+  // useEffect(() => {
+  //   let prevRecipe;
+  //   if (localStorage.getItem('kitchen')) {
+  //     prevRecipe = JSON.parse(localStorage.getItem('kitchen'))
+  //     if (Date.now() < prevRecipe.expire) {
+  //       setRecipe(JSON.parse(prevRecipe.recipe))
+  //     }
+  //   }
+
+  // }, [])
+
+
+const Kitchen = () => {
+  const [recipe, setRecipe] = useState(null);
+
   useEffect(() => {
-    let prevRecipe;
-    if (localStorage.getItem('kitchen')) {
-      prevRecipe = JSON.parse(localStorage.getItem('kitchen'))
-      if (Date.now() < prevRecipe.expire) {
-        setRecipe(JSON.parse(prevRecipe.recipe))
+    async function fetchToken() {
+      try {
+        const token = authService.getToken();
+        const secret = process.env.SECRET;
+        const decodedToken = jwt_decode(token, secret);
+        const userId = decodedToken?.id;
+
+        const storedRecipe = sessionStorage.getItem('kitchen');
+        if (storedRecipe) {
+          const { user_id: storedUserId, recipe: storedRecipeData } = JSON.parse(storedRecipe);
+
+          if (userId === storedUserId) {
+            const parsedRecipeData = JSON.parse(storedRecipeData);
+
+            if (Date.now() < parsedRecipeData.expire) {
+              setRecipe(JSON.parse(parsedRecipeData.recipe));
+            } else {
+              sessionStorage.removeItem('kitchen'); // Remove expired recipe from session storage
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Token verification failed:', error);
       }
     }
 
-  }, [])
+    fetchToken();
+  }, []);
+
+  const generateRecipe = () => {
+    const recipeObject = {
+    };
+
+    const userId = authService.getUserId(); 
+
+    const recipeData = {
+      user_id: userId,
+      recipe: JSON.stringify(recipeObject),
+      expire: Date.now() + 3600000, 
+    };
+
+    sessionStorage.setItem('kitchen', JSON.stringify(recipeData));
+    setRecipe(recipeObject);
+  };
+}
 
 
   // Handle Next button
