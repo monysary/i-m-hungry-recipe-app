@@ -18,27 +18,56 @@ export default async function handler(req, res) {
   /**
    * PUT add like to a post on feed
    */
-    const recipeId = req.query.recipeId
+    const recipeId = req.query.recipeId;
 
     try {
       if (!recipeId) {
-        return res.status(400).json({ message: "Recipe ID is missing" })
+        return res.status(400).json({ message: "Recipe ID is missing" });
+      }
+
+      const token = req.headers.authorization
+      if (!token) {
+        return res.status(401).json({ message: "Missing token" });
+      }
+
+      const { user } = await handleDecodeJWT(token);
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
       }
 
       const recipeLikes = await RecipeLikes.findOrCreate({
         where: { recipeId },
         defaults: { likes: 0 },
-      })
+      });
 
-      const savedRecipe = recipeLikes[0]
+      const savedRecipe = recipeLikes[0];
 
       if (!savedRecipe) {
         return res.status(404).json({ message: "Recipe not found" })
       }
 
+      const alreadyLiked = await RecipeLikes.findOne({
+        where: {
+          recipeId: recipeId,
+          username: user.username,
+        },
+      });
+
+      if (alreadyLiked) {
+        return res
+          .status(400)
+          .json({ message: "You have already liked this recipe" });
+      }
+
       // Add a like to the comment
-      savedRecipe.likes += 1
-      await savedRecipe.save()
+      savedRecipe.likes += 1;
+      await savedRecipe.save();
+      
+      await RecipeLikes.create({
+        recipeId: recipeId,
+        username: user.username,
+      });
 
       res
         .status(200)
