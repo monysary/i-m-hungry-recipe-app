@@ -1,6 +1,6 @@
 import { useState } from "react"
 import getTimeAgo from "@/utils/getTimeAgo"
-import CommentsContainer from "./comments/commentsContainer"
+import CommentsContainer from "./comments/OLD_commentsContainer"
 import { TbArrowsDiagonal, TbArrowsDiagonalMinimize2 } from "react-icons/tb"
 import { HeartIcon } from "@heroicons/react/20/solid"
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline"
@@ -12,6 +12,7 @@ export default function PostCard({
   userId,
   recipeLikes,
   setToggle,
+  setFeedToggle,
 }) {
   const [visible, setVisible] = useState(false)
 
@@ -42,7 +43,7 @@ export default function PostCard({
   }
 
   return (
-    <div className='w-full '>
+    <div className='w-full'>
       {/* Post section */}
       {visible ? (
         <>
@@ -162,7 +163,9 @@ export default function PostCard({
                       </dt>
                       <div className='col-span-2'>
                         {recipe.instructions.map((instruction, index) => (
-                          <dd className='mt-1 text-sm leading-6 w-full text-gray-700 sm:mt-0' key={instruction}>
+                          <dd
+                            className='mt-1 text-sm leading-6 w-full text-gray-700 sm:mt-0'
+                            key={instruction}>
                             <div className='flex flex-row w-full gap-2'>
                               <p>{index + 1}. </p>
                               <p> {instruction}</p>
@@ -196,6 +199,7 @@ export default function PostCard({
               comments={comments}
               recipeId={recipe.id}
               userId={userId}
+              setFeedToggle={setFeedToggle}
             />
           </section>
         </>
@@ -278,7 +282,8 @@ export default function PostCard({
                             </p>
                             <p className='flex items-baseline gap-x-2'>
                               <span className='text-lg font-semibold tracking-tight text-black'>
-                                {recipe.nutritional_facts.carbohydrates || recipe.nutritional_facts.carbohydrate ||
+                                {recipe.nutritional_facts.carbohydrates ||
+                                  recipe.nutritional_facts.carbohydrate ||
                                   recipe.nutritional_facts.carbs}
                               </span>
                             </p>
@@ -291,7 +296,9 @@ export default function PostCard({
                             </p>
                             <p className='flex items-baseline gap-x-2'>
                               <span className='text-lg font-semibold tracking-tight text-black'>
-                                {recipe.nutritional_facts.fat || recipe.nutritional_facts.fats || recipe.nutritional_facts['total fat']}
+                                {recipe.nutritional_facts.fat ||
+                                  recipe.nutritional_facts.fats ||
+                                  recipe.nutritional_facts["total fat"]}
                               </span>
                             </p>
                           </div>
