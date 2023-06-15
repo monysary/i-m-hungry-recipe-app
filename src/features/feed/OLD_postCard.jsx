@@ -247,7 +247,7 @@ export default function PostCard({
                         </div>
                       </div>
                     </div>
-                    <div className='grid grid-cols-2 md:flex md:flex-row px-4 gap-2 mb-4  bg-white/5 '>
+                    <div className='grid grid-cols-2 md:flex md:flex-row px-4 gap-2 mb-4 bg-white/5'>
                       {recipe.nutritional_facts && (
                         <>
                           <div
