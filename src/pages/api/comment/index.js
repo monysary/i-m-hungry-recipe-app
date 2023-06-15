@@ -1,4 +1,5 @@
 const { Comment } = require("../../../db/model/index.js")
+import sequelize from "@/db/config/connections.js"
 import handleDecodeJWT from "@/utils/auth/handleDecodeJWT.js"
 
 // recipe post comments CRUD operation methods
@@ -40,7 +41,9 @@ export default async function handler(req, res) {
         recipeId,
         description,
         username,
-      })
+      }, 
+      // Use a connection from the pool and release it when finished
+     { ...sequelize.options})
 
       if (comment) {
         return res
@@ -75,7 +78,10 @@ export default async function handler(req, res) {
 
       const updatedComment = await Comment.update(req.body, {
         where: { id: commentId, userId: userId },
-      })
+         
+      },
+      // Use a connection from the pool and release it when finished
+      {...sequelize.options}, )
 
       if (!updatedComment) {
         res.status(404).json({ message: "Comment not found" })
@@ -111,6 +117,10 @@ export default async function handler(req, res) {
 
       const deletedComment = await Comment.destroy({
         where: { id: commentId, userId: userId },
+        
+      }, 
+      { // Use a connection from the pool and release it when finished
+        ...sequelize.options,
       })
 
       if (!deletedComment) {
@@ -142,7 +152,7 @@ export default async function handler(req, res) {
 
       // Add a like to the comment
       comment.likes += 1
-      await comment.save()
+      await comment.save(sequelize.options)
 
       res.status(200).json({ message: "Comment liked successfully.", comment })
     } catch (error) {
@@ -181,7 +191,7 @@ export default async function handler(req, res) {
       // Remove a like from the comment
       if (comment.likes > 0) {
         comment.likes -= 1
-        await comment.save()
+        await comment.save(sequelize.options)
       }
 
       res

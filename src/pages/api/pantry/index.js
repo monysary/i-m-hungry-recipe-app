@@ -19,8 +19,10 @@ export default async function handler(req, res) {
     }
     try {
       const pantryItems = await Pantry.findAll({ where: { userId: userId },
-      // Use a connection from the pool and release it when finished
-      ...sequelize.options,  })
+      },
+      { // Use a connection from the pool and release it when finished
+        ...sequelize.options,
+      })
       res.status(200).json(pantryItems)
     } catch (err) {
       res.status(500).json(err)
@@ -43,8 +45,9 @@ export default async function handler(req, res) {
       }
 
       const newPantryItem = await user.createPantry({ ingredient, category }, 
-      // Use a connection from the pool and release it when finished
-      sequelize.options,) // Use the association method to create a new pantry item
+        { // Use a connection from the pool and release it when finished
+          ...sequelize.options,
+        }) // Use the association method to create a new pantry item
       res.status(200).json(newPantryItem)
     } catch (error) {
       console.error(error)
@@ -69,8 +72,10 @@ export default async function handler(req, res) {
 
       const deletedIngredient = await Pantry.destroy({
         where: { userId, ingredient, category },
-         // Use a connection from the pool and release it when finished
-         ...sequelize.options,
+      
+      }, 
+      { // Use a connection from the pool and release it when finished
+        ...sequelize.options,
       })
       if (!deletedIngredient) {
         return res.status(404).json({ message: "Ingredient not found" })
