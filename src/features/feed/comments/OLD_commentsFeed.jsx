@@ -12,7 +12,11 @@ import {
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline"
 import { Listbox, Transition } from "@headlessui/react"
 
-export default function CommentsFeed({ recipeId, comments, userId }) {
+export default function CommentsFeed({
+  recipeId,
+  comments,
+  userId,
+}) {
   const [selected, setSelected] = useState(moods[5])
   const [comment, setComment] = useState("")
   const [commentCount, setCommentCount] = useState(2)
@@ -35,35 +39,39 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
       alert("Please enter a comment")
       return
     }
-    const response = await fetch("/api/comment?action=comment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authService.getToken(),
-      },
-      body: JSON.stringify({
-        description: comment,
-        recipeId: recipeId,
-      }),
-    })
-    if (response.ok) {
-      setComment("")
+    try {
+      const response = await fetch("/api/comment?action=comment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authService.getToken(),
+        },
+        body: JSON.stringify({
+          description: comment,
+          recipeId: recipeId,
+        }),
+      })
+      if (response.ok) {
+        setComment("")
+      }
+    } catch (err) {
+      console.log(err)
     }
   }
 
   async function handleDeleteComment(commentId) {
     try {
-     await fetch(`/api/comment?commentId=${commentId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: authService.getToken(),
-      },
-    }    
-    )} catch (err) {
+      await fetch(`/api/comment?commentId=${commentId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authService.getToken(),
+        },
+      })
+    } catch (err) {
       throw new Error(err)
+    }
   }
-}
 
   async function handleAddLike(commentId) {
     const response = await fetch(
@@ -82,7 +90,7 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
     window.location.reload()
   }
   return (
-    <>
+    <div>
       <div className='flex flex-row items-center gap-2'>
         <p className='mt-2 p-2 rounded-md w-max text-sm'>
           {comments?.length} comments
@@ -284,7 +292,7 @@ export default function CommentsFeed({ recipeId, comments, userId }) {
           </div>
         </form>
       </div>
-    </>
+    </div>
   )
 }
 

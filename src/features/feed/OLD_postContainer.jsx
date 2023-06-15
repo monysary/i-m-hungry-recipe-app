@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
-import PostCard from "./postCard"
+import PostCard from "./OLD_postCard"
 import { motion as m, AnimatePresence } from "framer-motion"
 
-export default function PostContainer({ recipes, comments, userId }) {
+export default function PostContainer({ recipes, comments, userId, setFeedToggle }) {
   const [recipeLikes, setRecipeLikes] = useState([])
   const [toggle, setToggle] = useState(false)
 
@@ -44,6 +44,7 @@ export default function PostContainer({ recipes, comments, userId }) {
                       comments={comments}
                       userId={userId}
                       setToggle={setToggle}
+                      setFeedToggle={setFeedToggle}
                       recipeLikes={recipeLikes.find(
                         (like) => like.recipeId === recipe.id
                       )}
