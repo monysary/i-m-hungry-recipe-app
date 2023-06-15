@@ -22,7 +22,10 @@ export default async function handler(req, res) {
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
-      })
+      }, 
+       // Use a connection from the pool and release it when finished
+       ...sequelize.options,
+       )
 
       const token = signToken(newUser)
 
