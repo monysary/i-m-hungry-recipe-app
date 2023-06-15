@@ -12,7 +12,8 @@ export default async function handler(req, res) {
       const savedRecipes = await RecipeLikes.findAll({  
         raw: true,
         nest: true,
-        // Use a connection from the pool and release it when finished
+      },
+      { // Use a connection from the pool and release it when finished
         ...sequelize.options,
       })
       res.status(200).json(savedRecipes)
@@ -45,9 +46,10 @@ export default async function handler(req, res) {
      const [savedRecipe, created] = await RecipeLikes.findOrCreate({
        where: { recipeId, username: user.username },
        defaults: { likes: 0 },
-       // Use a connection from the pool and release it when finished
        ...sequelize.options,
-     });
+     },
+      
+     );
 
      if (!savedRecipe) {
        return res.status(404).json({ message: "Recipe not found" });
@@ -59,15 +61,17 @@ export default async function handler(req, res) {
            recipeId: recipeId,
            username: user.username,
          },
-          // Use a connection from the pool and release it when finished
-          ...sequelize.options,
-       });
+         // Use a connection from the pool and release it when finished
+         ...sequelize.options,
+       },
+         
+       );
 
        // Checks if User has already liked the recipe. If so, remove the like
        if (alreadyLiked) {
          savedRecipe.likes -= 1;
-         await savedRecipe.save();
-         await alreadyLiked.destroy(); // Remove the existing like record
+         await savedRecipe.save(sequelize.options,);
+         await alreadyLiked.destroy(sequelize.options,); // Remove the existing like record
          return res
            .status(200)
            .json({ message: "Recipe unliked successfully.", savedRecipe });
@@ -76,7 +80,7 @@ export default async function handler(req, res) {
 
      // Add a like to the recipe if user has not already liked it
      savedRecipe.likes += 1;
-     await savedRecipe.save();
+     await savedRecipe.save(sequelize.options,);
      res
        .status(200)
        .json({ message: "Recipe liked successfully.", savedRecipe });

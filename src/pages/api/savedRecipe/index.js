@@ -61,8 +61,9 @@ export default async function handler(req, res) {
         notes,
         username,
       },
-      // Use a connection from the pool and release it when finished
-      ...sequelize.options,)
+      { // Use a connection from the pool and release it when finished
+        ...sequelize.options,
+      })
       res.status(200).json(newSavedRecipe)
     } catch (error) {
       console.error(error)
@@ -90,8 +91,10 @@ export default async function handler(req, res) {
         { ...req.body, username },
         {
           where: { id: savedRecipeId, userId: userId },
-          // Use a connection from the pool and release it when finished
-        ...sequelize.options,
+        
+        },
+        { // Use a connection from the pool and release it when finished
+          ...sequelize.options,
         }
       )
 
@@ -131,7 +134,8 @@ export default async function handler(req, res) {
 
       const deletedRecipes = await SavedRecipe.destroy({
         where: { id: idArray, userId: userId },
-        // Use a connection from the pool and release it when finished
+      },
+      { // Use a connection from the pool and release it when finished
         ...sequelize.options,
       })
 
