@@ -1,4 +1,5 @@
 const { RecipeLikes } = require("../../../../db/model/index.js")
+import sequelize from "@/db/config/connections.js"
 import handleDecodeJWT from "@/utils/auth/handleDecodeJWT.js"
 
 // Saved Recipes CRUD operation methods
@@ -8,7 +9,12 @@ export default async function handler(req, res) {
    */
   if (req.method === "GET") {
     try {
-      const savedRecipes = await RecipeLikes.findAll()
+      const savedRecipes = await RecipeLikes.findAll({  
+        raw: true,
+        nest: true,
+        // Use a connection from the pool and release it when finished
+        ...sequelize.options,
+      })
       res.status(200).json(savedRecipes)
     } catch (err) {
       res.status(500).json(err)
@@ -39,6 +45,8 @@ export default async function handler(req, res) {
      const [savedRecipe, created] = await RecipeLikes.findOrCreate({
        where: { recipeId, username: user.username },
        defaults: { likes: 0 },
+       // Use a connection from the pool and release it when finished
+       ...sequelize.options,
      });
 
      if (!savedRecipe) {
@@ -51,6 +59,8 @@ export default async function handler(req, res) {
            recipeId: recipeId,
            username: user.username,
          },
+          // Use a connection from the pool and release it when finished
+          ...sequelize.options,
        });
 
        // Checks if User has already liked the recipe. If so, remove the like

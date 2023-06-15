@@ -11,6 +11,8 @@ export default async function handler(req, res) {
         where: {
           username: req.body.username,
         },
+         // Use a connection from the pool and release it when finished
+         ...sequelize.options,
       })
 
       if (!user) {
