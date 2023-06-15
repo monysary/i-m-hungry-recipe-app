@@ -1,7 +1,7 @@
 require("dotenv").config()
 const Sequelize = require("sequelize")
 
-const = maxPoolConnections = process.env.MAX_POOL_CONNECTIONS || 5
+const maxPoolConnections = Number(process.env.MAX_POOL_CONNECTIONS) || 5
 const sequelize = process.env.JAWSDB_URL
   ? new Sequelize(process.env.JAWSDB_URL)
   : new Sequelize(
