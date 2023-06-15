@@ -86,7 +86,62 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to access 
 
 You can also check out the gif below to see how we start up our server!
 
+<<<<<<< HEAD
+![GIF showing user how to install dependencies and starting up the server](./public/images/readme.gif)
+
+
+# Usage
+The "I'm Hungry" app allows users to perform the following actions:
+
+- Sign Up: Create a new account with a unique username and password.
+- Log In: Log in to the application using your credentials.
+- Pantry: Add the food items you have in your pantry.
+- Kitchen: Select ingredients from your pantry and generate a recipe using ChatGPT's AI.
+- Saved Recipes: View all your saved recipes and make edits if needed.
+- Folder Structure
+  The project's folder structure is as follows:
+    public: Contains public assets such as images.
+    src: Contains the main source code for the application.
+    components: Contains reusable components for the application's UI.
+    db: Contains configuration files for MySQL and model schemas using Sequelize.
+    pages: Contains the endpoint files for different pages.
+      The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+    styles: Contains global CSS styles.
+    utils: Contains utility middleware and functions.
+    .env: Environment configuration file.
+
+  Developers should pay attention to the following files and directories:
+    src/components: Contains reusable UI components.
+    src/db: Contains database configuration and model schemas.
+    src/pages: Contains endpoint files for different pages.
+
+You can check out our application demo following the youtube link!
+
+
+ [Youtube video link for demo usage of the web application](https://youtu.be/WdB640nxd3M)
+
+
+# Key Features
+Pantry Management: Users can add the food items they have into their pantry.
+Recipe Generation: Users can select ingredients from their pantry and generate a recipe using ChatGPT's AI.
+Saved Recipes: Users can view and edit their saved recipes.
+
+# Technologies Used
+The "I'm Hungry" app utilizes the following technologies, frameworks, and libraries:
+
+Next.js
+React
+JavaScript
+Tailwind CSS
+JWT
+Sequelize
+Axios
+MySQL
+
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+=======
 [GIF showing user how to install dependencies and starting up the server](./public/images/readme.gif)
+>>>>>>> cc3c6bea0e6a5b4391ad732451776cada113d7c4
 
 ## Learn More
 

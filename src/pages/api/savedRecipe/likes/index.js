@@ -16,79 +16,64 @@ export default async function handler(req, res) {
   } else if (req.method === "PUT") {
 
   /**
-   * PUT add like to a post on feed
+   * PUT add like to a post on feed or unlike if user already liked post
    */
-    const recipeId = req.query.recipeId
+   const recipeId = req.query.recipeId;
 
-    try {
-      if (!recipeId) {
-        return res.status(400).json({ message: "Recipe ID is missing" })
-      }
+   try {
+     if (!recipeId) {
+       return res.status(400).json({ message: "Recipe ID is missing" });
+     }
 
-      const recipeLikes = await RecipeLikes.findOrCreate({
-        where: { recipeId },
-        defaults: { likes: 0 },
-      })
+     const token = req.headers.authorization;
+     if (!token) {
+       return res.status(401).json({ message: "Missing token" });
+     }
 
-      const savedRecipe = recipeLikes[0]
+     const { user } = await handleDecodeJWT(token);
 
-      if (!savedRecipe) {
-        return res.status(404).json({ message: "Recipe not found" })
-      }
+     if (!user) {
+       return res.status(404).json({ message: "User not found" });
+     }
 
-      // Add a like to the comment
-      savedRecipe.likes += 1
-      await savedRecipe.save()
+     const [savedRecipe, created] = await RecipeLikes.findOrCreate({
+       where: { recipeId, username: user.username },
+       defaults: { likes: 0 },
+     });
 
-      res
-        .status(200)
-        .json({ message: "Recipe liked successfully.", savedRecipe })
-    } catch (error) {
-      console.error(error)
-      res.status(400).json({ message: "Failed to like recipe" })
-    }
-  } else if (req.method === "PUT" && req.query.action === "unlike") {
+     if (!savedRecipe) {
+       return res.status(404).json({ message: "Recipe not found" });
+     }
 
-  /**
-   * PUT remove like from a post on feed
-   */
-    const recipeId = req.query.recipeId
+     if (!created) {
+       const alreadyLiked = await RecipeLikes.findOne({
+         where: {
+           recipeId: recipeId,
+           username: user.username,
+         },
+       });
 
-    try {
-      const token = req.headers.authorization
-      if (!token) {
-        return res.status(401).json({ message: "Missing token" })
-      }
+       // Checks if User has already liked the recipe. If so, remove the like
+       if (alreadyLiked) {
+         savedRecipe.likes -= 1;
+         await savedRecipe.save();
+         await alreadyLiked.destroy(); // Remove the existing like record
+         return res
+           .status(200)
+           .json({ message: "Recipe unliked successfully.", savedRecipe });
+       }
+     }
 
-      const { user } = await handleDecodeJWT(token)
-
-      if (!user) {
-        return res.status(404).json({ message: "User not found" })
-      }
-
-      if (!recipeId) {
-        return res.status(400).json({ message: "Recipe ID is missing" })
-      }
-
-      const savedRecipe = await RecipeLikes.findByPk(recipeId)
-
-      if (!savedRecipe) {
-        return res.status(404).json({ message: "savedRecipe not found" })
-      }
-
-      // Remove a like from the comment
-      if (savedRecipe.likes > 0) {
-        savedRecipe.likes -= 1
-        await savedRecipe.save()
-      }
-
-      res
-        .status(200)
-        .json({ message: "Recipe unliked successfully.", savedRecipe })
-    } catch (error) {
-      console.error(error)
-      res.status(400).json({ message: "Failed to unlike recipe" })
-    }
+     // Add a like to the recipe if user has not already liked it
+     savedRecipe.likes += 1;
+     await savedRecipe.save();
+     res
+       .status(200)
+       .json({ message: "Recipe liked successfully.", savedRecipe });
+   } catch (error) {
+     console.error(error);
+     res.status(400).json({ message: "Failed to like recipe" });
+   }
   }
 }
 
