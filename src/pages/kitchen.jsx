@@ -311,7 +311,7 @@ function Kitchen() {
                 </button>
               </div>
             )}
-            <div className='flex justify-center'>
+            <div className='flex justify-center min-h-[30vh]'>
               {isLoading ? (
                 <GenerateRecipeSkeleton finishedLoading={isLoading} />
               ) : (

@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { motion as m, AnimatePresence, useAnimation } from "framer-motion";
-import pantry from "../../public/images/pantry.png";
-import kitchen from "../../public/images/kitchen.png";
+import Image from "next/image"
+import { motion as m, AnimatePresence, useAnimation } from "framer-motion"
+import pantry from "../../public/images/pantry.png"
+import kitchen from "../../public/images/kitchen.png"
 import {
   ArrowPathIcon,
   BanknotesIcon,
@@ -19,6 +19,7 @@ import {
 export default function LandingPage() {
   const mainControls = useAnimation()
   const featuresControls = useAnimation()
+  const secondaryFeaturesControls = useAnimation()
   return (
     <div className='bg-gray-800 h-full'>
       <AnimatePresence>
@@ -123,8 +124,10 @@ export default function LandingPage() {
             <m.div
               initial={{ opacity: 0, y: 150 }}
               animate={mainControls}
-              onViewportEnter={() => { mainControls.start({ opacity: 1, y: 0 }) }}
-              transition={{ type: 'spring', bounce: 0.4, duration: 0.8 }}
+              onViewportEnter={() => {
+                mainControls.start({ opacity: 1, y: 0 })
+              }}
+              transition={{ type: "spring", bounce: 0.4, duration: 0.8 }}
               className='mx-auto max-w-2xl text-center'>
               <h2 className='text-base font-semibold leading-7 text-orange-400'>
                 Effortless planning
@@ -143,9 +146,12 @@ export default function LandingPage() {
                   <m.div
                     initial={{ opacity: 0, y: 150 }}
                     animate={featuresControls}
-                    onViewportEnter={() => { featuresControls.start({ opacity: 1, y: 0 }) }}
-                    transition={{ type: 'spring', bounce: 0.4, duration: 0.8 }}
-                    key={feature.name} className='flex flex-col'>
+                    onViewportEnter={() => {
+                      featuresControls.start({ opacity: 1, y: 0 })
+                    }}
+                    transition={{ type: "spring", bounce: 0.4, duration: 0.8 }}
+                    key={feature.name}
+                    className='flex flex-col'>
                     <dt className='text-base font-semibold leading-7 text-white'>
                       <div className='mb-6 flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500'>
                         <feature.icon
@@ -203,8 +209,16 @@ export default function LandingPage() {
             </div>
             <div className='mx-auto mt-16 max-w-7xl px-6 sm:mt-20 md:mt-24 lg:px-8'>
               <dl className='mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 text-base leading-7 text-gray-300 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16'>
-                {secondaryFeatures.map((feature) => (
-                  <div key={feature.name} className='relative pl-9'>
+                {secondaryFeatures.map((feature, index) => (
+                  <m.div
+                    key={feature.name}
+                    className='relative pl-9'
+                    initial={{ opacity: 0 }}
+                    animate={secondaryFeaturesControls}
+                    onViewportEnter={() => {
+                      secondaryFeaturesControls.start({ opacity: 1})
+                    }}
+                    transition={{ duration: 1, delay: index * 0.6 }}>
                     <dt className='inline font-semibold text-white'>
                       <feature.icon
                         className='absolute left-1 top-1 h-5 w-5 text-orange-500'
@@ -213,7 +227,7 @@ export default function LandingPage() {
                       {feature.name}
                     </dt>{" "}
                     <dd className='inline'>{feature.description}</dd>
-                  </div>
+                  </m.div>
                 ))}
               </dl>
             </div>
@@ -340,6 +354,7 @@ const primaryFeatures = [
     icon: CalendarDaysIcon,
   },
 ]
+
 const secondaryFeatures = [
   {
     name: "Save money",
@@ -376,6 +391,7 @@ const secondaryFeatures = [
     icon: CloudArrowUpIcon,
   },
 ]
+
 const stats = [
   { id: 1, name: "Different food recipes", value: "8,000+" },
   { id: 2, name: "Unlimited requests", value: "900m+" },

@@ -162,7 +162,7 @@ export default function PostCard({
                       </dt>
                       <div className='col-span-2'>
                         {recipe.instructions.map((instruction, index) => (
-                          <dd className='mt-1 text-sm leading-6 w-full text-gray-700 sm:mt-0'>
+                          <dd className='mt-1 text-sm leading-6 w-full text-gray-700 sm:mt-0' key={instruction}>
                             <div className='flex flex-row w-full gap-2'>
                               <p>{index + 1}. </p>
                               <p> {instruction}</p>
